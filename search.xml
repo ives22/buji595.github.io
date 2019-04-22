@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title><![CDATA[测试标题]]></title>
+    <url>%2F2019%2F04%2F22%2Flinux%2F</url>
+    <content type="text"><![CDATA[12345678910111213141516171819202122232425262728293031323334353637383940414243server &#123; listen 80; server_name tj.86court.com; autoindex off; error_log logs/gitTianJinCourt/www_error.log error; access_log logs/gitTianJinCourt/www_access.log main; location ~ ^/XS_FILE/(.+\.(?:gif|jpe?g|JPE?G|png|pdf|bmp|zip|psd|tga|eps|tiff|doc|docx))$ &#123; internal; alias /opt/2018_Project/tjOnlineFiling/src/sys_file/$1; &#125; location ~ ^/upload/(.+\.(?:gif|jpe?g|png|pdf|doc|docx))$ &#123; alias /opt/2018_Project/tjOnlineFiling/src/upload/upload/$1; &#125; location / &#123; root /opt/2018_Project/tjOnlineFiling/src/www; index index.php index.html index.htm; if ($request_uri ~* .*\$) &#123; access_log logs/ngx_refuse/404.log;break;&#125; if (!-e $request_filename) &#123; rewrite ^(.*)$ /index.php?s=$1 last; break; &#125; &#125; fastcgi_intercept_errors on; error_page 404 /404.html; location ~ \.php$ &#123; root html; fastcgi_pass 127.0.0.1:9000; fastcgi_index index.php; fastcgi_param SCRIPT_FILENAME /opt/2018_Project/tjOnlineFiling/src/www$fastcgi_script_name; include fastcgi_params; &#125; location ~ /\. &#123; deny all; error_page 403 /404.html; &#125;&#125; More info: Deployment]]></content>
+      <categories>
+        <category>开车</category>
+      </categories>
+      <tags>
+        <tag>测试</tag>
+        <tag>hexo</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Hello World]]></title>
+    <url>%2F2019%2F04%2F21%2Fhello-world%2F</url>
+    <content type="text"><![CDATA[Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick StartCreate a new post1$ hexo new "My New Post" More info: Writing Run server1$ hexo server More info: Server Generate static files1$ hexo generate More info: Generating Deploy to remote sites1$ hexo deploy More info: Deployment]]></content>
+  </entry>
+</search>
