@@ -1989,7 +1989,7 @@ img:hover {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #6c139d;
+  background: #2b8a2b;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -3034,7 +3034,7 @@ hr {
   border-bottom-color: #222;
 }
 .posts-expand .post {
-  margin-top: 30px;
+  margin-top: 50px;
   margin-bottom: 30px;
 }
 .links-of-blogroll-inline .links-of-blogroll-item {
