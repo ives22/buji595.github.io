@@ -120,18 +120,18 @@
 
 
 
-<meta name="description" content="通过 shell 脚本定时备份数据库，并定时清理12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667#!/bin/bash#Desc:本地数据库备份脚本#Date:2017-12-24#by:Lee-Y">
+<meta name="description" content="通过 shell 脚本定时备份数据库，并定时清理ceshi yixia 12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667#!/bin/bash#Desc:本地数据库备份脚本#Date:2017-12">
 <meta name="keywords" content="Linux运维日常">
 <meta property="og:type" content="article">
 <meta property="og:title" content="MySQL自动备份脚本">
 <meta property="og:url" content="https://leeyj.coding.me/2019/04/24/MySQL自动备份脚本/index.html">
 <meta property="og:site_name" content="不羁">
-<meta property="og:description" content="通过 shell 脚本定时备份数据库，并定时清理12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667#!/bin/bash#Desc:本地数据库备份脚本#Date:2017-12-24#by:Lee-Y">
+<meta property="og:description" content="通过 shell 脚本定时备份数据库，并定时清理ceshi yixia 12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667#!/bin/bash#Desc:本地数据库备份脚本#Date:2017-12">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-04-25T02:15:31.389Z">
+<meta property="og:updated_time" content="2019-04-25T02:57:53.316Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MySQL自动备份脚本">
-<meta name="twitter:description" content="通过 shell 脚本定时备份数据库，并定时清理12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667#!/bin/bash#Desc:本地数据库备份脚本#Date:2017-12-24#by:Lee-Y">
+<meta name="twitter:description" content="通过 shell 脚本定时备份数据库，并定时清理ceshi yixia 12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667#!/bin/bash#Desc:本地数据库备份脚本#Date:2017-12">
 
 
 
@@ -419,7 +419,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  328
+                  330
                 </span>
               
 
@@ -456,7 +456,8 @@
       
 
       
-        <h5 id="通过-shell-脚本定时备份数据库，并定时清理"><a href="#通过-shell-脚本定时备份数据库，并定时清理" class="headerlink" title="通过 shell 脚本定时备份数据库，并定时清理"></a>通过 shell 脚本定时备份数据库，并定时清理</h5><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line">#Desc:本地数据库备份脚本</span><br><span class="line">#Date:2017-12-24</span><br><span class="line">#by:Lee-YJ</span><br><span class="line">#运行脚本前先创建一个备份用户，并授予权限</span><br><span class="line">#mysql&gt; grant select,insert,lock tables,show view,trigger  on *.* to back@"127.0.0.1" identified by "oodaeh7phoe1iboh7Jua";</span><br><span class="line">#mysql&gt; flush privileges;</span><br><span class="line"></span><br><span class="line">mysqluser=back                    #用于数据库备份的用户名</span><br><span class="line">mysqlpassw=oodaeh7phoe1iboh7Jua   #用户密码</span><br><span class="line">mysqlhost=127.0.0.1               #连接数据库的host</span><br><span class="line">bakpath=/opt/data/Back/DBbak          #备份数据库存放的路径</span><br><span class="line"></span><br><span class="line">bakdate=`date '+%Y%m%d'`</span><br><span class="line">baktime=`date '+%H%M'`</span><br><span class="line"></span><br><span class="line">#----------------------------获取mysql中的数据库名---------------------------------</span><br><span class="line">/usr/bin/mysql -u$mysqluser -h $mysqlhost -p$mysqlpassw -e "show databases;"|grep -v Database|grep -v information_schema |grep -v performance_schema|grep -v mysql|grep -v test &gt; /tmp/DBname</span><br><span class="line"></span><br><span class="line">#----------------------------数据库备份--mysqldump备份------------------------------</span><br><span class="line"></span><br><span class="line">if [ ! -d "$bakpath" ];then</span><br><span class="line">    mkdir -p $bakpath</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line">cd $bakpath</span><br><span class="line"></span><br><span class="line">if [ ! -d "$bakdate" ];then</span><br><span class="line">    mkdir $bakdate</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line">cd $bakdate</span><br><span class="line"></span><br><span class="line">echo "------------------------$bakdate$baktime-------------------------------------" &gt;&gt; $bakpath/DBbak.log</span><br><span class="line">for DBname in `cat /tmp/DBname`;do</span><br><span class="line">    if [ ! -d "$DBname" ];then</span><br><span class="line">        mkdir $DBname</span><br><span class="line">    fi</span><br><span class="line">    /usr/bin/mysqldump --routines --triggers -u$mysqluser -h $mysqlhost -p$mysqlpassw $DBname  &gt; $DBname/$baktime\.sql</span><br><span class="line">    if [ $? = 0 ];then</span><br><span class="line">        echo "$DBname Back OK!" &gt;&gt; $bakpath/DBbak.log</span><br><span class="line">    else</span><br><span class="line">        echo "$DBname Back ERROR!" &gt;&gt; $bakpath/DBbak.log</span><br><span class="line">    fi</span><br><span class="line">done</span><br><span class="line">echo "" &gt;&gt; $bakpath/DBbak.log </span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#----------------------------删除5天之前的数据备份，并随机保留一份--------------------------------</span><br><span class="line">shopt -s extglob</span><br><span class="line">olddate=`date '+%Y%m%d' -d "-6 days"`</span><br><span class="line">cd $bakpath/$olddate</span><br><span class="line">for deldbname in `ls $bakpath/$olddate`;do</span><br><span class="line">    cd $deldbname</span><br><span class="line">    file=`ls| sort -R | head -n1`</span><br><span class="line">    rm -f !($file)</span><br><span class="line">done</span><br><span class="line"></span><br><span class="line">if [ ! -d "$bakpath/Oldest" ];then</span><br><span class="line">    mkdir -p $bakpath/Oldest</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line">mv $bakpath/$olddate $bakpath/Oldest/</span><br><span class="line"></span><br><span class="line">rm -f /tmp/DBname</span><br><span class="line"></span><br><span class="line">MySQL备份脚本</span><br></pre></td></tr></table></figure>
+        <h5 id="通过-shell-脚本定时备份数据库，并定时清理"><a href="#通过-shell-脚本定时备份数据库，并定时清理" class="headerlink" title="通过 shell 脚本定时备份数据库，并定时清理"></a>通过 shell 脚本定时备份数据库，并定时清理</h5><p><code>ceshi yixia</code></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line">#Desc:本地数据库备份脚本</span><br><span class="line">#Date:2017-12-24</span><br><span class="line">#by:Lee-YJ</span><br><span class="line">#运行脚本前先创建一个备份用户，并授予权限</span><br><span class="line">#mysql&gt; grant select,insert,lock tables,show view,trigger  on *.* to back@"127.0.0.1" identified by "oodaeh7phoe1iboh7Jua";</span><br><span class="line">#mysql&gt; flush privileges;</span><br><span class="line"></span><br><span class="line">mysqluser=back                    #用于数据库备份的用户名</span><br><span class="line">mysqlpassw=oodaeh7phoe1iboh7Jua   #用户密码</span><br><span class="line">mysqlhost=127.0.0.1               #连接数据库的host</span><br><span class="line">bakpath=/opt/data/Back/DBbak          #备份数据库存放的路径</span><br><span class="line"></span><br><span class="line">bakdate=`date '+%Y%m%d'`</span><br><span class="line">baktime=`date '+%H%M'`</span><br><span class="line"></span><br><span class="line">#----------------------------获取mysql中的数据库名---------------------------------</span><br><span class="line">/usr/bin/mysql -u$mysqluser -h $mysqlhost -p$mysqlpassw -e "show databases;"|grep -v Database|grep -v information_schema |grep -v performance_schema|grep -v mysql|grep -v test &gt; /tmp/DBname</span><br><span class="line"></span><br><span class="line">#----------------------------数据库备份--mysqldump备份------------------------------</span><br><span class="line"></span><br><span class="line">if [ ! -d "$bakpath" ];then</span><br><span class="line">    mkdir -p $bakpath</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line">cd $bakpath</span><br><span class="line"></span><br><span class="line">if [ ! -d "$bakdate" ];then</span><br><span class="line">    mkdir $bakdate</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line">cd $bakdate</span><br><span class="line"></span><br><span class="line">echo "------------------------$bakdate$baktime-------------------------------------" &gt;&gt; $bakpath/DBbak.log</span><br><span class="line">for DBname in `cat /tmp/DBname`;do</span><br><span class="line">    if [ ! -d "$DBname" ];then</span><br><span class="line">        mkdir $DBname</span><br><span class="line">    fi</span><br><span class="line">    /usr/bin/mysqldump --routines --triggers -u$mysqluser -h $mysqlhost -p$mysqlpassw $DBname  &gt; $DBname/$baktime\.sql</span><br><span class="line">    if [ $? = 0 ];then</span><br><span class="line">        echo "$DBname Back OK!" &gt;&gt; $bakpath/DBbak.log</span><br><span class="line">    else</span><br><span class="line">        echo "$DBname Back ERROR!" &gt;&gt; $bakpath/DBbak.log</span><br><span class="line">    fi</span><br><span class="line">done</span><br><span class="line">echo "" &gt;&gt; $bakpath/DBbak.log </span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#----------------------------删除5天之前的数据备份，并随机保留一份--------------------------------</span><br><span class="line">shopt -s extglob</span><br><span class="line">olddate=`date '+%Y%m%d' -d "-6 days"`</span><br><span class="line">cd $bakpath/$olddate</span><br><span class="line">for deldbname in `ls $bakpath/$olddate`;do</span><br><span class="line">    cd $deldbname</span><br><span class="line">    file=`ls| sort -R | head -n1`</span><br><span class="line">    rm -f !($file)</span><br><span class="line">done</span><br><span class="line"></span><br><span class="line">if [ ! -d "$bakpath/Oldest" ];then</span><br><span class="line">    mkdir -p $bakpath/Oldest</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line">mv $bakpath/$olddate $bakpath/Oldest/</span><br><span class="line"></span><br><span class="line">rm -f /tmp/DBname</span><br><span class="line"></span><br><span class="line">MySQL备份脚本</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -485,7 +486,7 @@
   <p><span>本文标题:</span><a href="/2019/04/24/MySQL自动备份脚本/">MySQL自动备份脚本</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 Leeyj 的个人博客">Leeyj</a></p>
   <p><span>发布时间:</span>2019年04月24日 - 17:56</p>
-  <p><span>最后更新:</span>2019年04月25日 - 10:15</p>
+  <p><span>最后更新:</span>2019年04月25日 - 10:57</p>
   <p><span>原始链接:</span><a href="/2019/04/24/MySQL自动备份脚本/" title="MySQL自动备份脚本">https://leeyj.coding.me/2019/04/24/MySQL自动备份脚本/</a>
     <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://leeyj.coding.me/2019/04/24/MySQL自动备份脚本/" aria-label="复制成功！"></i></span>
   </p>
@@ -524,6 +525,21 @@
       
 
       
+      
+        <div class="post-widgets">
+        
+
+        
+
+        
+          
+          <div id="needsharebutton-postbottom">
+            <span class="btn">
+              <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </span>
+          </div>
+        
+        </div>
       
       
 
@@ -756,7 +772,7 @@
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共919字</span>
+  <span class="post-count">博客全站共921字</span>
 </div>
 
         
@@ -1243,6 +1259,31 @@
   
 
   
+  
+  
+  <link rel="stylesheet" href="/lib/needsharebutton/needsharebutton.css">
+
+  
+  
+  <script src="/lib/needsharebutton/needsharebutton.js"></script>
+
+  <script>
+    
+      pbOptions = {};
+      
+          pbOptions.iconStyle = "box";
+      
+          pbOptions.boxForm = "horizontal";
+      
+          pbOptions.position = "bottomCenter";
+      
+          pbOptions.networks = "Weibo,Wechat,Douban,QQZone,Twitter,Facebook";
+      
+      new needShareButton('#needsharebutton-postbottom', pbOptions);
+    
+    
+  </script>
+
   
 
   
