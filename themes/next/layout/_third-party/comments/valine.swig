@@ -1,7 +1,14 @@
-{% if theme.valine.enable and theme.valine.appid and theme.valine.appkey %}
-  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
-  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
-  
+ {% if theme.valine.enable and theme.valine.appid and theme.valine.appkey %}
+  <script src="http://cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+
+  <script src="/js/src/Valine.min.js"></script>
+
+  {% set valine_uri = '/js/src/Valine.min.js' %}
+  {% if theme.vendors.valine %}
+    {% set valine_uri = theme.vendors.valine %}
+  {% endif %}
+
+
   <script type="text/javascript">
     var GUEST = ['nick','mail','link'];
     var guest = '{{ theme.valine.guest_info }}';
@@ -19,5 +26,12 @@
         guest_info:guest,
         pageSize:'{{ theme.valine.pageSize }}' || 10,
     });
+        var infoEle = document.querySelector('#comments .info');
+    if (infoEle && infoEle.childNodes && infoEle.childNodes.length > 0){
+      infoEle.childNodes.forEach(function(item) {
+        item.parentNode.removeChild(item);
+      });
+    }
+
   </script>
 {% endif %}
