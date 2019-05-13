@@ -39,10 +39,10 @@ render_drafts: false
 post_asset_folder: true
 relative_link: false
 future: true
-highlight:
+highlight:  
   enable: true
   line_number: true
-  auto_detect: false
+  auto_detect: true
   tab_replace:
   
 # Home page setting
