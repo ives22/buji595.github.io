@@ -6,13 +6,14 @@ categories: Saltstack
 copyright: true
 ---
 ### saltstack介绍
-<div class="note success"><p>Salt，,一种全新的基础设施管理方式，部署轻松，在几分钟内可运行起来，扩展性好，很容易管理上万台服务器，速度够快，服务器之间秒级通讯</p></div>
+ >Salt，,一种全新的基础设施管理方式，部署轻松，在几分钟内可运行起来，扩展性好，很容易管理上万台服务器，速度够快，服务器之间秒级通讯
+
 **主要功能**
 远程执行
 配置管理
 
 [Stalstack官方文档](http://docs.saltstack.cn/)
-### 1 快速安装
+### 快速安装
 1.1 配置 yum 仓库
 ```
 # 使用官方自带yum
@@ -38,7 +39,7 @@ copyright: true
 [root@salt-minion01 ~]# systemctl enable salt-minion
 [root@salt-minion01 ~]# systemctl start salt-minion
 ```
-### 2 SaltStack认证方式
+### SaltStack认证方式
 > `Salt` 的数据传输是通过 `AES` 加密，`Master` 和 `Minion` 之前在通信之前，需要进行认证。
 `Salt` 通过认证的方式保证安全性，完成一次认证后，Master 就可以控制 Minion 来完成各项工作了。
 
@@ -169,6 +170,7 @@ salt-minion02:
      18:13:08 up 28 min,  2 users,  load average: 0.00, 0.04, 0.13
 ```
 ### Saltstack配置管理
+
 
 
 
