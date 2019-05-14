@@ -103,7 +103,7 @@
 
 
 
-  <meta name="keywords" content="Linux运维日常,">
+  <meta name="keywords" content="Saltstack,">
 
 
 
@@ -116,18 +116,22 @@
 
 
 
-<meta name="description" content="Linux下常用的小工具集合（grep cut soft uniq tee paste tr diff wc du df)这是一个测试 &amp;lt;&amp;lt;&amp;lt;&amp;lt;&amp;lt;&amp;lt;&amp;lt; HEADmacshangmiances  rwarsdfsdfsdfsdfsdf问我的是会 macshangmiances         f21331d96b6546d78eff355b4f327f7af">
-<meta name="keywords" content="Linux运维日常">
+<meta name="description" content="安装完Saltstack后可以立即执行shell命令，更新软件包并将文件同时分不到所有受管系统。所有回复都以一致的可配置格式返回。远程执行参考文档：http://docs.saltstack.cn/topics/tutorials/modules.html1234567[root@salt-master ~]# salt &apos;*&apos; cmd.run &quot;uptime&quot;salt-minion01:">
+<meta name="keywords" content="Saltstack">
 <meta property="og:type" content="article">
-<meta property="og:title" content="linuxTools(小工具集合)">
-<meta property="og:url" content="https://leeyj.coding.me/2019/04/30/linuxTools-小工具集合/index.html">
+<meta property="og:title" content="saltstack远程执行">
+<meta property="og:url" content="https://leeyj.coding.me/2019/05/14/saltstack远程执行/index.html">
 <meta property="og:site_name" content="不羁">
-<meta property="og:description" content="Linux下常用的小工具集合（grep cut soft uniq tee paste tr diff wc du df)这是一个测试 &amp;lt;&amp;lt;&amp;lt;&amp;lt;&amp;lt;&amp;lt;&amp;lt; HEADmacshangmiances  rwarsdfsdfsdfsdfsdf问我的是会 macshangmiances         f21331d96b6546d78eff355b4f327f7af">
+<meta property="og:description" content="安装完Saltstack后可以立即执行shell命令，更新软件包并将文件同时分不到所有受管系统。所有回复都以一致的可配置格式返回。远程执行参考文档：http://docs.saltstack.cn/topics/tutorials/modules.html1234567[root@salt-master ~]# salt &apos;*&apos; cmd.run &quot;uptime&quot;salt-minion01:">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-05-11T15:01:32.486Z">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/11763553-e5e69a972680590f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/11763553-e3ed49a6c6b6633f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/11763553-18184de0fb7156aa.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2019-05-14T12:43:10.857Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="linuxTools(小工具集合)">
-<meta name="twitter:description" content="Linux下常用的小工具集合（grep cut soft uniq tee paste tr diff wc du df)这是一个测试 &amp;lt;&amp;lt;&amp;lt;&amp;lt;&amp;lt;&amp;lt;&amp;lt; HEADmacshangmiances  rwarsdfsdfsdfsdfsdf问我的是会 macshangmiances         f21331d96b6546d78eff355b4f327f7af">
+<meta name="twitter:title" content="saltstack远程执行">
+<meta name="twitter:description" content="安装完Saltstack后可以立即执行shell命令，更新软件包并将文件同时分不到所有受管系统。所有回复都以一致的可配置格式返回。远程执行参考文档：http://docs.saltstack.cn/topics/tutorials/modules.html1234567[root@salt-master ~]# salt &apos;*&apos; cmd.run &quot;uptime&quot;salt-minion01:">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/11763553-e5e69a972680590f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 
 
 
@@ -157,13 +161,13 @@
 
 
 
-  <link rel="canonical" href="https://leeyj.coding.me/2019/04/30/linuxTools-小工具集合/">
+  <link rel="canonical" href="https://leeyj.coding.me/2019/05/14/saltstack远程执行/">
 
 
 
 
 
-  <title>linuxTools(小工具集合) | 不羁</title>
+  <title>saltstack远程执行 | 不羁</title>
   
 
 
@@ -332,7 +336,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://leeyj.coding.me/2019/04/30/linuxTools-小工具集合/">
+    <link itemprop="mainEntityOfPage" href="https://leeyj.coding.me/2019/05/14/saltstack远程执行/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Leeyj">
@@ -349,7 +353,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">linuxTools(小工具集合)</h1>
+          <h1 class="post-title" itemprop="name headline">saltstack远程执行</h1>
         
 
         <div class="post-meta">
@@ -361,8 +365,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-30T16:18:37+08:00">
-                2019-04-30
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-14T15:18:05+08:00">
+                2019-05-14
               </time>
             
 
@@ -384,8 +388,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Linux运维日常/" itemprop="url" rel="index">
-                    <span itemprop="name">Linux运维日常</span>
+                  <a href="/categories/Saltstack/" itemprop="url" rel="index">
+                    <span itemprop="name">Saltstack</span>
                   </a>
                 </span>
 
@@ -402,8 +406,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2019/04/30/linuxTools-小工具集合/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/04/30/linuxTools-小工具集合/" itemprop="commentCount"></span>
+                <a href="/2019/05/14/saltstack远程执行/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/05/14/saltstack远程执行/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -425,7 +429,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  46
+                  1k
                 </span>
               
 
@@ -441,7 +445,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  1
+                  5
                 </span>
               
             </div>
@@ -462,28 +466,30 @@
       
 
       
-        <h6 id="Linux下常用的小工具集合（grep-cut-soft-uniq-tee-paste-tr-diff-wc-du-df"><a href="#Linux下常用的小工具集合（grep-cut-soft-uniq-tee-paste-tr-diff-wc-du-df" class="headerlink" title="Linux下常用的小工具集合（grep cut soft uniq tee paste tr diff wc du df)"></a>Linux下常用的小工具集合（grep cut soft uniq tee paste tr diff wc du df)</h6><p>这是一个测试</p>
-<p>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD<br>macshangmiances </p>
-<h1 id="rwarsdfsdfsdfsdfsdf"><a href="#rwarsdfsdfsdfsdfsdf" class="headerlink" title="rwarsdfsdfsdfsdfsdf"></a>rwarsdfsdfsdfsdfsdf</h1><p>问我的是会</p>
-<p>macshangmiances </p>
+        <p><div class="note success"><p>安装完<code>Saltstack</code>后可以立即执行<code>shell</code>命令，更新软件包并将文件同时分不到所有受管系统。所有回复都以一致的可配置格式返回。远程执行参考文档：<a href="http://docs.saltstack.cn/topics/tutorials/modules.html" target="_blank" rel="noopener">http://docs.saltstack.cn/topics/tutorials/modules.html</a></p></div><br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[root@salt-master ~]<span class="comment"># salt '*' cmd.run "uptime"</span></span><br><span class="line">salt-minion01:</span><br><span class="line">     15:23:08 up 1 day, 58 min,  2 users,  <span class="keyword">load</span> average: <span class="number">0.00</span>, <span class="number">0.03</span>, <span class="number">0.08</span></span><br><span class="line"><span class="keyword">salt</span>-minion02:</span><br><span class="line">     <span class="number">15</span>:<span class="number">23</span>:<span class="number">08</span> up <span class="number">21</span>:<span class="number">38</span>,  <span class="number">2</span> <span class="keyword">users</span>,  <span class="keyword">load</span> average: <span class="number">0.00</span>, <span class="number">0.04</span>, <span class="number">0.10</span></span><br><span class="line"><span class="keyword">salt</span>-minion03:</span><br><span class="line">     <span class="number">15</span>:<span class="number">23</span>:<span class="number">08</span> up <span class="number">21</span>:<span class="number">36</span>,  <span class="number">2</span> <span class="keyword">users</span>,  <span class="keyword">load</span> average: <span class="number">0.00</span>, <span class="number">0.04</span>, <span class="number">0.10</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="Salt命令的结构语法"><a href="#Salt命令的结构语法" class="headerlink" title="Salt命令的结构语法"></a>Salt命令的结构语法</h2><figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">salt <span class="string">'&lt;target&gt;'</span> &lt;<span class="function"><span class="keyword">function</span>&gt; <span class="params">[arguments]</span></span></span><br></pre></td></tr></table></figure>
+<p><img src="https://upload-images.jianshu.io/upload_images/11763553-e5e69a972680590f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt></p>
+<h2 id="目标主机Target"><a href="#目标主机Target" class="headerlink" title="目标主机Target"></a>目标主机Target</h2><p><img src="https://upload-images.jianshu.io/upload_images/11763553-e3ed49a6c6b6633f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt><br>1、通配符匹配<br><figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root<span class="symbol">@salt</span>-master ~]<span class="meta"># salt <span class="string">'*'</span> test.ping</span></span><br><span class="line">[root<span class="symbol">@salt</span>-master ~]<span class="meta"># salt <span class="string">'salt-minion01'</span> test.ping</span></span><br><span class="line">[root<span class="symbol">@salt</span>-master ~]<span class="meta"># salt <span class="string">'*01'</span> test.ping</span></span><br><span class="line">[root<span class="symbol">@salt</span>-master ~]<span class="meta"># salt <span class="string">'salt-minion0[1|2]'</span> test.ping</span></span><br><span class="line">[root<span class="symbol">@salt</span>-master ~]<span class="meta"># salt <span class="string">'salt-minion0[!1|2]'</span> test.ping</span></span><br><span class="line">[root<span class="symbol">@salt</span>-master ~]<span class="meta"># salt <span class="string">'salt-minion0?'</span> test.ping</span></span><br></pre></td></tr></table></figure></p>
+<p>2、列表匹配<br><figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root<span class="symbol">@salt</span>-master ~]<span class="meta"># salt -L <span class="string">'salt-minion01,salt-minion02'</span> test.ping</span></span><br></pre></td></tr></table></figure></p>
+<p>3、正则匹配<br><figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root<span class="symbol">@salt</span>-master ~]<span class="meta"># salt -E <span class="string">'^salt'</span> test.ping</span></span><br><span class="line">[root<span class="symbol">@salt</span>-master ~]<span class="meta"># salt -E <span class="string">'^salt.*2$'</span> test.ping</span></span><br></pre></td></tr></table></figure></p>
+<p>4、IP匹配<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@salt-master ~]# salt -S '<span class="number">192.168</span><span class="number">.1</span><span class="number">.32</span>' test.ping</span><br><span class="line">[root@salt-master ~]# salt -S '<span class="number">192.168</span><span class="number">.1</span><span class="number">.0</span>/<span class="number">24</span>' test.ping</span><br></pre></td></tr></table></figure></p>
+<p>5、复合匹配<br><figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@salt-<span class="keyword">master</span> <span class="title">~]# salt</span> -C 'G@os:CentOS <span class="keyword">and</span> S@<span class="number">192.168</span>.<span class="number">1.32</span>' test.ping</span><br></pre></td></tr></table></figure></p>
+<p>6、分组匹配<br><figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[root@salt-<span class="keyword">master</span> <span class="title">~]# vim</span> /etc/salt/<span class="literal">master</span></span><br><span class="line">nodegroups:</span><br><span class="line">  webserver: 'salt-minion01,salt-minion02'</span><br><span class="line">  dbserver: 'salt-minion03</span><br><span class="line">[root@salt-<span class="keyword">master</span> <span class="title">~]# systemctl</span> restart salt-<span class="literal">master</span></span><br><span class="line">[root@salt-<span class="keyword">master</span> <span class="title">~]# salt</span> -N 'webserver' test.ping</span><br><span class="line">[root@salt-<span class="keyword">master</span> <span class="title">~]# salt</span> -N 'dbserver' test.ping</span><br></pre></td></tr></table></figure></p>
+<p>7、Grains匹配<br><figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root<span class="symbol">@salt</span>-master ~]<span class="meta"># salt -G <span class="string">'os:CentOS'</span> test.ping</span></span><br><span class="line">[root<span class="symbol">@salt</span>-master ~]<span class="meta"># salt -G <span class="string">'localhost:salt-minion02'</span> test.ping</span></span><br></pre></td></tr></table></figure></p>
 <blockquote>
+<p>说明：上面这些匹配方式在<code>top.sls</code>文件中同样适用。</p>
+</blockquote>
+<h2 id="模块Module"><a href="#模块Module" class="headerlink" title="模块Module"></a>模块Module</h2><p><img src="https://upload-images.jianshu.io/upload_images/11763553-18184de0fb7156aa.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt></p>
 <blockquote>
-<blockquote>
-<blockquote>
-<blockquote>
-<blockquote>
-<blockquote>
-<p>f21331d96b6546d78eff355b4f327f7aff2af26c</p>
+<p><code>test</code>模块多用于测试<br><code>user</code>模块用于用户管理<br><code>cmd</code>模块可以执行任意<code>shell</code>命令<br><code>pkg</code>模块用于软件包管理<br><code>file</code>模块多用于配置<br><code>service</code>模块用于服务管理</p>
 </blockquote>
-</blockquote>
-</blockquote>
-</blockquote>
-</blockquote>
-</blockquote>
-</blockquote>
-<p>1111111111111111111111111</p>
-<p>222</p>
-<p>111</p>
+<p><a href="http://docs.saltstack.cn/ref/modules/all/index.html" target="_blank" rel="noopener">所有模块列表</a></p>
+<p><strong>test模块</strong><br><figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">模块名：test</span><br><span class="line">功能：用于测试</span><br><span class="line">[root<span class="symbol">@salt</span>-master ~]<span class="meta"># salt <span class="string">'*'</span> test.ping</span></span><br></pre></td></tr></table></figure></p>
+<p><strong>user模块</strong><br><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">参考：http://docs.saltstack.<span class="keyword">cn</span>/ref/modules/<span class="keyword">all</span>/salt.modules.useradd.html#module-salt.modules.useradd</span><br><span class="line"># salt <span class="string">'*'</span> user.<span class="built_in">add</span> name <span class="symbol">&lt;uid&gt;</span> <span class="symbol">&lt;gid&gt;</span> <span class="symbol">&lt;groups&gt;</span> <span class="symbol">&lt;home&gt;</span> <span class="symbol">&lt;shell&gt;</span></span><br><span class="line">[root@salt-master ~]# salt <span class="string">'*'</span> user.<span class="built_in">add</span> testuser</span><br></pre></td></tr></table></figure></p>
+<p><strong>cmd模块</strong><br><figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">模块名：cmd</span><br><span class="line">功能：实现远程的命令行调用执行（默认具备root操作权限，使用时需评估风险）</span><br><span class="line"><span class="meta">#查看所有minion内存和磁盘使用情况</span></span><br><span class="line">[root<span class="symbol">@salt</span>-master ~]<span class="meta"># salt <span class="string">'*'</span> cmd.run <span class="string">"free -m"</span></span></span><br><span class="line">[root<span class="symbol">@salt</span>-master ~]<span class="meta"># salt <span class="string">'*'</span> cmd.run <span class="string">"df -h"</span></span></span><br></pre></td></tr></table></figure></p>
+<p><strong>pkg模块</strong><br><figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">模块名：pkg</span><br><span class="line">功能：软件包状态管理，会根据操作系统不同，选择对应的安装方式（如CentOS系统默认使用yum，Debian系统默认使用apt-get）</span><br><span class="line"></span><br><span class="line"><span class="meta">#安装</span></span><br><span class="line">[root<span class="symbol">@salt</span>-master ~]<span class="meta"># salt <span class="string">'*'</span> pkg.install <span class="string">"vsftpd"</span></span></span><br><span class="line"><span class="meta">#卸载</span></span><br><span class="line">[root<span class="symbol">@salt</span>-master ~]<span class="meta"># salt <span class="string">'*'</span> pkg.remove <span class="string">"vsftpd"</span></span></span><br><span class="line"><span class="meta">#安装最新版本</span></span><br><span class="line">[root<span class="symbol">@salt</span>-master ~]<span class="meta"># salt <span class="string">'*'</span> pkg.latest_version <span class="string">"vsftpd"</span></span></span><br><span class="line"><span class="meta">#更新软件包</span></span><br><span class="line">[root<span class="symbol">@salt</span>-master ~]<span class="meta"># salt <span class="string">'*'</span> pkg.upgrade <span class="string">"vsftpd"</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#查看帮助手册</span></span><br><span class="line">[root<span class="symbol">@salt</span>-master ~]<span class="meta"># salt <span class="string">'*'</span> pkg</span></span><br></pre></td></tr></table></figure></p>
+<p><strong>file模块</strong><br><figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">模块名：<span class="keyword">file</span></span><br><span class="line">功能：被控主机常见的文件操作，包括文件读写、权限、查找、校验</span><br><span class="line"></span><br><span class="line">#校验所有minion主机文件的加密信息，支持md5、sha1、sha224、shs256、sha384、sha512加密算法</span><br><span class="line">[root@salt-master ~]# salt <span class="string">'*'</span> <span class="keyword">file</span>.get_sum <span class="regexp">/etc/</span>passwd md5</span><br><span class="line"></span><br><span class="line">#修改所有minion主机<span class="regexp">/etc/</span>passwd文件的属组、用户权限、等价于chown root:root <span class="regexp">/etc/</span>passwd</span><br><span class="line">[root@salt-master ~]# salt <span class="string">'*'</span> <span class="keyword">file</span>.chown <span class="regexp">/etc/</span>passwd root root</span><br><span class="line"></span><br><span class="line">#获取所有minion主机<span class="regexp">/etc/</span>passwd的stats信息</span><br><span class="line">[root@salt-master ~]# salt <span class="string">'*'</span> <span class="keyword">file</span>.stats <span class="regexp">/etc/</span>passwd</span><br><span class="line"></span><br><span class="line">#获取所有minion主机<span class="regexp">/etc/</span>passwd的权限mode,如<span class="number">755</span>,<span class="number">644</span></span><br><span class="line">[root@salt-master ~]# salt <span class="string">'*'</span> <span class="keyword">file</span>.get_mode <span class="regexp">/etc/</span>passwd</span><br><span class="line"></span><br><span class="line">#修改所有minion主机<span class="regexp">/etc/</span>passwd的权限mode为<span class="number">0644</span></span><br><span class="line">[root@salt-master ~]# salt <span class="string">'*'</span> <span class="keyword">file</span>.set_mode <span class="regexp">/etc/</span>passwd <span class="number">0644</span></span><br><span class="line"></span><br><span class="line">#在所有minion主机创建<span class="regexp">/opt/</span>test目录</span><br><span class="line">[root@salt-master ~]# salt <span class="string">'*'</span> <span class="keyword">file</span>.mkdir <span class="regexp">/opt/</span>test</span><br><span class="line"></span><br><span class="line">#在所有minion主机穿件<span class="regexp">/tmp/</span>test.conf文件</span><br><span class="line">[root@salt-master ~]# salt <span class="string">'*'</span> <span class="keyword">file</span>.touch <span class="regexp">/tmp/</span>test.conf</span><br><span class="line"></span><br><span class="line">#将所有minion主机<span class="regexp">/tmp/</span>test.conf文件追加内容<span class="string">'maxclient 100'</span></span><br><span class="line">[root@salt-master ~]# salt <span class="string">'*'</span> <span class="keyword">file</span>.<span class="keyword">append</span> <span class="regexp">/tmp/</span>test.conf <span class="string">'maxclient 100'</span></span><br><span class="line"></span><br><span class="line">#删除所有minion主机的<span class="regexp">/tmp/</span>test.conf文件</span><br><span class="line">[root@salt-master ~]# salt <span class="string">'*'</span> <span class="keyword">file</span>.remove <span class="regexp">/tmp/</span>test.conf</span><br></pre></td></tr></table></figure></p>
+<p><strong>service模块</strong><br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">模块名：service</span><br><span class="line">功能：被控主机程序包服务管理</span><br><span class="line"></span><br><span class="line">#开启（enable）禁用（disable）</span><br><span class="line">salt <span class="string">'*'</span> service<span class="selector-class">.enable</span> &lt;service name&gt;</span><br><span class="line">salt <span class="string">'*'</span> service<span class="selector-class">.disabled</span> &lt;service name&gt;</span><br><span class="line"></span><br><span class="line">#reload、restart、start、stop、status操作</span><br><span class="line">salt <span class="string">'*'</span> service<span class="selector-class">.reload</span> &lt;service name&gt;</span><br><span class="line">salt <span class="string">'*'</span> service<span class="selector-class">.restart</span> &lt;service name&gt;</span><br><span class="line">salt <span class="string">'*'</span> service<span class="selector-class">.start</span> &lt;service name&gt;</span><br><span class="line">salt <span class="string">'*'</span> service<span class="selector-class">.stop</span> &lt;service name&gt;</span><br><span class="line">salt <span class="string">'*'</span> service<span class="selector-class">.status</span> &lt;service name&gt;</span><br></pre></td></tr></table></figure></p>
 
       
     </div>
@@ -509,12 +515,12 @@
   <!-- JS库 sweetalert 可修改路径 -->
   <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-  <p><span>本文标题:</span><a href="/2019/04/30/linuxTools-小工具集合/">linuxTools(小工具集合)</a></p>
+  <p><span>本文标题:</span><a href="/2019/05/14/saltstack远程执行/">saltstack远程执行</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 Leeyj 的个人博客">Leeyj</a></p>
-  <p><span>发布时间:</span>2019年04月30日 - 16:18</p>
-  <p><span>最后更新:</span>2019年05月11日 - 23:01</p>
-  <p><span>原始链接:</span><a href="/2019/04/30/linuxTools-小工具集合/" title="linuxTools(小工具集合)">https://leeyj.coding.me/2019/04/30/linuxTools-小工具集合/</a>
-    <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://leeyj.coding.me/2019/04/30/linuxTools-小工具集合/" aria-label="复制成功！"></i></span>
+  <p><span>发布时间:</span>2019年05月14日 - 15:18</p>
+  <p><span>最后更新:</span>2019年05月14日 - 20:43</p>
+  <p><span>原始链接:</span><a href="/2019/05/14/saltstack远程执行/" title="saltstack远程执行">https://leeyj.coding.me/2019/05/14/saltstack远程执行/</a>
+    <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://leeyj.coding.me/2019/05/14/saltstack远程执行/" aria-label="复制成功！"></i></span>
   </p>
   <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
 </div>
@@ -545,7 +551,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Linux运维日常/" rel="tag"><i class="fa fa-tag"></i> Linux运维日常</a>
+            <a href="/tags/Saltstack/" rel="tag"><i class="fa fa-tag"></i> Saltstack</a>
           
         </div>
       
@@ -573,8 +579,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/04/30/linux下解压windows上压缩rar包/" rel="next" title="linux下解压windows上压缩rar包">
-                <i class="fa fa-chevron-left"></i> linux下解压windows上压缩rar包
+              <a href="/2019/05/13/saltstack基本入门/" rel="next" title="saltstack基本入门">
+                <i class="fa fa-chevron-left"></i> saltstack基本入门
               </a>
             
           </div>
@@ -582,10 +588,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/05/13/saltstack基本入门/" rel="prev" title="saltstack基本入门">
-                saltstack基本入门 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -745,7 +747,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-6"><a class="nav-link" href="#Linux下常用的小工具集合（grep-cut-soft-uniq-tee-paste-tr-diff-wc-du-df"><span class="nav-number">1.</span> <span class="nav-text">Linux下常用的小工具集合（grep cut soft uniq tee paste tr diff wc du df)</span></a></li></ol><li class="nav-item nav-level-1"><a class="nav-link" href="#rwarsdfsdfsdfsdfsdf"><span class="nav-number"></span> <span class="nav-text">rwarsdfsdfsdfsdfsdf</span></a></li></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Salt命令的结构语法"><span class="nav-number">1.</span> <span class="nav-text">Salt命令的结构语法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#目标主机Target"><span class="nav-number">2.</span> <span class="nav-text">目标主机Target</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#模块Module"><span class="nav-number">3.</span> <span class="nav-text">模块Module</span></a></li></ol></div>
             
 
           </div>
