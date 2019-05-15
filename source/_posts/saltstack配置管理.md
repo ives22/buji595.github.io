@@ -1,6 +1,6 @@
 ---
 title: saltstack配置管理
-date: 2019-05-13 15:47:05
+date: 2019-05-15 20:47:05
 tags: Saltstack
 categories: Saltstack
 copyright: true
