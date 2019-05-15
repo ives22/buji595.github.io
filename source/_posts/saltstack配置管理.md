@@ -32,7 +32,7 @@ mysql-install:   #ID声明，必须唯一
 #查看指定模块的指定方法的用法
 [root@salt-master ~]# salt '*' sys.state_doc pkg.installed
 ```
-#### pkg软件模块
+### pkg软件模块
 [pkg模块官档](https://docs.saltstack.com/en/latest/ref/states/all/salt.states.pkg.html)
 `pkg.installed` 软件安装
 ```
@@ -54,7 +54,7 @@ php-install:
       - php-pdo
       - php-cli
 ```
-#### file文件模块
+### file文件模块
 [file模块官档](https://docs.saltstack.com/en/latest/ref/states/all/salt.states.file.html)
 `file.managed` 下发文件，确保文件存在
 ```
@@ -150,7 +150,7 @@ salt-minion01:
 salt-minion02:
     lrwxrwxrwx 1 root root 14 May 15 16:42 /etc/grub.cfg -> /etc/grub2.cfg
 ```
-#### service服务模块
+### service服务模块
 [service模块官档](https://docs.saltstack.com/en/latest/ref/states/all/salt.states.service.html)
 ```
 [root@salt-master ~]# cat /srv/salt/base/service_httpd.sls
@@ -167,6 +167,7 @@ httpd:   #即表示ID，又表示服务名
     - enable: True
     - reload: True
 ```
+
 ## 高级状态模块
 >当我们想要不同的主机应用不同的配置，那么可以使用高级状态管理 `top file`
 来进行管理。
