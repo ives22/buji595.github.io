@@ -1,11 +1,11 @@
 ---
 title: saltstack配置管理
-date: 2019-05-13 15:47:05
+date: 2019-05-15 23:42:05
 tags: Saltstack
 categories: Saltstack
 copyright: true
 ---
-## saltstack状态模块
+## Saltstack状态模块
 >远程执行模块的执行是过程式，而状态是对`minion`的一种描述和定义，管理人员不需要关系部署任务如何完成的，只需要描述`minion`的状态描述。
 它的和兴是写`sls(Salt State file)`文件，`sls`文件默认格式为`YAML`格式，并默认使用`jinja`模板，`jinja`是根据`django`的模板语言发展而来的语言，简单并强大，支持`for if `等循环语句。`salt state`主要用来描述系统，服务，配置文件的状态，常常被称为配置管理。
 
@@ -60,7 +60,7 @@ php-install:
 ```
 [root@salt-master ~]# mkdir /srv/salt/base/files
 [root@salt-master ~]# cp /etc/httpd/conf/httpd.conf /srv/salt/base/files/
-[root@salt-master ~]# cat /srv/salt/base/apache_conf.sls 
+[root@salt-master ~]# cat /srv/salt/base/apache_conf.sls
 apache-config:
   file.managed:
     - name: /etc/httpd/conf/httpd.conf
@@ -74,7 +74,7 @@ apache-config:
 - source: 表示这个文件来自哪里（说明这个文件得提前准备）
 
 或者这样写，直接已目的地址命令ID，这样ID也表示目的地址
-[root@salt-master ~]# cat /srv/salt/base/apache_conf.sls 
+[root@salt-master ~]# cat /srv/salt/base/apache_conf.sls
 /etc/httpd/conf/httpd.conf:
   file.managed:
     - source: salt://files/httpd.conf
@@ -84,7 +84,7 @@ apache-config:
 ```
 ```
 小示例：
-[root@salt-master ~]# cat /srv/salt/base/test.sls 
+[root@salt-master ~]# cat /srv/salt/base/test.sls
 /tmp/passwd_back:
   file.managed:
     - source: salt://files/passwd
@@ -103,7 +103,7 @@ salt-minion01:
 ```
 `file.directory` 建立目录
 ```
-[root@salt-master ~]# cat /srv/salt/base/directory.sls 
+[root@salt-master ~]# cat /srv/salt/base/directory.sls
 /tmp/saltdir:
   file.directory:
     - user: root
@@ -136,7 +136,7 @@ httpd_conf_dir:
 ```
 `file.symlink` 建立软链接
 ```
-[root@salt-master ~]# cat /srv/salt/base/target_link.sls 
+[root@salt-master ~]# cat /srv/salt/base/target_link.sls
 /etc/grub.cfg:
   file.symlink:
     - target: /etc/grub2.cfg
@@ -153,7 +153,7 @@ salt-minion02:
 #### service服务模块
 [service模块官档](https://docs.saltstack.com/en/latest/ref/states/all/salt.states.service.html)
 ```
-[root@salt-master ~]# cat /srv/salt/base/service_httpd.sls 
+[root@salt-master ~]# cat /srv/salt/base/service_httpd.sls
 httpd:
   service.running:
     - name: httpd   #服务名称
@@ -161,7 +161,7 @@ httpd:
     - reload: True    #允许重载配置文件，不写则是restart
 
 或者这样写
-[root@salt-master ~]# cat /srv/salt/base/service_httpd.sls 
+[root@salt-master ~]# cat /srv/salt/base/service_httpd.sls
 httpd:   #即表示ID，又表示服务名
   service.running:
     - enable: True
@@ -187,6 +187,252 @@ file_roots:
 2）创建对应环境目录
 ```
 [root@salt-master ~]# mkdir -p /srv/salt/{base,dev,prod}
-[root@salt-master ~]# mkdir /srv/salt/prod/{httpd,php,mysql}
+[root@salt-master ~]# mkdir /srv/salt/prod/{httpd,php,mysql,files}
 ```
-3）编写`state sls`状态文件
+3）配置文件准备及测试文件准备
+```
+[root@salt-master ~]# cp /etc/my.cnf /srv/salt/prod/files/
+[root@salt-master ~]# cp /etc/httpd/conf/httpd.conf /srv/salt/prod/files/
+[root@salt-master ~]# cp /etc/php.ini  /srv/salt/prod/files/
+[root@salt-master ~]# echo "<h1>LAMP html</h1>" >>/srv/salt/prod/files/index.html
+[root@salt-master ~]# echo "<?php phpinfo(); ?>" >> /srv/salt/prod/files/index.php
+```
+4）编写`state sls`状态文件
+```
+#httpd
+[root@salt-master ~]# cat /srv/salt/prod/httpd/init.sls
+apache-install:
+  pkg.installed:
+    - pkgs:
+      - httpd
+      - httpd-tools
+
+apache-config:
+  file.managed:
+    - name: /etc/httpd/conf/httpd.conf
+    - source: salt://files/httpd.conf
+    - user: root
+    - group: root
+    - mode: 644
+
+apache-service:
+  service.running:
+    - name: httpd
+    - enable: True
+
+#php
+[root@salt-master ~]# cat /srv/salt/prod/php/init.sls
+php-install:
+  pkg.installed:
+    - pkgs:
+      - php
+      - php-mysql
+      - php-pdo
+      - php-cli
+
+php-config:
+  file.managed:
+    - name: /etc/php.ini
+    - source: salt://files/php.ini
+    - user: root
+    - group: root
+    - mode: 644
+
+#mysql
+[root@salt-master ~]# cat /srv/salt/prod/mysql/init.sls
+mariadb-install:
+  pkg.installed:
+    - pkgs:
+      - mariadb-server
+      - mariadb
+
+mariadb-config:
+  file.managed:
+    - name: /etc/my.cnf
+    - source: salt://files/my.cnf
+    - user: root
+    - group: root
+    - mode: 644
+
+mariadb-service:
+  service.running:
+    - name: mariadb
+    - enable: True
+
+#测试文件
+[root@salt-master ~]# cat /srv/salt/prod/testfile.sls
+/var/www/html/index.html:
+  file.managed:
+    - source: salt://files/index.html
+
+/var/www/html/index.php:
+  file.managed:
+    - source: salt://files/index.php
+```
+6）`topfile`文件编写
+```
+[root@salt-master ~]# cat /srv/salt/base/top.sls
+prod:
+  'salt-minion*':
+    - httpd.init
+    - php.init
+    - mysql.init
+    - testfile
+```
+7）部署`LAMP`整体`state`文件查看
+```
+[root@salt-master ~]# tree /srv/salt/
+/srv/salt/
+├── base
+│   └── top.sls
+├── dev
+└── prod
+    ├── files
+    │   ├── httpd.conf
+    │   ├── index.html
+    │   ├── index.php
+    │   ├── my.cnf
+    │   └── php.ini
+    ├── httpd
+    │   └── init.sls
+    ├── mysql
+    │   └── init.sls
+    ├── php
+    │   └── init.sls
+    └── testfile.sls
+```
+8）执行`topfile`
+```
+[root@salt-master ~]# salt '*' state.highstate
+```
+## States状态依赖
+通过上面的`lamp`可以看出已经可以使用`state`模块来定义`minion`的状态了，但是如果一个主机涉及多个状态，并且状态之间相互关联，在执行顺序上有先后之分，那么必须引用`requisites`来进行控制
+>关系说明：
+1、`require` 我依赖某个状态，我依赖谁
+2、`require_in` 我被某个状态依赖，谁依赖我
+3、`watch` 我关注某个状态，当状态发生改变，进行`restart`或者`reload`操作
+4、`watch_in` 我被某个状态关注
+5、`include` 我引用谁
+
+1）修改上面`lamp`状态间依赖关系
+```
+#httpd
+[root@salt-master ~]# cat /srv/salt/prod/httpd/init.sls
+apache-install:
+  pkg.installed:
+    - pkgs:
+      - httpd
+      - httpd-tools
+
+apache-config:
+  file.managed:
+    - name: /etc/httpd/conf/httpd.conf
+    - source: salt://files/httpd.conf
+    - user: root
+    - group: root
+    - mode: 644
+    - require:
+      - pkg: apache-install   #表示上面apache-install执行成功，才能执行apache-config
+
+apache-service:
+  service.running:
+    - name: httpd
+    - enable: True
+    - require:
+      - file: apache-config
+    - watch:
+      - file: apache-config
+
+#php
+[root@salt-master ~]# cat /srv/salt/prod/php/init.sls
+php-install:
+  pkg.installed:
+    - pkgs:
+      - php
+      - php-mysql
+      - php-pdo
+      - php-cli
+    - reqiure_in:
+      - file: php-config
+
+php-config:
+  file.managed:
+    - name: /etc/php.ini
+    - source: salt://files/php.ini
+    - user: root
+    - group: root
+    - mode: 644
+
+#mysql
+[root@salt-master ~]# cat /srv/salt/prod/mysql/init.sls
+mariadb-install:
+  pkg.installed:
+    - pkgs:
+      - mariadb-server
+      - mariadb
+
+mariadb-config:
+  file.managed:
+    - name: /etc/my.cnf
+    - source: salt://files/my.cnf
+    - user: root
+    - group: root
+    - mode: 644
+    - require:
+      - pkg: mariadb-install
+
+mariadb-service:
+  service.running:
+    - name: mariadb
+    - enable: True
+    - reload: True
+    - require:
+      - file: mariadb-config
+    - watch:
+      - file: mariadb-config
+```
+2）修改引用关系后`include`
+```
+[root@salt-master ~]# tree /srv/salt/
+/srv/salt/
+├── base
+│   └── top.sls
+├── dev
+└── prod
+    ├── files
+    │   ├── httpd.conf
+    │   ├── index.html
+    │   ├── index.php
+    │   ├── my.cnf
+    │   └── php.ini
+    ├── httpd
+    │   └── init.sls
+    ├── lamp.sls
+    ├── mysql
+    │   └── init.sls
+    ├── php
+    │   └── init.sls
+    └── testfile.sls
+
+[root@salt-master ~]# cat /srv/salt/prod/lamp.sls
+include:
+  - httpd.init
+  - php.init
+  - mysql.init
+  - testfile
+
+[root@salt-master ~]# cat /srv/salt/base/top.sls
+prod:
+  'salt-minion*':
+    - lamp
+```
+3）编写`SLS`技巧
+>1、按照状态分类，如果单独使用，清晰明了
+2、按照服务分类，可以被其它`SLS`引用
+
+
+
+
+
+
+
