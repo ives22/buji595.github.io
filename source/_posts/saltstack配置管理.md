@@ -1,6 +1,10 @@
 ---
 title: saltstack配置管理
+<<<<<<< HEAD
 date: 2019-05-15 23:42:05
+=======
+date: 2019-05-15 20:47:05
+>>>>>>> 160c001bcf8a9667dcc475f4b471e7bdb9fdee88
 tags: Saltstack
 categories: Saltstack
 copyright: true
