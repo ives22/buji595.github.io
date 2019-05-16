@@ -188,7 +188,7 @@ base:
 
   'os:centos':  #通过grains模块匹配
     - match: grains
-    - nginx
+    - nginx 
 ```
 `Top file` 高级状态的执行
 ```
@@ -453,9 +453,117 @@ prod:
 >1、按照状态分类，如果单独使用，清晰明了
 2、按照服务分类，可以被其它`SLS`引用
 
+## Jinja模板使用
+>配置文件一般灵活多变，比如配置`apache`的`IP`地址或者端口`PORT`等，则可以动态传值。
+[Jinja官档](http://docs.jinkan.org/docs/jinja2/)
+[salt jinja官档](https://docs.saltstack.com/en/latest/topics/jinja/index.html)
 
+`Jinja2` 模板包含变量和表达式，变量用`{{ ... }}`包围，表达式用`{% ... %}`包围。变量使用示例：
+```
+[root@salt-master ~]# cat /srv/salt/base/var.sls 
+{% set var= 'hello world!' %}
+test_var:
+  cmd.run:
+    - name: echo "测试变量 {{ var }}"
 
+[root@salt-master ~]# salt 'salt-minion01' state.sls var
+salt-minion01:
+----------
+          ID: test_var
+    Function: cmd.run
+        Name: echo "测试变量 hello world!"
+      Result: True
+     Comment: Command "echo "测试变量 hello world!"" run
+     Started: 14:50:58.302424
+    Duration: 12.358 ms
+     Changes:   
+              ----------
+              pid:
+                  22510
+              retcode:
+                  0
+              stderr:
+              stdout:
+                  测试变量 hello world!
 
+Summary for salt-minion01
+------------
+Succeeded: 1 (changed=1)
+Failed:    0
+------------
+Total states run:     1
+Total run time:  12.358 ms
+```
+`jinja2` 常用变量
+1、字符串类型
+```
+{% set var = 'test' %}  #定义变量
+{{ var }}  #调用变量
+```
+2、列表类型
+```
+{% set list = ['one', 'two', 'three'] %}
+{{ list[1] }}  #获取变量的第一个值
+```
+3、字典类型
+```
+{% set dict = {'key1':'value1', 'key2':'value2'} %}
+{{ dict['key1'] }}  #获取'key1'的值
+```
+示例1：`Saltstack`使用`jinja`模块配置`apache`监听端口
+```
+#1.告诉file状态模块，需要使用jinja
+    - template: jinja
+#2.列出参数列表
+    - defaults:
+      PORT: 8000
+#3.配置文件引用jinja模板
+{{ PORT }}
 
+# 配置示例
+apache-config:
+  file.managed:
+    - name: /etc/httpd/conf/httpd.conf
+    - source: salt://files/httpd.conf
+    - user: root
+    - group: root
+    - mode: 644
+    - template: jinja
+    - defaults:
+      PORT: 8000
+
+# 修改httpd.conf配置文件引用变量
+Listen {{ PORT }}
+```
+示例2：使用`grinas` 方式进行赋值
+```
+#配置示例
+apache-config:
+  file.managed:
+    - name: /etc/httpd/conf/httpd.conf
+    - source: salt://files/httpd.conf
+    - user: root
+    - group: root
+    - mode: 644
+    - template: jinja
+    - defaults:
+      PORT: 8000
+      IPADDR: {{ grains['fqdn_ip4'][0] }}
+
+# 修改httpd.conf配置文件引用变量
+Listen {{ IPADDR }}:{{ PORT }}
+```
+示例3：通过`jinja+grains`根据系统不同安装`apache`
+```
+[root@salt-master ~]# cat /srv/salt/base/httpd.sls
+#根据grains获取的值判别系统后安装软件
+httpd-install:
+  pkg.installed:
+{% if grains['os'] == 'CentOS' %}
+    - name: httpd
+{% elif grains['OS'] == 'Debin' %}
+    - name: apache2
+{% endif %}
+```
 
 
