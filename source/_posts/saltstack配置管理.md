@@ -458,7 +458,7 @@ prod:
 [Jinja官档](http://docs.jinkan.org/docs/jinja2/)
 [salt jinja官档](https://docs.saltstack.com/en/latest/topics/jinja/index.html)
 
-`Jinja2` 模板包含变量和表达式，变量用`{{ ... }}`包围，表达式用`{% ... %}`包围。变量使用示例：
+`Jinja2` 模板包含变量和表达式，变量用 &#123;&#123; ... &#125;&#125; 包围，表达式用 &#123;&#37; ... &#37;&#125; 包围。变量使用示例：
 ```
 [root@salt-master ~]# cat /srv/salt/base/var.sls 
 {% set var= 'hello world!' %}
