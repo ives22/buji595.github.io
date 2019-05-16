@@ -170,8 +170,30 @@ httpd:   #即表示ID，又表示服务名
 
 ## 高级状态模块
 >当我们想要不同的主机应用不同的配置，那么可以使用高级状态管理 `top file`
-来进行管理。
+来进行管理。可以通过正则，`grain`模块，或分组名，来进行匹配，再下一级是要执行的`state`文件
 
+可以将我们的配置需求转换为`YAML`并在`Top file`文件中表示：
+
+![](https://upload-images.jianshu.io/upload_images/11763553-9098e5814f51b40c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+`Top file`示例
+```
+base:
+  '*': #通过正则去匹配所有minion
+    - app.nginx
+
+  webserver: #定义的分组名称
+    - match: nodegroup
+    - app.cron
+
+  'os:centos':  #通过grains模块匹配
+    - match: grains
+    - nginx
+```
+`Top file` 高级状态的执行
+```
+[root@salt-master ~]# salt '*' state.highstate
+```
 ## LAMP架构案例
 说明：该案例在`prod`环境配置
 1）环境准备，定义`file_roots`环境
