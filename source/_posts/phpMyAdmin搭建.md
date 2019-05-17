@@ -7,7 +7,7 @@ copyright: true
 ---
 ##### 在已有的 lnmp 环境下搭建 phpMyAdmin。 由于服务器做了限制，隧道端口转发等都不能使用，导致 Navicat 管理工具不能使用，只能通过 phpMyAdmin 来进行管理了。
 
-- 下载phpMyAdmin\
+- 下载phpMyAdmin
 官网地址：https://www.phpmyadmin.net/
 
 - 上传到服务器进行安装

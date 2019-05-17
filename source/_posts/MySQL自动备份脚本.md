@@ -5,9 +5,7 @@ tags: Linux运维日常
 categories: Shell
 copyright: true
 ---
-
-##### 通过 shell 脚本定时备份数据库，并定时清理
-`ceshi yixia `
+>通过 shell 脚本定时备份数据库，并定时清理
 
 ```html
 #!/bin/bash
