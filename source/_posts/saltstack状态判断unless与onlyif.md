@@ -5,6 +5,8 @@ tags: Saltstack
 categories: Saltstack
 copyright: true
 ---
+>很多时候我们在编写`state` 文件时候需要进行判断，判断该目录或文件是否存在，判断该配置是否已经已添加，然后根据判断结果再决定命令或动作是否执行，这时候就需要用到了状态判断的`unless`和`onlyif`。
+
 ## unless
 `unless`示例：需求创建`/tmp/unless.txt`文件，存在则不创建，不存在则创建
 ```
