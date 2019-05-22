@@ -108,6 +108,7 @@ file_roots:
 [root@salt-master ~]# mkdir -p /srv/salt/{base,test,prod,dev}
 
 [root@salt-master ~]# mkdir -p /srv/salt/prod/modules/{nginx,php,mysql,haproxy,keepalived,lnmp}/files
+[root@salt-master ~]# mkdir /srv/salt/prod/modules/user
 [root@salt-master ~]# tree /srv/salt/prod/modules/
 /srv/salt/prod/modules/
 ├── haproxy
