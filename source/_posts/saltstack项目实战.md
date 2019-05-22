@@ -629,7 +629,11 @@ prod:
     - modules.haproxy.service
     - modules.keepalived.service
 ```
-2）测试
+2）高级状态执行
+```
+[root@salt-master ~]# salt '*' state.highstate
+```
+3）测试
 访问`192.168.1.31`和`192.168.1.32`的状态页
 ![http://192.168.1.31:1314/status](https://upload-images.jianshu.io/upload_images/11763553-dbb464867bd87a4c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 ![http://192.168.1.32:1314/status](https://upload-images.jianshu.io/upload_images/11763553-259e918d1d42933d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
