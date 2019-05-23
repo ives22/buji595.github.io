@@ -6,6 +6,7 @@ categories: Saltstack
 copyright: true
 ---
 ## salt-ssh 介绍
+[参考官档](https://docs.saltstack.com/en/latest/topics/ssh/index.html)
 >`salt-ssh`是 `0.17.0` 新引入的一个功能，不需要minion对客户端进行管理，也可以不需要`master`；`salt-ssh`也支持`salt`大部分的功能：比如`grains`,`modules`,`state`等；`salt-ssh`没有使用`ZeroMQ`的通信架构，执行是串行模式
 
 ## salt-ssh执行原理
@@ -153,7 +154,7 @@ Total run time:   3.313 s
 ```
 ## Roster说明
 >`salt-ssh`需要一个名单系统来确定哪些执行目标，`Salt`的`0.17.0`版本中`salt-ssh`引入`roste`r系统
->`roster`系统编译成了一个数据结构，包含了`targets`，这些`targets`是一个目标系统主机列表和或如连接到这些`targets`。
+`roster`系统编译成了一个数据结构，包含了`targets`，这些`targets`是一个目标系统主机列表和或如连接到这些`targets`。
 
 配置文件说明：
 ```
