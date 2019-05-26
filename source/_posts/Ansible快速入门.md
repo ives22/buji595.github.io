@@ -169,7 +169,8 @@ Usage: ansible <host-pattern> [options]
 192.168.1.32 | CHANGED | rc=0 | (stdout)  21:26:33 up 1 day,  8:59,  3 users,  load average: 0.00, 0.01, 0.05
 ```
 3）命令说明
-![ansible command](https://upload-images.jianshu.io/upload_images/11763553-3c9c5b01fb881cd8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![ansible command](https://upload-images.jianshu.io/upload_images/11763553-fcd0f5d6e3bfca0b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+)
 
 ### host-pattern格式
 目标`target`主机，主机组匹配方式
