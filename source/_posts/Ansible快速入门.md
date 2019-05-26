@@ -29,13 +29,13 @@ copyright: true
 
 
 ## 环境准备
-|      IP      |  系统   |      主机名      |      描述       |      |
-| :----------: | :-----: | :--------------: | :-------------: | ---- |
-| 192.168.1.30 | CentOS7 |     ansible      | ansible管理节点 |      |
-| 192.168.1.31 | CentOS7 | linux.node01.com |   被管理节点1   |      |
-| 192.168.1.32 | CentOS7 | linux.node02.com |   被管理节点2   |      |
-| 192.168.1.33 | CentOS7 | linux.node03.com |   被管理节点3   |      |
-| 192.168.1.36 | CentOS6 | linux.node06.com |   被管理节点6   |      |
+|      IP      |  系统   |      主机名      |      描述       |
+| :----------: | :-----: | :--------------: | :-------------: |
+| 192.168.1.30 | CentOS7 |     ansible      | ansible管理节点 |
+| 192.168.1.31 | CentOS7 | linux.node01.com |   被管理节点1   |
+| 192.168.1.32 | CentOS7 | linux.node02.com |   被管理节点2   |
+| 192.168.1.33 | CentOS7 | linux.node03.com |   被管理节点3   |
+| 192.168.1.36 | CentOS6 | linux.node06.com |   被管理节点6   |
 
 ## Ansible安装
 1）配置`epel`源
