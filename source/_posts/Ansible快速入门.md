@@ -170,7 +170,6 @@ Usage: ansible <host-pattern> [options]
 ```
 3）命令说明
 ![ansible command](https://upload-images.jianshu.io/upload_images/11763553-fcd0f5d6e3bfca0b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
-)
 
 ### host-pattern格式
 目标`target`主机，主机组匹配方式
