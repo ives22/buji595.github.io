@@ -1,3 +1,10 @@
+---
+title: saltstack远程执行
+date: 2019-05-14 17:47:05
+tags: Saltstack
+categories: Saltstack
+copyright: true
+---
 安装完`Saltstack`后可以立即执行`shell`命令，更新软件包并将文件同时分不到所有受管系统。所有回复都以一致的可配置格式返回。远程执行参考文档：http://docs.saltstack.cn/topics/tutorials/modules.html
 ```
 [root@salt-master ~]# salt '*' cmd.run "uptime"
