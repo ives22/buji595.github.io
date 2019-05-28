@@ -637,8 +637,6 @@ prod:
 访问`192.168.1.31`和`192.168.1.32`的状态页
 ![http://192.168.1.31:1314/status](saltstack项目实战/05.png)
 ![http://192.168.1.32:1314/status](saltstack项目实战/06.png)
-![http://192.168.1.31:1314/status](https://upload-images.jianshu.io/upload_images/11763553-dbb464867bd87a4c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
-![http://192.168.1.32:1314/status](https://upload-images.jianshu.io/upload_images/11763553-259e918d1d42933d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 访问VIP`192.168.1.100`
 ![http://192.168.1.100](saltstack项目实战/07.png)
 
