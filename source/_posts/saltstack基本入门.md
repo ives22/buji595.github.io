@@ -17,7 +17,7 @@ copyright: true
 `Salt master`主要负责向`Salt minions`发送命令，然后聚合并显示这些命令的结果。一个`Salt master`可以管理多个`minion`系统
 `Salt server`与`Salt minion`通信的连接由`Salt minion`发起，这也意味着`Salt minion`上不需要打开任何传入端口（从而减少攻击）。`Salt server`使用端口`4505`和`4506`，必须打开端口才能接收到访问连接
 
-![通信示例图](https://img2018.cnblogs.com/blog/1210730/201905/1210730-20190514205959165-1780192722.png)
+![通信示例图](saltstack基本入门/01.png)
 
 - **Publisher** （端口4505）所有`Salt minions`都需要建立一个持续连接到他们收听消息的发布者端口。命令是通过此端口异步发送给所有连接，这使命令可以在大量系统上同时执行。
 - **Request Server** （端口4506）`Salt minios`根据需要连接到请求服务器，将结果发送给`Salt master`，并安全地获取请求的文件或特定`minion`相关的数据值（称为`Salt pillar`）。连接到这个端口的连接在`Salt master`和`Salt minion`之间是1:1（不是异步）。
@@ -58,7 +58,7 @@ salt-mast 81121 root   20u  IPv4 307611      0t0  TCP salt-master:4505->salt-min
 [root@salt-minion01 ~]# systemctl start salt-minion
 ```
 ##  SaltStack认证方式
-![master与minion之间的架构关系图](https://img2018.cnblogs.com/blog/1210730/201905/1210730-20190514210336850-2045208733.png)
+![master与minion之间的架构关系图](saltstack基本入门/02.png)
 <div class="note success"><p> `Salt` 的数据传输是通过 `AES` 加密，`Master` 和 `Minion` 之前在通信之前，需要进行认证。
 `Salt` 通过认证的方式保证安全性，完成一次认证后，Master 就可以控制 Minion 来完成各项工作了。</p></div><div class="note success"><p>1.  `minion` 在第一次启动时候，会在 `/etc/salt/pki/minion/` 下自动生成 `minion.pem(private key)` 和 `minion.pub(public key) `, 然后将 `minion.pub` 发送给 `master `
 2. `master` 在第一次启动时，会在 `/etc/salt/pki/master/` 下自动生成 `master.pem` 和 `master.pub` ；并且会接收到 `minion` 的 `public key` , 通过 `salt-key` 命令接收 `minion public key`， 会在 `master` 的 `/etc/salt/pki/master/minions` 目录下存放以 `minion id` 命令的 `public key` ；验证成功后同时 `minion` 会保存一份 `master public key` 在 minion的 `/etc/salt/pki/minion/minion_master.pub`里。</p></div>
