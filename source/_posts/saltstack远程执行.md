@@ -1,11 +1,4 @@
----
-title: saltstack远程执行
-date: 2019-05-14 15:18:05
-tags: Saltstack
-categories: Saltstack
-copyright: true
----
-<div class="note success"><p>安装完`Saltstack`后可以立即执行`shell`命令，更新软件包并将文件同时分不到所有受管系统。所有回复都以一致的可配置格式返回。远程执行参考文档：http://docs.saltstack.cn/topics/tutorials/modules.html</p></div>
+安装完`Saltstack`后可以立即执行`shell`命令，更新软件包并将文件同时分不到所有受管系统。所有回复都以一致的可配置格式返回。远程执行参考文档：http://docs.saltstack.cn/topics/tutorials/modules.html
 ```
 [root@salt-master ~]# salt '*' cmd.run "uptime"
 salt-minion01:
@@ -21,9 +14,9 @@ salt-minion03:
 salt '<target>' <function> [arguments]
 ```
 
-![](imgs/salt03.png)
+![](https://upload-images.jianshu.io/upload_images/11763553-e5e69a972680590f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 ## 目标主机Target
-![](imgs/salt04.png)
+![](https://upload-images.jianshu.io/upload_images/11763553-e3ed49a6c6b6633f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 1、通配符匹配
 ```
 [root@salt-master ~]# salt '*' test.ping
@@ -68,7 +61,7 @@ nodegroups:
 ```
 > 说明：上面这些匹配方式在`top.sls`文件中同样适用。
 ## 模块Module
-![](imgs/salt05.png)
+![](https://upload-images.jianshu.io/upload_images/11763553-18184de0fb7156aa.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 > `test`模块多用于测试
 `user`模块用于用户管理
 `cmd`模块可以执行任意`shell`命令
@@ -104,7 +97,7 @@ nodegroups:
 功能：软件包状态管理，会根据操作系统不同，选择对应的安装方式（如CentOS系统默认使用yum，Debian系统默认使用apt-get）
 
 #安装
-[root@salt-master ~]# salt '*' pkg.install "vsftpd"
+[root@salt-master ~]# salt '*' pkg.install "vsftpd" 
 #卸载
 [root@salt-master ~]# salt '*' pkg.remove "vsftpd"
 #安装最新版本
@@ -163,3 +156,8 @@ salt '*' service.start <service name>
 salt '*' service.stop <service name>
 salt '*' service.status <service name>
 ```
+
+
+
+
+
