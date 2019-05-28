@@ -135,7 +135,7 @@ Total run time:  14.646 ms
 ```
 ## Redis主从架构案例
 说明：该案例在`prod`环境配置
-![redis主从环境](https://upload-images.jianshu.io/upload_images/11763553-bc3bd43a55d275ee.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![redis主从环境](saltstack状态判断unless与onlyif/01.png)
 
 1）环境准备，定义`file_roots`环境
 ```

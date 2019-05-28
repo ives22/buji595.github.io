@@ -20,10 +20,9 @@ salt-minion03:
 ```
 salt '<target>' <function> [arguments]
 ```
-
-![](https://upload-images.jianshu.io/upload_images/11763553-e5e69a972680590f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![](saltstack远程执行/01.png)
 ## 目标主机Target
-![](https://upload-images.jianshu.io/upload_images/11763553-e3ed49a6c6b6633f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![](saltstack远程执行/02.png)
 1、通配符匹配
 ```
 [root@salt-master ~]# salt '*' test.ping
@@ -68,7 +67,7 @@ nodegroups:
 ```
 > 说明：上面这些匹配方式在`top.sls`文件中同样适用。
 ## 模块Module
-![](https://upload-images.jianshu.io/upload_images/11763553-18184de0fb7156aa.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![](saltstack远程执行/03.png)
 > `test`模块多用于测试
 `user`模块用于用户管理
 `cmd`模块可以执行任意`shell`命令

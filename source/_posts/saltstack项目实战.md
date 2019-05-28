@@ -8,10 +8,10 @@ copyright: true
 ## 项目架构规划
 >后端web服务器使用`Nginx+Php`作为站点，通过`HAproxy`做负载均衡，`Keepalived`做高可用
 
-![架构规划图](https://upload-images.jianshu.io/upload_images/11763553-aee6d08ef5f58560.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![架构规划图](saltstack项目实战/01.png)
 
 ## 项目环境准备
-![环境准备](https://upload-images.jianshu.io/upload_images/11763553-44de6c7b5f253784.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![环境准备](saltstack项目实战/02.png)
 
 **说明：** 关闭防火墙、`selinux`、时间同步等
 `host`绑定
@@ -505,8 +505,8 @@ prod:
 [root@salt-master ~]# salt '*' state.highstate
 ```
 3）访问测试
-![http://192.168.1.31](https://upload-images.jianshu.io/upload_images/11763553-8408fa3d53913156.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
-![http://192.168.1.32](https://upload-images.jianshu.io/upload_images/11763553-2a3378a0836eb128.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![http://192.168.1.31](saltstack项目实战/03.png)
+![http://192.168.1.32](saltstack项目实战/04.png)
 
 #### haproxy
 1）配置文件准备
@@ -635,10 +635,12 @@ prod:
 ```
 3）测试
 访问`192.168.1.31`和`192.168.1.32`的状态页
+![http://192.168.1.31:1314/status](saltstack项目实战/05.png)
+![http://192.168.1.32:1314/status](saltstack项目实战/06.png)
 ![http://192.168.1.31:1314/status](https://upload-images.jianshu.io/upload_images/11763553-dbb464867bd87a4c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 ![http://192.168.1.32:1314/status](https://upload-images.jianshu.io/upload_images/11763553-259e918d1d42933d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 访问VIP`192.168.1.100`
-![http://192.168.1.100](https://upload-images.jianshu.io/upload_images/11763553-94dfbc9d07974a44.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![http://192.168.1.100](saltstack项目实战/07.png)
 
 通过上面测试可看到可以成功访问`lnmp`站点，并且`haproxy`也`ok`。访问所有四台服务器都可以得到`phpinfo`页面，而在生产环境中，我们只是对外提供`vip`即可。
 ## 项目总结

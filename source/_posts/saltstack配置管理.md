@@ -173,8 +173,7 @@ httpd:   #即表示ID，又表示服务名
 来进行管理。可以通过正则，`grain`模块，或分组名，来进行匹配，再下一级是要执行的`state`文件
 
 可以将我们的配置需求转换为`YAML`并在`Top file`文件中表示：
-
-![](https://upload-images.jianshu.io/upload_images/11763553-9098e5814f51b40c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![](saltstack配置管理/01.png)
 
 `Top file`示例
 ```
