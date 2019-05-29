@@ -142,7 +142,7 @@ nginx
 192.168.1.31 | SUCCESS => {"ansible_facts": {"discovered_interpreter_python": "/usr/bin/python"}, "changed": false, "ping": "pong"}
 ```
 ### Inventory内置参数
-![ansible inventory内置参数](https://upload-images.jianshu.io/upload_images/11763553-f523aa19ae811b0e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![ansible inventory内置参数](Ansible快速入门/ansible01.png)
 
 ## Ansible Ad-Hoc
 [Ad-Hoc中文文档](http://www.ansible.com.cn/docs/intro_adhoc.html)
@@ -169,7 +169,7 @@ Usage: ansible <host-pattern> [options]
 192.168.1.32 | CHANGED | rc=0 | (stdout)  21:26:33 up 1 day,  8:59,  3 users,  load average: 0.00, 0.01, 0.05
 ```
 3）命令说明
-![ansible command](https://upload-images.jianshu.io/upload_images/11763553-fcd0f5d6e3bfca0b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![ansible command](Ansible快速入门/ansible02.png)
 
 ### host-pattern格式
 目标`target`主机，主机组匹配方式
