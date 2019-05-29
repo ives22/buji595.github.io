@@ -17,9 +17,13 @@
   
   
     
+      
     
-  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
-  <link href="/lib/pace/pace-theme-center-atom.min.css?v=1.0.2" rel="stylesheet">
+    
+      
+    
+  <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+  <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-center-atom.min.css" rel="stylesheet">
 
 
 
@@ -137,7 +141,7 @@
     root: '/',
     scheme: 'Mist',
     version: '5.1.4',
-    sidebar: {"position":"left","display":"hide","offset":12,"b2t":false,"scrollpercent":true,"onmobile":true},
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":true},
     fancybox: true,
     tabs: true,
     motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
@@ -632,7 +636,7 @@
               <img class="site-author-image" itemprop="image" src="/images/avatar.png" alt="Leeyj">
             
               <p class="site-author-name" itemprop="name">Leeyj</p>
-              <p class="site-description motion-element" itemprop="description">一名Linux，Python爱好者</p>
+              <p class="site-description motion-element" itemprop="description">Linux，Python爱好者</p>
           </div>
 
           <nav class="site-state motion-element">
@@ -923,7 +927,7 @@
     new Valine({
         el: '#comments' ,
         verify: false,
-        notify: false,
+        notify: true,
         appId: '9WKoAiqkgrhK7oWJVeqJupkH-gzGzoHsz',
         appKey: 'QjYE9zY00BnBP6JH9NgliNxN',
         placeholder: 'Just go go',
