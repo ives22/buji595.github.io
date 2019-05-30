@@ -138,6 +138,7 @@ state：
 ```
 #### copy
 > 用于管理端复制文件到远程主机，并可以设置权限，属组，属主等
+
 ```
 # 查看模块参数
 [root@ansible ~]# ansible-doc -s copy
@@ -163,6 +164,7 @@ group    #对copy到远端文件设置属组
 [root@ansible ~]# ansible 192.168.1.31 -m copy -a 'dest=/tmp/passwd src=/etc/passwd mode=700 owner=root group=root'
 ```
 #### fetch
+
 >用于从被管理机器上面拉取文件，拉取下来的内容会保留目录结构，一般情况用在收集被管理机器的日志文件等
 ```
 # 查看模块参数
@@ -184,6 +186,7 @@ dest     #指定从远端机器拉取下来的文件存放路径
 ### 用户相关的模块
 #### user
 >用于对系统用户的管理，用户的创建、删除、家目录、属组等设置
+
 ```
 # 查看模块参数
 [root@ansible ~]# ansible-doc -s user
@@ -223,6 +226,7 @@ apache:x:1003:1003::/home/apache:/bin/nologin
 ```
 #### group
 >用于创建组，当创建用户时如果需要指定组，组不存在的话就可以通过`group`先创建组
+
 ```
 # 查看模块参数
 [root@ansible ~]# ansible-doc -s group
@@ -244,6 +248,7 @@ state：
 ### 软件包相关的模块
 #### yum
 >用于对软件包的管理，下载、安装、卸载、升级等操作
+
 ```
 # 查看模块参数
 [root@ansible ~]# ansible-doc -s yum
@@ -282,6 +287,7 @@ state:
 ```
 #### pip
 >用于安装python中的包
+
 ```
 # 查看模块参数
 [root@ansible ~]# ansible-doc -s pip
@@ -294,6 +300,7 @@ state:
 ```
 #### service
 >服务模块，用于对服务进行管理，服务的启动、关闭、开机自启等
+
 ```
 # 查看模块参数
 [root@ansible ~]# ansible-doc -s service
@@ -311,6 +318,7 @@ state:     #指定服务状态
 ### 计划任务相关的模块
 #### cron
 >用于指定计划任务，和`crontab -e`一样
+
 ```
 # 查看模块参数
 [root@ansible ~]# ansible-doc -s cron
@@ -341,6 +349,7 @@ state:
 ### 系统信息相关的模块
 #### setup
 >用于获取系统信息的一个模块
+
 ```
 # 查看模块参数
 [root@ansible ~]# ansible-doc -s setup
