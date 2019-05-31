@@ -185,7 +185,7 @@ uid=990(test02) gid=985(test02) 组=985(test02)
 [nginx]
 192.168.1.3[1:2]
 ```
-#### 命令行指定变量
+### 命令行指定变量
 >执行`playbook`时候通过参数`-e`传入变量，这样传入的变量在整个`playbook`中都可以被调用，属于全局变量
 
 ```
@@ -201,7 +201,7 @@ uid=990(test02) gid=985(test02) 组=985(test02)
 #执行playbook 指定pkg
 [root@ansible PlayBook]# ansible-playbook -e "pkg=httpd" variables.yml
 ```
-#### hosts文件中定义变量
+### hosts文件中定义变量
 >在`/etc/ansible/hosts`文件中定义变量，可以针对每个主机定义不同的变量，也可以定义一个组的变量，然后直接在`playbook`中直接调用。注意，组中定义的变量没有单个主机中的优先级高。
 
 ```
@@ -233,7 +233,7 @@ webdir=/opt/web
 # 执行playbook
 [root@ansible PlayBook]# ansible-playbook variables.yml
 ```
-#### playbook文件中定义变量
+### playbook文件中定义变量
 >编写`playbook`时，直接在里面定义变量，然后直接引用，可以定义多个变量；注意：如果在执行`playbook`时，又通过`-e`参数指定变量的值，那么会以`-e`参数指定的为准。
 
 ```
@@ -259,7 +259,7 @@ webdir=/opt/web
 # 如果执行时候又重新指定了变量的值，那么会已重新指定的为准
 [root@ansible PlayBook]# ansible-playbook -e "dir=/tmp/test2" variables.yml
 ```
-#### 调用setup模块获取变量
+### 调用setup模块获取变量
 > `setup`模块默认是获取主机信息的，有时候在`playbook`中需要用到，所以可以直接调用。常用的参数[参考](https://buji595.github.io/2019/05/27/Ansible%20Ad-hoc%E5%B8%B8%E7%94%A8Module/#setup)
 
 ```
@@ -277,7 +277,7 @@ webdir=/opt/web
 # 执行playbook
 [root@ansible PlayBook]# ansible-playbook variables.yml
 ```
-#### 独立的变量YAML文件中定义
+### 独立的变量YAML文件中定义
 > 为了方便管理将所有的变量统一放在一个独立的变量`YAML`文件中，`laybook`文件直接引用文件调用变量即可。
 
 ```
