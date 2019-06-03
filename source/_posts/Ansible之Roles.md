@@ -13,19 +13,19 @@ copyright: true
 
 **各目录含义解释**
 ```
-roles:		     <--所有的角色必须放在roles目录下，这个目录可以自定义位置，默认的位置在/etc/ansible/roles
-  project:		 <---具体的角色项目名称，比如nginx、tomcat、php
-    files：		<--用来存放由copy模块或script模块调用的文件。
+roles:          <--所有的角色必须放在roles目录下，这个目录可以自定义位置，默认的位置在/etc/ansible/roles
+  project:      <---具体的角色项目名称，比如nginx、tomcat、php
+    files：     <--用来存放由copy模块或script模块调用的文件。
     templates：	<--用来存放jinjia2模板，template模块会自动在此目录中寻找jinjia2模板文件。
-    tasks：      <--此目录应当包含一个main.yml文件，用于定义此角色的任务列表，此文件可以使用include包含其它的位于此目录的task文件。
+    tasks：     <--此目录应当包含一个main.yml文件，用于定义此角色的任务列表，此文件可以使用include包含其它的位于此目录的task文件。
 	  main.yml
     handlers：	<--此目录应当包含一个main.yml文件，用于定义此角色中触发条件时执行的动作。
 	  main.yml
-    vars：		<--此目录应当包含一个main.yml文件，用于定义此角色用到的变量。
+    vars：	 <--此目录应当包含一个main.yml文件，用于定义此角色用到的变量。
 	  main.yml
     defaults：	<--此目录应当包含一个main.yml文件，用于为当前角色设定默认变量。
 	  main.yml
-    meta：		<--此目录应当包含一个main.yml文件，用于定义此角色的特殊设定及其依赖关系。
+    meta：	<--此目录应当包含一个main.yml文件，用于定义此角色的特殊设定及其依赖关系。
 	  main.yml
 ```
 ## Roles示例
