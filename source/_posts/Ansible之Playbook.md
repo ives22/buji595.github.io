@@ -97,6 +97,7 @@ uid=990(test02) gid=985(test02) 组=985(test02)
 <h1>playbook test file</h1>
 ```
 ## Playbook的运行方式
+
 >通过`ansible-playbook`命令运行
 格式：`ansible-playbook <filename.yml> ... [options]`
 ```
@@ -129,6 +130,7 @@ uid=990(test02) gid=985(test02) 组=985(test02)
       shell: name=df -h
 ```
 > 还可以定义使用`sudo`授权用户执行该任务
+
 ```
   tasks: 
     - name: run df -h

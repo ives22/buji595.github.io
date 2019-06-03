@@ -164,8 +164,8 @@ group    #对copy到远端文件设置属组
 [root@ansible ~]# ansible 192.168.1.31 -m copy -a 'dest=/tmp/passwd src=/etc/passwd mode=700 owner=root group=root'
 ```
 #### fetch
+> 用于从被管理机器上面拉取文件，拉取下来的内容会保留目录结构，一般情况用在收集被管理机器的日志文件等
 
->用于从被管理机器上面拉取文件，拉取下来的内容会保留目录结构，一般情况用在收集被管理机器的日志文件等
 ```
 # 查看模块参数
 [root@ansible ~]# ansible-doc -s fetch
