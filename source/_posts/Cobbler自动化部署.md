@@ -690,7 +690,7 @@ Kickstart                      : /var/lib/cobbler/kickstarts/centos7.ks
 
 ## cobbler Web管理界面配置
 > `web`界面有很多功能，包括上传镜像、编辑`kickstart`、等等很多在命令行操作的都可以在`web`界面直接操作。
-> 在上面已经安装了`cobbler-web`软件，访问地址：https://IP/cobbler_web即可。默认账号为`cobbler`，密码也为`cobbler`
+> 在上面已经安装了`cobbler-web`软件，访问地址：https://IP/cobbler_web 即可。默认账号为`cobbler`，密码也为`cobbler`
 
 ![](Cobbler自动化部署/cobbler08.png)
 
