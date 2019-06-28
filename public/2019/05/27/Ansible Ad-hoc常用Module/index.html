@@ -128,7 +128,7 @@
 <meta property="og:site_name" content="不羁">
 <meta property="og:description" content="Ansible Ad-hoc模式常用模块ansible-doc 常用命令1234567891011# ansible-doc -hUsage: ansible-doc [-l|-F|-s] [options] [-t &amp;lt;plugin type&amp;gt; ] [plugin]-j  以json格式显示所有模块信息-l  列出所有的模块-s  查看模块常用参数# 直接跟模块名，显示模块所有信息[r">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-05-30T04:10:46.771Z">
+<meta property="og:updated_time" content="2019-06-03T10:31:26.336Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Ansible  Module">
 <meta name="twitter:description" content="Ansible Ad-hoc模式常用模块ansible-doc 常用命令1234567891011# ansible-doc -hUsage: ansible-doc [-l|-F|-s] [options] [-t &amp;lt;plugin type&amp;gt; ] [plugin]-j  以json格式显示所有模块信息-l  列出所有的模块-s  查看模块常用参数# 直接跟模块名，显示模块所有信息[r">
@@ -488,8 +488,9 @@
 </blockquote>
 <figure class="highlight coffeescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看模块参数</span></span><br><span class="line">[root@ansible ~]<span class="comment"># ansible-doc -s copy</span></span><br><span class="line">src      <span class="comment">#需要copy的文件的源路径</span></span><br><span class="line">dest     <span class="comment">#需要copy的文件的目标路径</span></span><br><span class="line">backup   <span class="comment">#对copy的文件进行备份</span></span><br><span class="line">content  <span class="comment">#直接在远程主机被管理文件中添加内容，会覆盖原文件内容</span></span><br><span class="line">mode     <span class="comment">#对copy到远端的文件设置权限</span></span><br><span class="line">owner    <span class="comment">#对copy到远端的文件设置属主</span></span><br><span class="line">group    <span class="comment">#对copy到远端文件设置属组</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 复制文件到远程主机并改名</span></span><br><span class="line">[root@ansible ~]<span class="comment"># ansible 192.168.1.31 -m copy -a 'dest=/tmp/a.sh src=/root/ansible_test.sh'</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 复制文件到远程主机，并备份远程文件,安装时间信息备份文件（当更新文件内容后，重新copy时用到）</span></span><br><span class="line">[root@ansible ~]<span class="comment"># ansible 192.168.1.31 -m copy -a 'dest=/tmp/a.sh src=/root/ansible_test.sh backup=yes'</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 直接在远程主机a.sh中添加内容</span></span><br><span class="line">[root@ansible ~]<span class="comment"># ansible 192.168.1.31 -m copy -a 'dest=/tmp/a.sh content="#!/bin/bash\n echo `uptime`"'</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 复制文件到远程主机，并设置权限及属主与属组</span></span><br><span class="line">[root@ansible ~]<span class="comment"># ansible 192.168.1.31 -m copy -a 'dest=/tmp/passwd src=/etc/passwd mode=700 owner=root group=root'</span></span><br></pre></td></tr></table></figure>
 <h4 id="fetch"><a href="#fetch" class="headerlink" title="fetch"></a>fetch</h4><blockquote>
-<p>用于从被管理机器上面拉取文件，拉取下来的内容会保留目录结构，一般情况用在收集被管理机器的日志文件等<br><figure class="highlight livescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看模块参数</span></span><br><span class="line">[root@ansible ~]<span class="comment"># ansible-doc -s fetch</span></span><br><span class="line">src      <span class="comment">#指定需要从远端机器拉取的文件路径</span></span><br><span class="line">dest     <span class="comment">#指定从远端机器拉取下来的文件存放路径</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 从被管理机器上拉取cron日志文件，默认会已管理节点地址创建一个目录，并存放在内</span></span><br><span class="line">[root@ansible ~]<span class="comment"># ansible 192.168.1.31 -m fetch -a 'dest=/tmp src=/var/log/cron'</span></span><br><span class="line"></span><br><span class="line">[root@ansible ~]<span class="comment"># tree /tmp/192.168.1.31/</span></span><br><span class="line"><span class="regexp">/tmp/192.168.1.31/</span></span><br><span class="line">└── <span class="keyword">var</span></span><br><span class="line">    └── log</span><br><span class="line">        └── cron</span><br><span class="line"></span><br><span class="line"><span class="number">2</span> directories, <span class="number">1</span> file</span><br></pre></td></tr></table></figure></p>
+<p>用于从被管理机器上面拉取文件，拉取下来的内容会保留目录结构，一般情况用在收集被管理机器的日志文件等</p>
 </blockquote>
+<figure class="highlight livescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看模块参数</span></span><br><span class="line">[root@ansible ~]<span class="comment"># ansible-doc -s fetch</span></span><br><span class="line">src      <span class="comment">#指定需要从远端机器拉取的文件路径</span></span><br><span class="line">dest     <span class="comment">#指定从远端机器拉取下来的文件存放路径</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 从被管理机器上拉取cron日志文件，默认会已管理节点地址创建一个目录，并存放在内</span></span><br><span class="line">[root@ansible ~]<span class="comment"># ansible 192.168.1.31 -m fetch -a 'dest=/tmp src=/var/log/cron'</span></span><br><span class="line"></span><br><span class="line">[root@ansible ~]<span class="comment"># tree /tmp/192.168.1.31/</span></span><br><span class="line"><span class="regexp">/tmp/192.168.1.31/</span></span><br><span class="line">└── <span class="keyword">var</span></span><br><span class="line">    └── log</span><br><span class="line">        └── cron</span><br><span class="line"></span><br><span class="line"><span class="number">2</span> directories, <span class="number">1</span> file</span><br></pre></td></tr></table></figure>
 <h3 id="用户相关的模块"><a href="#用户相关的模块" class="headerlink" title="用户相关的模块"></a>用户相关的模块</h3><h4 id="user"><a href="#user" class="headerlink" title="user"></a>user</h4><blockquote>
 <p>用于对系统用户的管理，用户的创建、删除、家目录、属组等设置</p>
 </blockquote>
@@ -545,7 +546,7 @@
   <p><span>本文标题:</span><a href="/2019/05/27/Ansible Ad-hoc常用Module/">Ansible  Module</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 Leeyj 的个人博客">Leeyj</a></p>
   <p><span>发布时间:</span>2019年05月27日 - 23:25</p>
-  <p><span>最后更新:</span>2019年05月30日 - 12:10</p>
+  <p><span>最后更新:</span>2019年06月03日 - 18:31</p>
   <p><span>原始链接:</span><a href="/2019/05/27/Ansible Ad-hoc常用Module/" title="Ansible  Module">https://leeyj.coding.me/2019/05/27/Ansible Ad-hoc常用Module/</a>
     <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://leeyj.coding.me/2019/05/27/Ansible Ad-hoc常用Module/" aria-label="复制成功！"></i></span>
   </p>
@@ -702,7 +703,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-count">22</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -713,7 +714,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-count">7</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -724,7 +725,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -838,7 +839,7 @@
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共24.3k字</span>
+  <span class="post-count">博客全站共38.7k字</span>
 </div>
 
         

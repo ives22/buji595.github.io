@@ -129,7 +129,7 @@
 <meta property="og:description" content="Roles介绍 ansible自1.2版本引入的新特性，用于层次性、结构化地组织playbook。roles能够根据层次型结构自动装载变量文件、tasks以及handlers等。要使用roles只需要在playbook中使用include指令引入即可。简单来讲，roles就是通过分别将变量、文件、任务、模板及处理器放置于单独的目录中，并可以便捷的include它们的一种机制。角色一般用于基于主机构">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://leeyj.coding.me/2019/06/03/Ansible之Roles/rolesdir.png">
-<meta property="og:updated_time" content="2019-06-03T09:08:44.948Z">
+<meta property="og:updated_time" content="2019-06-03T09:17:26.557Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Ansible之Roles">
 <meta name="twitter:description" content="Roles介绍 ansible自1.2版本引入的新特性，用于层次性、结构化地组织playbook。roles能够根据层次型结构自动装载变量文件、tasks以及handlers等。要使用roles只需要在playbook中使用include指令引入即可。简单来讲，roles就是通过分别将变量、文件、任务、模板及处理器放置于单独的目录中，并可以便捷的include它们的一种机制。角色一般用于基于主机构">
@@ -472,7 +472,7 @@
 <p><code>ansible</code>自<code>1.2</code>版本引入的新特性，用于层次性、结构化地组织<code>playbook</code>。<code>roles</code>能够根据层次型结构自动装载变量文件、<code>tasks</code>以及<code>handlers</code>等。要使用<code>roles</code>只需要在<code>playbook</code>中使用<code>include</code>指令引入即可。简单来讲，<code>roles</code>就是通过分别将变量、文件、任务、模板及处理器放置于单独的目录中，并可以便捷的<code>include</code>它们的一种机制。角色一般用于基于主机构建服务的场景中，但也可以是用于构建守护进程等场景中。主要使用场景代码复用度较高的情况下。</p>
 </blockquote>
 <h2 id="Roles目录结构"><a href="#Roles目录结构" class="headerlink" title="Roles目录结构"></a>Roles目录结构</h2><p><img src="/2019/06/03/Ansible之Roles/rolesdir.png" alt="rolesdir.png"></p>
-<p><strong>各目录含义解释</strong><br><figure class="highlight elm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">roles</span>:		     &lt;--所有的角色必须放在roles目录下，这个目录可以自定义位置，默认的位置在/etc/ansible/roles</span><br><span class="line">  project:		 &lt;-<span class="comment">--具体的角色项目名称，比如nginx、tomcat、php</span></span><br><span class="line">    files：		&lt;--用来存放由copy模块或script模块调用的文件。</span><br><span class="line">    templates：	&lt;--用来存放jinjia2模板，template模块会自动在此目录中寻找jinjia2模板文件。</span><br><span class="line">    tasks：      &lt;--此目录应当包含一个main.yml文件，用于定义此角色的任务列表，此文件可以使用include包含其它的位于此目录的task文件。</span><br><span class="line">	  main.yml</span><br><span class="line">    handlers：	&lt;--此目录应当包含一个main.yml文件，用于定义此角色中触发条件时执行的动作。</span><br><span class="line">	  main.yml</span><br><span class="line">    vars：		&lt;--此目录应当包含一个main.yml文件，用于定义此角色用到的变量。</span><br><span class="line">	  main.yml</span><br><span class="line">    defaults：	&lt;--此目录应当包含一个main.yml文件，用于为当前角色设定默认变量。</span><br><span class="line">	  main.yml</span><br><span class="line">    meta：		&lt;--此目录应当包含一个main.yml文件，用于定义此角色的特殊设定及其依赖关系。</span><br><span class="line">	  main.yml</span><br></pre></td></tr></table></figure></p>
+<p><strong>各目录含义解释</strong><br><figure class="highlight elm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">roles</span>:          &lt;--所有的角色必须放在roles目录下，这个目录可以自定义位置，默认的位置在/etc/ansible/roles</span><br><span class="line">  project:      &lt;-<span class="comment">--具体的角色项目名称，比如nginx、tomcat、php</span></span><br><span class="line">    files：     &lt;--用来存放由copy模块或script模块调用的文件。</span><br><span class="line">    templates：	&lt;--用来存放jinjia2模板，template模块会自动在此目录中寻找jinjia2模板文件。</span><br><span class="line">    tasks：     &lt;--此目录应当包含一个main.yml文件，用于定义此角色的任务列表，此文件可以使用include包含其它的位于此目录的task文件。</span><br><span class="line">	  main.yml</span><br><span class="line">    handlers：	&lt;--此目录应当包含一个main.yml文件，用于定义此角色中触发条件时执行的动作。</span><br><span class="line">	  main.yml</span><br><span class="line">    vars：	 &lt;--此目录应当包含一个main.yml文件，用于定义此角色用到的变量。</span><br><span class="line">	  main.yml</span><br><span class="line">    defaults：	&lt;--此目录应当包含一个main.yml文件，用于为当前角色设定默认变量。</span><br><span class="line">	  main.yml</span><br><span class="line">    meta：	&lt;--此目录应当包含一个main.yml文件，用于定义此角色的特殊设定及其依赖关系。</span><br><span class="line">	  main.yml</span><br></pre></td></tr></table></figure></p>
 <h2 id="Roles示例"><a href="#Roles示例" class="headerlink" title="Roles示例"></a>Roles示例</h2><blockquote>
 <p>通过<code>ansible roles</code>安装配置<code>httpd</code>服务，此处的<code>roles</code>使用默认的路径<code>/etc/ansible/roles</code></p>
 </blockquote>
@@ -517,7 +517,7 @@
   <p><span>本文标题:</span><a href="/2019/06/03/Ansible之Roles/">Ansible之Roles</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 Leeyj 的个人博客">Leeyj</a></p>
   <p><span>发布时间:</span>2019年06月03日 - 10:35</p>
-  <p><span>最后更新:</span>2019年06月03日 - 17:08</p>
+  <p><span>最后更新:</span>2019年06月03日 - 17:17</p>
   <p><span>原始链接:</span><a href="/2019/06/03/Ansible之Roles/" title="Ansible之Roles">https://leeyj.coding.me/2019/06/03/Ansible之Roles/</a>
     <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://leeyj.coding.me/2019/06/03/Ansible之Roles/" aria-label="复制成功！"></i></span>
   </p>
@@ -587,6 +587,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/06/05/Ansible项目实战lnmp/" rel="prev" title="Ansible项目实战lnmp">
+                Ansible项目实战lnmp <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -670,7 +674,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-count">22</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -681,7 +685,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-count">7</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -692,7 +696,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -806,7 +810,7 @@
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共26.5k字</span>
+  <span class="post-count">博客全站共38.7k字</span>
 </div>
 
         

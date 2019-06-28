@@ -137,7 +137,7 @@
 <meta property="og:image" content="https://leeyj.coding.me/2019/06/12/Cobbler自动化部署/cobbler06.png">
 <meta property="og:image" content="https://leeyj.coding.me/2019/06/12/Cobbler自动化部署/cobbler07.png">
 <meta property="og:image" content="https://leeyj.coding.me/2019/06/12/Cobbler自动化部署/cobbler08.png">
-<meta property="og:updated_time" content="2019-06-13T06:59:35.385Z">
+<meta property="og:updated_time" content="2019-06-13T07:13:52.106Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Cobbler自动化部署">
 <meta name="twitter:description" content="cobbler简介 Cobbler 可以用来快速建立 Linux 网络安装环境，它已将Linux网络安装的技术门槛，从大专以上文化水平，成功降低到了初中水平，连补鞋匠都能学会。网络安装服务器套件Cobbler（补鞋匠）从前，我们一直在装机民工这份很有前途的职业。自打若干年前Red Hat推出了 Kickstart，此后我们顿觉身价增倍。不再需要刻了光盘一台一台的安装Linux，只要搞定PXE、DH">
@@ -621,7 +621,7 @@
 <p>说明：在<code>client</code>端系统安装时，可以在<code>cobbler</code>服务端上查看日志<code>/var/log/messages</code>，观察安装的每一个<code>cobbler</code>流程</p>
 </blockquote>
 <h2 id="cobbler-Web管理界面配置"><a href="#cobbler-Web管理界面配置" class="headerlink" title="cobbler Web管理界面配置"></a>cobbler Web管理界面配置</h2><blockquote>
-<p><code>web</code>界面有很多功能，包括上传镜像、编辑<code>kickstart</code>、等等很多在命令行操作的都可以在<code>web</code>界面直接操作。<br>在上面已经安装了<code>cobbler-web</code>软件，访问地址：<a href="https://IP/cobbler_web即可。默认账号为`cobbler`，密码也为`cobbler`" target="_blank" rel="noopener">https://IP/cobbler_web即可。默认账号为`cobbler`，密码也为`cobbler`</a></p>
+<p><code>web</code>界面有很多功能，包括上传镜像、编辑<code>kickstart</code>、等等很多在命令行操作的都可以在<code>web</code>界面直接操作。<br>在上面已经安装了<code>cobbler-web</code>软件，访问地址：<a href="https://IP/cobbler_web" target="_blank" rel="noopener">https://IP/cobbler_web</a> 即可。默认账号为<code>cobbler</code>，密码也为<code>cobbler</code></p>
 </blockquote>
 <p><img src="/2019/06/12/Cobbler自动化部署/cobbler08.png" alt></p>
 <p><strong>修改密码</strong><br><figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">/etc/cobbler/users.conf     <span class="meta">#Web服务授权配置文件</span></span><br><span class="line">/etc/cobbler/users.digest   <span class="meta">#用于web访问的用户名密码</span></span><br><span class="line"></span><br><span class="line">[root<span class="symbol">@cobbler</span> ~]<span class="meta"># cat /etc/cobbler/users.digest </span></span><br><span class="line">cobbler:Cobbler:a2d6bae81669d707b72c0bd9806e01f3</span><br><span class="line"></span><br><span class="line"><span class="meta"># 设置密码，在Cobbler组添加cobbler用户，输入2遍密码确</span></span><br><span class="line">[root<span class="symbol">@cobbler</span> ~]<span class="meta"># htdigest /etc/cobbler/users.digest <span class="string">"Cobbler"</span> cobbler</span></span><br><span class="line">Changing password <span class="keyword">for</span> user cobbler <span class="keyword">in</span> realm Cobbler</span><br><span class="line">New password: superman</span><br><span class="line">Re-type new password: superman</span><br><span class="line"></span><br><span class="line"><span class="meta"># 同步配置并重启httpd、cobbler</span></span><br><span class="line">[root<span class="symbol">@cobbler</span> ~]<span class="meta"># cobbler sync</span></span><br><span class="line">[root<span class="symbol">@cobbler</span> ~]<span class="meta"># systemctl restart httpd</span></span><br><span class="line">[root<span class="symbol">@cobbler</span> ~]<span class="meta"># systemctl restart cobblerd</span></span><br></pre></td></tr></table></figure></p>
@@ -654,7 +654,7 @@
   <p><span>本文标题:</span><a href="/2019/06/12/Cobbler自动化部署/">Cobbler自动化部署</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 Leeyj 的个人博客">Leeyj</a></p>
   <p><span>发布时间:</span>2019年06月12日 - 10:10</p>
-  <p><span>最后更新:</span>2019年06月13日 - 14:59</p>
+  <p><span>最后更新:</span>2019年06月13日 - 15:13</p>
   <p><span>原始链接:</span><a href="/2019/06/12/Cobbler自动化部署/" title="Cobbler自动化部署">https://leeyj.coding.me/2019/06/12/Cobbler自动化部署/</a>
     <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://leeyj.coding.me/2019/06/12/Cobbler自动化部署/" aria-label="复制成功！"></i></span>
   </p>
@@ -724,6 +724,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/06/26/Tomcat+Nginx+Memcached综合案例/" rel="prev" title="Tomcat+Nginx+Memcached综合案例">
+                Tomcat+Nginx+Memcached综合案例 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -807,7 +811,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">20</span>
+                  <span class="site-state-item-count">22</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -818,7 +822,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-count">7</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -829,7 +833,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -943,7 +947,7 @@
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共32.3k字</span>
+  <span class="post-count">博客全站共38.7k字</span>
 </div>
 
         
