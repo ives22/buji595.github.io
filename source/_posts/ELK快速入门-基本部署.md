@@ -1,6 +1,6 @@
 ---
 title: ELK快速入门-基本部署
-date: 2019-05-27 23:25:22
+date: 2019-07-05 12:25:22
 tags: ELK
 categories: ELK
 copyright: true
@@ -31,10 +31,10 @@ copyright: true
 ## ELK部署环境准备
 > 这里实验所使用系统`CentOS 7.4 x86_64`，服务器信息如下。并关闭防火墙和`selinux`，及`host`绑定等。本文所使用所有的软件包 [下载](https://pan.baidu.com/s/1ighWPeYVqK6AGZQn55Y_pw)  提取码：`ow1b`
 
-| IPAddr       | HostName               | Mem  |      |
-| ------------ | ---------------------- | ---- | ---- |
-| 192.168.1.31 | linux-elk1.exmaple.com | 3G   |      |
-| 192.168.1.32 | linux-elk2.exmaple.com | 3G   |      |
+| IPAddr       | HostName               | Mem  
+| ------------ | ---------------------- | ---- 
+| 192.168.1.31 | linux-elk1.exmaple.com | 3G   
+| 192.168.1.32 | linux-elk2.exmaple.com | 3G   
 
 ```
 epel源配置
