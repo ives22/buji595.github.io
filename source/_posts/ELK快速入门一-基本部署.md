@@ -1,5 +1,5 @@
 ---
-title: ELK快速入门(一)-基本部署
+title: ELK快速入门一-基本部署
 date: 2019-07-05 12:25:22
 tags: ELK
 categories: ELK
@@ -144,8 +144,8 @@ tcp6       0      0 192.168.1.32:9200       :::*                    LISTEN      
 tcp6       0      0 192.168.1.32:9300       :::*                    LISTEN      18667/java 
 ```
 通过浏览器访问`elasticsearch`端口
-![elk01.png](ELK快速入门(一)-基本部署/elk01.png)
-![elk02.png](ELK快速入门(一)-基本部署/elk02.png)
+![elk01.png](ELK快速入门一-基本部署/elk01.png)
+![elk02.png](ELK快速入门一-基本部署/elk02.png)
 
 
 
@@ -279,17 +279,17 @@ esac
 
 
 2）浏览器访问`9100端口`，将连接地址修改为`elasticsearch`地址。
-![elk03.png](ELK快速入门(一)-基本部署/elk03.png)
-![elk04.png](ELK快速入门(一)-基本部署/elk04.png)
+![elk03.png](ELK快速入门一-基本部署/elk03.png)
+![elk04.png](ELK快速入门一-基本部署/elk04.png)
 
 3）测试提交数据
-![elk05.png](ELK快速入门(一)-基本部署/elk05.png)
+![elk05.png](ELK快速入门一-基本部署/elk05.png)
 
 4）验证索引是否存在
-![elk06.png](ELK快速入门(一)-基本部署/elk06.png)
+![elk06.png](ELK快速入门一-基本部署/elk06.png)
 
 5）查看数据
-![elk07.png](ELK快速入门(一)-基本部署/elk07.png)
+![elk07.png](ELK快速入门一-基本部署/elk07.png)
 
 6）Master和Slave的区别：
 >`Master`的职责：
@@ -340,7 +340,7 @@ hello world   #输入
 drwxr-xr-x. 8 elasticsearch elasticsearch 65 7月   4 17:23 4jaihRq6Qu6NQWVxbuRQZg
 drwxr-xr-x. 8 elasticsearch elasticsearch 65 7月   4 17:22 kkd_RCldSeaCX3y1XKzdgA
 ```
-![elk08.png](ELK快速入门(一)-基本部署/elk08.png)
+![elk08.png](ELK快速入门一-基本部署/elk08.png)
 
 
 
@@ -367,7 +367,7 @@ i18n.locale: "zh-CN"    #修改为中文
 LISTEN     0      128    192.168.1.31:5601                     *:*
 ```
 ### 查看状态
-![elk09.png](ELK快速入门(一)-基本部署/elk09.png)
+![elk09.png](ELK快速入门一-基本部署/elk09.png)
 
 
 
@@ -412,13 +412,13 @@ Configuration OK
 [root@linux-elk1 ~]# systemctl  restart logstash
 ```
 4）elasticsearch界面查看并查询
-![elk10.png](ELK快速入门(一)-基本部署/elk10.png)
-![elk11.png](ELK快速入门(一)-基本部署/elk11.png)
+![elk10.png](ELK快速入门一-基本部署/elk10.png)
+![elk11.png](ELK快速入门一-基本部署/elk11.png)
 5）kibana界面创建索引并查看
-![elk12.png](ELK快速入门(一)-基本部署/elk12.png)
-![elk13.png](ELK快速入门(一)-基本部署/elk13.png)
-![elk14.png](ELK快速入门(一)-基本部署/elk14.png)
-![elk15.png](ELK快速入门(一)-基本部署/elk15.png)
+![elk12.png](ELK快速入门一-基本部署/elk12.png)
+![elk13.png](ELK快速入门一-基本部署/elk13.png)
+![elk14.png](ELK快速入门一-基本部署/elk14.png)
+![elk15.png](ELK快速入门一-基本部署/elk15.png)
 
 
 
