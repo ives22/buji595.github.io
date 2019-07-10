@@ -1,5 +1,5 @@
 ---
-title: ELK快速入门-基本部署
+title: ELK快速入门(一)-基本部署
 date: 2019-07-05 12:25:22
 tags: ELK
 categories: ELK
