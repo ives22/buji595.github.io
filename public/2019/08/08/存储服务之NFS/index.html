@@ -107,7 +107,7 @@
 
 
 
-  <meta name="keywords" content="Ansible,">
+  <meta name="keywords" content="Storage,">
 
 
 
@@ -120,21 +120,23 @@
 
 
 
-<meta name="description" content="介绍 Ansible是一款简单的运维自动化工具，只需要使用ssh协议连接就可以来进行系统管理，自动化执行命令，部署等任务。  Ansible的特点  1、ansible不需要单独安装客户端，也不需要启动任何服务2、ansible是python中的一套完整的自动化执行任务模块3、ansible playbook 采用yaml配置，对于自动化任务执行过一目了然  Ansible组成结构  Ansibl">
-<meta name="keywords" content="Ansible">
+<meta name="description" content="NFS介绍官方文档  NFS（Network File System）即网络文件系统，它最大的功能就是通过TCP/IP网络共享资源。在NFS的应用中，本地NFS的客户端应用可以透明地读写位于远端NFS服务器上的文件，就像访问本地文件一样。   NFS客户端一般是应用服务器（比如web，负载均衡等），可以通过挂载的方式将NFS服务器端共享的目录挂载到NFS客户端本地的目录下。   因为NFS支持的功">
+<meta name="keywords" content="Storage">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Ansible快速入门">
-<meta property="og:url" content="https://leeyj.coding.me/2019/05/26/Ansible快速入门/index.html">
+<meta property="og:title" content="存储服务之NFS">
+<meta property="og:url" content="https://leeyj.coding.me/2019/08/08/存储服务之NFS/index.html">
 <meta property="og:site_name" content="不羁">
-<meta property="og:description" content="介绍 Ansible是一款简单的运维自动化工具，只需要使用ssh协议连接就可以来进行系统管理，自动化执行命令，部署等任务。  Ansible的特点  1、ansible不需要单独安装客户端，也不需要启动任何服务2、ansible是python中的一套完整的自动化执行任务模块3、ansible playbook 采用yaml配置，对于自动化任务执行过一目了然  Ansible组成结构  Ansibl">
+<meta property="og:description" content="NFS介绍官方文档  NFS（Network File System）即网络文件系统，它最大的功能就是通过TCP/IP网络共享资源。在NFS的应用中，本地NFS的客户端应用可以透明地读写位于远端NFS服务器上的文件，就像访问本地文件一样。   NFS客户端一般是应用服务器（比如web，负载均衡等），可以通过挂载的方式将NFS服务器端共享的目录挂载到NFS客户端本地的目录下。   因为NFS支持的功">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://leeyj.coding.me/2019/05/26/Ansible快速入门/ansible01.png">
-<meta property="og:image" content="https://leeyj.coding.me/2019/05/26/Ansible快速入门/ansible02.png">
-<meta property="og:updated_time" content="2019-07-10T01:46:29.899Z">
+<meta property="og:image" content="https://leeyj.coding.me/2019/08/08/存储服务之NFS/01.png">
+<meta property="og:image" content="https://leeyj.coding.me/2019/08/08/存储服务之NFS/02.png">
+<meta property="og:image" content="https://leeyj.coding.me/2019/08/08/存储服务之NFS/03.png">
+<meta property="og:image" content="https://leeyj.coding.me/2019/08/08/存储服务之NFS/04.png">
+<meta property="og:updated_time" content="2019-08-09T09:48:34.150Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Ansible快速入门">
-<meta name="twitter:description" content="介绍 Ansible是一款简单的运维自动化工具，只需要使用ssh协议连接就可以来进行系统管理，自动化执行命令，部署等任务。  Ansible的特点  1、ansible不需要单独安装客户端，也不需要启动任何服务2、ansible是python中的一套完整的自动化执行任务模块3、ansible playbook 采用yaml配置，对于自动化任务执行过一目了然  Ansible组成结构  Ansibl">
-<meta name="twitter:image" content="https://leeyj.coding.me/2019/05/26/Ansible快速入门/ansible01.png">
+<meta name="twitter:title" content="存储服务之NFS">
+<meta name="twitter:description" content="NFS介绍官方文档  NFS（Network File System）即网络文件系统，它最大的功能就是通过TCP/IP网络共享资源。在NFS的应用中，本地NFS的客户端应用可以透明地读写位于远端NFS服务器上的文件，就像访问本地文件一样。   NFS客户端一般是应用服务器（比如web，负载均衡等），可以通过挂载的方式将NFS服务器端共享的目录挂载到NFS客户端本地的目录下。   因为NFS支持的功">
+<meta name="twitter:image" content="https://leeyj.coding.me/2019/08/08/存储服务之NFS/01.png">
 
 
 
@@ -164,13 +166,13 @@
 
 
 
-  <link rel="canonical" href="https://leeyj.coding.me/2019/05/26/Ansible快速入门/">
+  <link rel="canonical" href="https://leeyj.coding.me/2019/08/08/存储服务之NFS/">
 
 
 
 
 
-  <title>Ansible快速入门 | 不羁</title>
+  <title>存储服务之NFS | 不羁</title>
   
 
 
@@ -339,7 +341,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://leeyj.coding.me/2019/05/26/Ansible快速入门/">
+    <link itemprop="mainEntityOfPage" href="https://leeyj.coding.me/2019/08/08/存储服务之NFS/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Leeyj">
@@ -356,7 +358,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Ansible快速入门</h1>
+          <h1 class="post-title" itemprop="name headline">存储服务之NFS</h1>
         
 
         <div class="post-meta">
@@ -368,8 +370,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-26T22:35:22+08:00">
-                2019-05-26
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-08T15:00:35+08:00">
+                2019-08-08
               </time>
             
 
@@ -391,8 +393,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Ansible/" itemprop="url" rel="index">
-                    <span itemprop="name">Ansible</span>
+                  <a href="/categories/Storage/" itemprop="url" rel="index">
+                    <span itemprop="name">Storage</span>
                   </a>
                 </span>
 
@@ -409,8 +411,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2019/05/26/Ansible快速入门/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/05/26/Ansible快速入门/" itemprop="commentCount"></span>
+                <a href="/2019/08/08/存储服务之NFS/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/08/08/存储服务之NFS/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -432,7 +434,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  1.6k
+                  2.4k
                 </span>
               
 
@@ -448,7 +450,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  7
+                  10
                 </span>
               
             </div>
@@ -469,90 +471,84 @@
       
 
       
-        <h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><blockquote>
-<p><code>Ansible</code>是一款简单的运维自动化工具，只需要使用<code>ssh</code>协议连接就可以来进行系统管理，自动化执行命令，部署等任务。</p>
-</blockquote>
-<p><strong>Ansible的特点</strong></p>
+        <h2 id="NFS介绍"><a href="#NFS介绍" class="headerlink" title="NFS介绍"></a>NFS介绍</h2><p><a href="http://nfs.sourceforge.net/nfs-howto/" target="_blank" rel="noopener">官方文档</a></p>
 <blockquote>
-<p>1、ansible不需要单独安装客户端，也不需要启动任何服务<br>2、ansible是python中的一套完整的自动化执行任务模块<br>3、ansible playbook 采用yaml配置，对于自动化任务执行过一目了然</p>
+<p><code>NFS（Network File System）</code>即网络文件系统，它最大的功能就是通过<code>TCP/IP</code>网络共享资源。在<code>NFS</code>的应用中，本地<code>NFS</code>的客户端应用可以透明地读写位于远端<code>NFS</code>服务器上的文件，就像访问本地文件一样。</p>
 </blockquote>
-<p><strong>Ansible组成结构</strong></p>
-<ul>
-<li>Ansible<br>是<code>Ansible</code>的命令工具，核心执行工具；一次性或临时执行的操作都是通过该命令执行。</li>
-<li>Ansible Playbook<br>任务剧本（又称任务集），编排定义<code>Ansible</code>任务集的配置文件，由<code>Ansible</code>顺序依次执行，<code>yaml</code>格式。</li>
-<li>Inventory<br><code>Ansible</code>管理主机的清单，默认是<code>/etc/ansible/hosts</code>文件。</li>
-<li>Modules<br><code>Ansible</code>执行命令的功能模块，<code>Ansible2.3</code>版本为止，共有<code>1039</code>个模块。还可以自定义模块。</li>
-<li>Plugins<br>插件，模块功能的补充，常有连接类型插件，循环插件，变量插件，过滤插件，插件功能用的较少。</li>
-<li>API<br>提供给第三方程序调用的应用程序编程接口。</li>
-</ul>
-<h2 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h2><table>
+<blockquote>
+<p><code>NFS</code>客户端一般是应用服务器（比如<code>web</code>，负载均衡等），可以通过挂载的方式将<code>NFS</code>服务器端共享的目录挂载到<code>NFS</code>客户端本地的目录下。</p>
+</blockquote>
+<blockquote>
+<p>因为<code>NFS</code>支持的功能相当的多，而不同的功能都会使用不同的程序来启动，每启动一个功能就会启用一些端口来传输数据，因此，<code>NFS</code>的功能所对应的端口才没有固定住，而是随机取用一些未被使用的小于<code>1024</code>的端口来作为传输之用。但如此一来又造成了客户端想要连上服务器时的困扰，因为客户端得要知道服务器端的相关端口才能够进行连接。</p>
+</blockquote>
+<blockquote>
+<p>因此就需要远程过程调用<code>(RPC)</code>的服务，<code>RPC</code>最主要的功能就是在指定每个<code>NFS</code>功能所对应的<code>port number</code>，并且回报给客户端，让客户端可以连接正确的端口上去。那<code>RPC</code>又是如何知道每个<code>NFS</code>的端口呢？这是因为当服务器在启动<code>NFS</code>时会随机取用数个端口，并主动的想<code>RPC</code>注册，因此<code>RPC</code>可以知道每个端口对应的<code>NFS</code>功能，然后<code>RPC</code>又是固定使用<code>port 111</code>来监听客户端的需求并回报给客户端正确的端口，所以当然可以让<code>NFS</code>的启动更为轻松愉快了。</p>
+</blockquote>
+<blockquote>
+<p><code>NFS</code>在文件传送过程中依赖与<code>RPC</code>（远程过程调用）协议。<code>NFS</code>本身是没有提供信息传送的协议和功能的，但是能够用过网络进行图片，视频，附件等分享功能。只要用到NFS的地方都需要启动<code>RPC</code>服务，不论是<code>NFS</code>的服务端还是客户端。</p>
+</blockquote>
+<blockquote>
+<p><code>NFS</code>和<code>RPC</code>的关系：可以理解为<code>NFS</code>是一个网络文件系统（比喻为租房的房主），而<code>RPC</code>是负责信息的传输（中介），客户端（相当于租房的租客）。</p>
+</blockquote>
+<h3 id="NFS网络文件系统存在的意义"><a href="#NFS网络文件系统存在的意义" class="headerlink" title="NFS网络文件系统存在的意义"></a>NFS网络文件系统存在的意义</h3><p>实现数据共享，数据保持一致。如图所示：<br><img src="/2019/08/08/存储服务之NFS/01.png" alt="image.png"></p>
+<h3 id="NFS网络文件系统工作方式"><a href="#NFS网络文件系统工作方式" class="headerlink" title="NFS网络文件系统工作方式"></a>NFS网络文件系统工作方式</h3><blockquote>
+<p>1、在<code>nfs</code>服务器端创建共享目录<br>2、通过<code>mount</code>网络挂载，将<code>NFS</code>服务端共享目录挂载到<code>NFS</code>客户端本地目录<br>3、<code>NFS</code>客户端在挂载目录上创建、删除、查看数据等操作，等价于在服务端进行的创建、删除、查看数据等操作。</p>
+</blockquote>
+<p><img src="/2019/08/08/存储服务之NFS/02.png" alt="01.png"><br>如上图所示，在<code>NFS</code>服务器端设置一个共享目录<code>/web</code>后，其他有权限访问<code>NFS</code>服务器端的客户端都可以将这个共享目录<code>/web</code>挂载到客户端本地的某个挂载点（其实就是一个目录，这个挂载点可以自己随意指定），不同的客户端的挂载点可以不相同。<br>客户端正确挂载完毕后，就可以通过<code>NFS</code>客户端的挂载点所在的<code>/opt/www</code>目录查看到<code>NFS</code>服务端<code>/web</code>共享出来的目录下的所有数据。在客户端查看时，<code>NFS</code>服务端的<code>/web</code>目录就相当于客户端本地的磁盘分区或目录，几乎感觉不到使用上的区别，根据<code>NFS</code>服务器端授予的<code>NFS</code>共享权限以及共享目录的本地系统权限，只要在指定的<code>NFS</code>客户端操作挂载的<code>/opt/www</code>目录，就可以将数据轻松的存取到<code>NFS</code>服务器端上的<code>/web</code>目录中了。</p>
+<h3 id="NFS工作流程"><a href="#NFS工作流程" class="headerlink" title="NFS工作流程"></a>NFS工作流程</h3><p><img src="/2019/08/08/存储服务之NFS/03.png" alt="02.png"></p>
+<h3 id="RPC服务工作原理"><a href="#RPC服务工作原理" class="headerlink" title="RPC服务工作原理"></a>RPC服务工作原理</h3><p><img src="/2019/08/08/存储服务之NFS/04.png" alt="image.png"></p>
+<h2 id="NFS部署示例"><a href="#NFS部署示例" class="headerlink" title="NFS部署示例"></a>NFS部署示例</h2><h3 id="环境规划"><a href="#环境规划" class="headerlink" title="环境规划"></a>环境规划</h3><table>
 <thead>
 <tr>
-<th style="text-align:center">IP</th>
-<th style="text-align:center">系统</th>
-<th style="text-align:center">主机名</th>
-<th style="text-align:center">描述</th>
+<th>操作系统</th>
+<th>角色</th>
+<th>IP</th>
+<th>HOST</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align:center">192.168.1.30</td>
-<td style="text-align:center">CentOS7</td>
-<td style="text-align:center">ansible</td>
-<td style="text-align:center">ansible管理节点</td>
+<td>CentOS release 7.4</td>
+<td>NFS Server</td>
+<td>192.168.1.31</td>
+<td>nfs-server.com</td>
 </tr>
 <tr>
-<td style="text-align:center">192.168.1.31</td>
-<td style="text-align:center">CentOS7</td>
-<td style="text-align:center">linux.node01.com</td>
-<td style="text-align:center">被管理节点1</td>
+<td>CentOS release 7.4</td>
+<td>NFS Client1 (web server1)</td>
+<td>192.168.1.32</td>
+<td>nfs-client1.com</td>
 </tr>
 <tr>
-<td style="text-align:center">192.168.1.32</td>
-<td style="text-align:center">CentOS7</td>
-<td style="text-align:center">linux.node02.com</td>
-<td style="text-align:center">被管理节点2</td>
-</tr>
-<tr>
-<td style="text-align:center">192.168.1.33</td>
-<td style="text-align:center">CentOS7</td>
-<td style="text-align:center">linux.node03.com</td>
-<td style="text-align:center">被管理节点3</td>
-</tr>
-<tr>
-<td style="text-align:center">192.168.1.36</td>
-<td style="text-align:center">CentOS6</td>
-<td style="text-align:center">linux.node06.com</td>
-<td style="text-align:center">被管理节点6</td>
+<td>CentOS release 7.4</td>
+<td>NFS Client2 (web server2)</td>
+<td>192.168.1.33</td>
+<td>nfs-client2.com</td>
 </tr>
 </tbody>
 </table>
-<h2 id="Ansible安装"><a href="#Ansible安装" class="headerlink" title="Ansible安装"></a>Ansible安装</h2><p>1）配置<code>epel</code>源<br><figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root<span class="symbol">@ansible</span> ~]<span class="meta"># wget -O /etc/yum.repos.d/epel.repo http://mirrors.aliyun.com/repo/epel-7.repo</span></span><br><span class="line">[root<span class="symbol">@ansible</span> ~]<span class="meta"># yum clean all</span></span><br><span class="line">[root<span class="symbol">@ansible</span> ~]<span class="meta"># yum makecache</span></span><br></pre></td></tr></table></figure></p>
-<p>2）安装<code>ansible</code><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[root@ansible ~]<span class="comment"># yum -y install ansible</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看ansible版本</span></span><br><span class="line">[root@ansible ~]<span class="comment"># ansible --version</span></span><br><span class="line">ansible <span class="number">2.8</span><span class="number">.0</span></span><br><span class="line">  config file = /etc/ansible/ansible.cfg</span><br><span class="line">  configured module search path = [<span class="string">u'/root/.ansible/plugins/modules'</span>, <span class="string">u'/usr/share/ansible/plugins/modules'</span>]</span><br><span class="line">  ansible python module location = /usr/lib/python2<span class="number">.7</span>/site-packages/ansible</span><br><span class="line">  executable location = /usr/bin/ansible</span><br><span class="line">  python version = <span class="number">2.7</span><span class="number">.5</span> (default, Aug  <span class="number">4</span> <span class="number">2017</span>, <span class="number">00</span>:<span class="number">39</span>:<span class="number">18</span>) [GCC <span class="number">4.8</span><span class="number">.5</span> <span class="number">20150623</span> (Red Hat <span class="number">4.8</span><span class="number">.5</span><span class="number">-16</span>)]</span><br></pre></td></tr></table></figure></p>
-<h2 id="Ansible-Inventory文件"><a href="#Ansible-Inventory文件" class="headerlink" title="Ansible Inventory文件"></a>Ansible Inventory文件</h2><p><a href="http://www.ansible.com.cn/docs/intro_inventory.html" target="_blank" rel="noopener">Inventory中文文档</a></p>
 <blockquote>
-<p><code>Inventory</code>文件通常用于定义要管理的主机的认证信息，例如<code>ssh</code>登录用户名、密码以及<code>key</code>相关信息。可以同时操作一个组的多台主机，组与主机组之间的关系都是通过<code>inventory</code>文件配置。配置文件路径为：<code>/etc/ansible/hosts</code></p>
+<p>这里<code>NFS</code>客户端是<code>web</code>服务器，站点目录挂载<code>NFS</code>服务端。<br>实验环境关闭防火墙、selinux、时间同步等</p>
 </blockquote>
-<h3 id="基于密码连接"><a href="#基于密码连接" class="headerlink" title="基于密码连接"></a>基于密码连接</h3><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">[root@ansible ~]# vim /etc/ansible/hosts</span><br><span class="line"><span class="comment"># 方法一 主机+端口+密码</span></span><br><span class="line">[webserver]</span><br><span class="line">192.168.1.31 <span class="attribute">ansible_ssh_port</span>=22 <span class="attribute">ansible_ssh_user</span>=root <span class="attribute">ansible_ssh_pass</span>=<span class="string">"123456"</span></span><br><span class="line">192.168.1.32 <span class="attribute">ansible_ssh_port</span>=22 <span class="attribute">ansible_ssh_user</span>=root <span class="attribute">ansible_ssh_pass</span>=<span class="string">"123456"</span></span><br><span class="line">192.168.1.33 <span class="attribute">ansible_ssh_port</span>=22 <span class="attribute">ansible_ssh_user</span>=root <span class="attribute">ansible_ssh_pass</span>=<span class="string">"123456"</span></span><br><span class="line">192.168.1.36 <span class="attribute">ansible_ssh_port</span>=22 <span class="attribute">ansible_ssh_user</span>=root <span class="attribute">ansible_ssh_pass</span>=<span class="string">"123456"</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 方法二 主机+端口+密码</span></span><br><span class="line">[webserver]</span><br><span class="line">192.168.1.3[1:3] <span class="attribute">ansible_ssh_user</span>=root <span class="attribute">ansible_ssh_pass</span>=<span class="string">"123456"</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 方法二 主机+端口+密码</span></span><br><span class="line">[webserver]</span><br><span class="line">192.168.1.3[1:3]</span><br><span class="line">[webserver:vars]</span><br><span class="line"><span class="attribute">ansible_ssh_pass</span>=<span class="string">"123456"</span></span><br></pre></td></tr></table></figure>
-<h3 id="基于秘钥连接"><a href="#基于秘钥连接" class="headerlink" title="基于秘钥连接"></a>基于秘钥连接</h3><blockquote>
-<p>基于秘钥连接需要先创建公钥和私钥，并发送给被管理机器</p>
-</blockquote>
-<p>1）生成公私钥<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@ansible ~]# ssh-keygen</span><br><span class="line">[root@ansible ~]# for i in &#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">6</span>&#125;; do ssh-copy-id -i <span class="number">192.168</span><span class="number">.1</span><span class="number">.3</span>$i ; done</span><br></pre></td></tr></table></figure></p>
-<p>2）配置连接<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">[root@ansible ~]# vim /etc/ansible/hosts</span><br><span class="line"><span class="comment"># 方法一 主机+端口+密钥</span></span><br><span class="line">[webserver]</span><br><span class="line">192.168.1.31:22</span><br><span class="line">192.168.1.32</span><br><span class="line">192.168.1.33</span><br><span class="line">192.168.1.36</span><br><span class="line"></span><br><span class="line"><span class="comment"># 方法一 别名主机+端口+密钥</span></span><br><span class="line">[webserver]</span><br><span class="line">node1 <span class="attribute">ansible_ssh_host</span>=192.168.1.31 <span class="attribute">ansible_ssh_port</span>=22</span><br><span class="line">node2 <span class="attribute">ansible_ssh_host</span>=192.168.1.32 <span class="attribute">ansible_ssh_port</span>=22</span><br><span class="line">node3 <span class="attribute">ansible_ssh_host</span>=192.168.1.33 <span class="attribute">ansible_ssh_port</span>=22</span><br><span class="line">node6 <span class="attribute">ansible_ssh_host</span>=192.168.1.36 <span class="attribute">ansible_ssh_port</span>=22</span><br></pre></td></tr></table></figure></p>
-<h3 id="主机组的使用"><a href="#主机组的使用" class="headerlink" title="主机组的使用"></a>主机组的使用</h3><figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta"># 主机组变量名+主机+密码</span></span><br><span class="line">[<span class="meta">apache</span>]</span><br><span class="line"><span class="number">192.168</span><span class="number">.1</span><span class="number">.36</span></span><br><span class="line"><span class="number">192.168</span><span class="number">.1</span><span class="number">.33</span></span><br><span class="line">[<span class="meta">apache.vars</span>]</span><br><span class="line">ansible_ssh_pass=<span class="string">'123456'</span></span><br><span class="line"></span><br><span class="line"><span class="meta"># 主机组变量名+主机+密钥</span></span><br><span class="line">[<span class="meta">nginx</span>]</span><br><span class="line"><span class="number">192.168</span><span class="number">.1</span><span class="number">.3</span>[<span class="number">1</span>:<span class="number">2</span>]</span><br><span class="line"></span><br><span class="line"><span class="meta"># 定义多个组，把一个组当另外一个组的组员</span></span><br><span class="line">[<span class="meta">webserver:children</span>]  <span class="meta">#webserver组包括两个子组：apache nginx</span></span><br><span class="line">apache</span><br><span class="line">nginx</span><br></pre></td></tr></table></figure>
-<h3 id="临时指定inventory"><a href="#临时指定inventory" class="headerlink" title="临时指定inventory"></a>临时指定inventory</h3><p>1）先编辑一个主机定义清单<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@ansible ~]# vim /etc/dockers</span><br><span class="line">[dockers]</span><br><span class="line"><span class="number">192.168</span><span class="number">.1</span><span class="number">.31</span> ansible_ssh_pass='<span class="number">123456</span>'</span><br><span class="line"><span class="number">192.168</span><span class="number">.1</span><span class="number">.32</span></span><br><span class="line"><span class="number">192.168</span><span class="number">.1</span><span class="number">.33</span></span><br></pre></td></tr></table></figure></p>
-<p>2）在执行命令是指定<code>inventory</code><br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@ansible ~]# ansible dockers -m<span class="built_in"> ping </span>-i /etc/dockers -o </span><br><span class="line">192.168.1.33 | SUCCESS =&gt; &#123;<span class="string">"ansible_facts"</span>: &#123;<span class="string">"discovered_interpreter_python"</span>: <span class="string">"/usr/bin/python"</span>&#125;, <span class="string">"changed"</span>: <span class="literal">false</span>, <span class="string">"ping"</span>: <span class="string">"pong"</span>&#125;</span><br><span class="line">192.168.1.32 | SUCCESS =&gt; &#123;<span class="string">"ansible_facts"</span>: &#123;<span class="string">"discovered_interpreter_python"</span>: <span class="string">"/usr/bin/python"</span>&#125;, <span class="string">"changed"</span>: <span class="literal">false</span>, <span class="string">"ping"</span>: <span class="string">"pong"</span>&#125;</span><br><span class="line">192.168.1.31 | SUCCESS =&gt; &#123;<span class="string">"ansible_facts"</span>: &#123;<span class="string">"discovered_interpreter_python"</span>: <span class="string">"/usr/bin/python"</span>&#125;, <span class="string">"changed"</span>: <span class="literal">false</span>, <span class="string">"ping"</span>: <span class="string">"pong"</span>&#125;</span><br></pre></td></tr></table></figure></p>
-<h3 id="Inventory内置参数"><a href="#Inventory内置参数" class="headerlink" title="Inventory内置参数"></a>Inventory内置参数</h3><p><img src="/2019/05/26/Ansible快速入门/ansible01.png" alt="ansible inventory内置参数"></p>
-<h2 id="Ansible-Ad-Hoc"><a href="#Ansible-Ad-Hoc" class="headerlink" title="Ansible Ad-Hoc"></a>Ansible Ad-Hoc</h2><p><a href="http://www.ansible.com.cn/docs/intro_adhoc.html" target="_blank" rel="noopener">Ad-Hoc中文文档</a></p>
+<h3 id="具体操作步骤"><a href="#具体操作步骤" class="headerlink" title="具体操作步骤"></a>具体操作步骤</h3><p><strong>服务端安装配置</strong><br>1）检查是否安装<code>NFS、RPC</code>服务<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@nfs-server ~]# rpm -aq |egrep <span class="string">"nfs-utils|rpcbind"</span></span><br><span class="line">rpcbind<span class="number">-0.2</span><span class="number">.0</span><span class="number">-42.</span>el7.x86_64</span><br><span class="line">nfs-utils<span class="number">-1.3</span><span class="number">.0</span><span class="number">-0.48</span>.el7.x86_64</span><br><span class="line"></span><br><span class="line"># 如果没有安装则进行安装</span><br><span class="line"># yum -y install nfs-utils rpcbind</span><br></pre></td></tr></table></figure></p>
+<p>2）启动<code>rpc</code>和<code>nfs</code>服务<br><figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root<span class="symbol">@nfs</span>-server ~]<span class="meta"># systemctl start rpcbind</span></span><br><span class="line">[root<span class="symbol">@nfs</span>-server ~]<span class="meta"># systemctl enable rpcbind</span></span><br><span class="line">[root<span class="symbol">@nfs</span>-server ~]<span class="meta"># systemctl start nfs</span></span><br></pre></td></tr></table></figure></p>
+<p>3）可以通过<code>rpcinfo -p localhost</code>可以查看到绑定了<code>nfs</code><br><figure class="highlight tap"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">[root@nfs-server ~]<span class="comment"># rpcinfo -p localhost</span></span><br><span class="line">   program vers proto   port  service</span><br><span class="line">   <span class="number"> 100000 </span>  <span class="number"> 4 </span>  tcp   <span class="number"> 111 </span> portmapper</span><br><span class="line">   <span class="number"> 100000 </span>  <span class="number"> 3 </span>  tcp   <span class="number"> 111 </span> portmapper</span><br><span class="line">   <span class="number"> 100000 </span>  <span class="number"> 2 </span>  tcp   <span class="number"> 111 </span> portmapper</span><br><span class="line">   <span class="number"> 100000 </span>  <span class="number"> 4 </span>  udp   <span class="number"> 111 </span> portmapper</span><br><span class="line">   <span class="number"> 100000 </span>  <span class="number"> 3 </span>  udp   <span class="number"> 111 </span> portmapper</span><br><span class="line">   <span class="number"> 100000 </span>  <span class="number"> 2 </span>  udp   <span class="number"> 111 </span> portmapper</span><br><span class="line">   <span class="number"> 100005 </span>  <span class="number"> 1 </span>  udp <span class="number"> 20048 </span> mountd</span><br><span class="line">   <span class="number"> 100005 </span>  <span class="number"> 1 </span>  tcp <span class="number"> 20048 </span> mountd</span><br><span class="line">   <span class="number"> 100005 </span>  <span class="number"> 2 </span>  udp <span class="number"> 20048 </span> mountd</span><br><span class="line">   <span class="number"> 100005 </span>  <span class="number"> 2 </span>  tcp <span class="number"> 20048 </span> mountd</span><br><span class="line">   <span class="number"> 100005 </span>  <span class="number"> 3 </span>  udp <span class="number"> 20048 </span> mountd</span><br><span class="line">   <span class="number"> 100005 </span>  <span class="number"> 3 </span>  tcp <span class="number"> 20048 </span> mountd</span><br><span class="line">   <span class="number"> 100024 </span>  <span class="number"> 1 </span>  udp <span class="number"> 60358 </span> status</span><br><span class="line">   <span class="number"> 100024 </span>  <span class="number"> 1 </span>  tcp <span class="number"> 34912 </span> status</span><br><span class="line">   <span class="number"> 100003 </span>  <span class="number"> 3 </span>  tcp  <span class="number"> 2049 </span> nfs</span><br><span class="line">   <span class="number"> 100003 </span>  <span class="number"> 4 </span>  tcp  <span class="number"> 2049 </span> nfs</span><br><span class="line">   <span class="number"> 100227 </span>  <span class="number"> 3 </span>  tcp  <span class="number"> 2049 </span> nfs_acl</span><br><span class="line">   <span class="number"> 100003 </span>  <span class="number"> 3 </span>  udp  <span class="number"> 2049 </span> nfs</span><br><span class="line">   <span class="number"> 100003 </span>  <span class="number"> 4 </span>  udp  <span class="number"> 2049 </span> nfs</span><br><span class="line">   <span class="number"> 100227 </span>  <span class="number"> 3 </span>  udp  <span class="number"> 2049 </span> nfs_acl</span><br><span class="line">   <span class="number"> 100021 </span>  <span class="number"> 1 </span>  udp <span class="number"> 38577 </span> nlockmgr</span><br><span class="line">   <span class="number"> 100021 </span>  <span class="number"> 3 </span>  udp <span class="number"> 38577 </span> nlockmgr</span><br><span class="line">   <span class="number"> 100021 </span>  <span class="number"> 4 </span>  udp <span class="number"> 38577 </span> nlockmgr</span><br><span class="line">   <span class="number"> 100021 </span>  <span class="number"> 1 </span>  tcp <span class="number"> 42193 </span> nlockmgr</span><br><span class="line">   <span class="number"> 100021 </span>  <span class="number"> 3 </span>  tcp <span class="number"> 42193 </span> nlockmgr</span><br><span class="line">   <span class="number"> 100021 </span>  <span class="number"> 4 </span>  tcp <span class="number"> 42193 </span> nlockmgr</span><br></pre></td></tr></table></figure></p>
+<p>4）配置共享目录并重启<code>nfs</code><br><figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root<span class="symbol">@nfs</span>-server ~]<span class="meta"># mkdir /web</span></span><br><span class="line">[root<span class="symbol">@nfs</span>-server ~]<span class="meta"># vim /etc/exports</span></span><br><span class="line">/web    <span class="number">192.168</span><span class="number">.1</span><span class="number">.0</span>/<span class="number">24</span>(rw,sync,no_root_squash)  <span class="meta">#不压制root(当client端使用root挂载时，也有root权限)</span></span><br><span class="line">[root<span class="symbol">@nfs</span>-server ~]<span class="meta"># systemctl restart nfs</span></span><br><span class="line">[root<span class="symbol">@nfs</span>-server ~]<span class="meta"># exportfs -v</span></span><br><span class="line">/web          	<span class="number">192.168</span><span class="number">.1</span><span class="number">.0</span>/<span class="number">24</span>(sync,wdelay,hide,no_subtree_check,sec=sys,rw,secure,no_root_squash,no_all_squash)</span><br></pre></td></tr></table></figure></p>
+<p><strong>客户端挂载测试</strong><br>1）创建挂载目录并进行挂载<br><figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">[root@nfs-client1 ~]<span class="comment"># mkdir /opt/www</span></span><br><span class="line">[root@nfs-client1 ~]<span class="comment"># showmount -e 192.168.1.31    #查看服务器共享目录</span></span><br><span class="line">Export list <span class="keyword">for</span> <span class="number">192.168</span>.<span class="number">1.31</span>:</span><br><span class="line">/web <span class="number">192.168</span>.<span class="number">1.0</span>/<span class="number">24</span></span><br><span class="line">[root@nfs-client1 ~]<span class="comment"># mount -t nfs 192.168.1.31:/web /opt/www/</span></span><br><span class="line">[root@nfs-client1 ~]<span class="comment"># df -h</span></span><br><span class="line">文件系统                 容量  已用  可用 已用% 挂载点</span><br><span class="line">/dev/mapper/centos-root   <span class="number">20</span>G  <span class="number">3.6</span>G   <span class="number">16</span>G   <span class="number">19</span>% <span class="regexp">/</span></span><br><span class="line"><span class="regexp">devtmpfs                 473M     0  473M    0% /dev</span></span><br><span class="line">tmpfs                    <span class="number">489</span>M     <span class="number">0</span>  <span class="number">489</span>M    <span class="number">0</span>% <span class="regexp">/dev/shm</span></span><br><span class="line">tmpfs                    <span class="number">489</span>M   <span class="number">14</span>M  <span class="number">475</span>M    <span class="number">3</span>% <span class="regexp">/run</span></span><br><span class="line"><span class="regexp">tmpfs                    489M     0  489M    0% /sys</span><span class="regexp">/fs/cgroup</span></span><br><span class="line">/dev/sda1                <span class="number">497</span>M  <span class="number">154</span>M  <span class="number">344</span>M   <span class="number">31</span>% <span class="regexp">/boot</span></span><br><span class="line"><span class="regexp">tmpfs                     98M     0   98M    0% /run</span><span class="regexp">/user/</span><span class="number">0</span></span><br><span class="line"><span class="number">192.168</span>.<span class="number">1.31</span>:<span class="regexp">/web         20G  3.6G   16G   19% /opt</span><span class="regexp">/www</span></span><br></pre></td></tr></table></figure></p>
+<p>2）在<code>client1</code>上的<code>/opt/www</code>创建一个测试文件<br><figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root<span class="symbol">@nfs</span>-client1 ~]<span class="meta"># echo <span class="string">"client1 create test file"</span> &gt;&gt; /opt/www/client1.txt</span></span><br></pre></td></tr></table></figure></p>
+<p>3）回到<code>nfs</code>上进行查看<br><figure class="highlight tap"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@nfs-server ~]<span class="comment"># ll /web/</span></span><br><span class="line">总用量 4</span><br><span class="line">-rw-r--r--<span class="number"> 1 </span>root root<span class="number"> 25 </span>8月  <span class="number"> 9 </span>14:41 client1.txt</span><br></pre></td></tr></table></figure></p>
+<p>4）安装<code>nginx</code>并配置站点目录为<code>/opt/www</code><br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[root@nfs-client1 ~]# yum -y install nginx</span><br><span class="line">[root@nfs-client1 ~]# vim /etc/nginx/nginx.conf</span><br><span class="line">server &#123;</span><br><span class="line">        listen       80 default_server;</span><br><span class="line">        listen       [::]:80 default_server;</span><br><span class="line">        server_name  _;</span><br><span class="line">        root         /opt/www;</span><br><span class="line"><span class="built_in">..</span>.</span><br><span class="line">[root@nfs-client1 ~]# systemctl start nginx</span><br></pre></td></tr></table></figure></p>
+<p>上面的步骤同样在<code>client2</code>上面操作。</p>
+<p><strong>在nfs服务端创建站点首页，访问client客户端测试</strong><br><figure class="highlight tap"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">[root@nfs-server ~]<span class="comment"># ll /web/</span></span><br><span class="line">总用量 8</span><br><span class="line">-rw-r--r--<span class="number"> 1 </span>root root<span class="number"> 25 </span>8月  <span class="number"> 9 </span>14:41 client1.txt</span><br><span class="line">-rw-r--r--<span class="number"> 1 </span>root root<span class="number"> 25 </span>8月  <span class="number"> 9 </span>15:37 client2.txt</span><br><span class="line"></span><br><span class="line">[root@nfs-server ~]<span class="comment"># echo "&lt;h1&gt;NFS server&lt;/h1&gt;" &gt;&gt; /web/index.html    #nfs服务端共享目录创建首页文件</span></span><br><span class="line">[root@nfs-server ~]<span class="comment"># curl 192.168.1.32</span></span><br><span class="line">&lt;h1&gt;NFS server&lt;/h1&gt;</span><br><span class="line">[root@nfs-server ~]<span class="comment"># </span></span><br><span class="line">[root@nfs-server ~]<span class="comment"># curl 192.168.1.33</span></span><br><span class="line">&lt;h1&gt;NFS server&lt;/h1&gt;</span><br><span class="line"></span><br><span class="line">[root@nfs-client1 ~]<span class="comment"># ll /opt/www/    #nfs客户端1上查看</span></span><br><span class="line">总用量 12</span><br><span class="line">-rw-r--r--<span class="number"> 1 </span>root root<span class="number"> 25 </span>8月  <span class="number"> 9 </span>14:41 client1.txt</span><br><span class="line">-rw-r--r--<span class="number"> 1 </span>root root<span class="number"> 25 </span>8月  <span class="number"> 9 </span>15:37 client2.txt</span><br><span class="line">-rw-r--r--<span class="number"> 1 </span>root root<span class="number"> 20 </span>8月  <span class="number"> 9 </span>15:41 index.html</span><br><span class="line"></span><br><span class="line">[root@nfs-client2 ~]<span class="comment"># ll /opt/www/    #nfs客户端2上查看</span></span><br><span class="line">总用量 12</span><br><span class="line">-rw-r--r--<span class="number"> 1 </span>root root<span class="number"> 25 </span>8月  <span class="number"> 9 </span>14:41 client1.txt</span><br><span class="line">-rw-r--r--<span class="number"> 1 </span>root root<span class="number"> 25 </span>8月  <span class="number"> 9 </span>15:37 client2.txt</span><br><span class="line">-rw-r--r--<span class="number"> 1 </span>root root<span class="number"> 20 </span>8月  <span class="number"> 9 </span>15:41 index.html</span><br></pre></td></tr></table></figure></p>
+<p>通过测试可以看出，客户端挂载后，就完全相当于自己的一个目录或者文件，在负载均衡架构中一般通过这种方式做共享存储。</p>
+<h3 id="NFS配置参数说明"><a href="#NFS配置参数说明" class="headerlink" title="NFS配置参数说明"></a>NFS配置参数说明</h3><h4 id="nfs共享参数及作用"><a href="#nfs共享参数及作用" class="headerlink" title="nfs共享参数及作用"></a>nfs共享参数及作用</h4><p>通过 <code>man exports</code>可以查看帮助手册<br>| 共享参数       | 作用                                                         |<br>| ————– | ———————————————————— |<br>| rw<em>            | 读写权限                                                     |<br>| ro             | 只读权限                                                     |<br>| root_squash    | 当NFS客户端以root管理员访问时，映射为NFS服务器的匿名用户(不常用) |<br>| no_root_squash | 当NFS客户端以root管理员访问时，映射为NFS服务器的root管理员(常用) |<br>| all_squash     | 无论NFS客户端使用什么账户访问，均映射为NFS服务器的匿名用户(常用) |<br>| no_all_squash  | 无论NFS客户端使用什么账户访问，都不进行压缩                  |<br>| sync</em>          | 同时将数据写入到内存与硬盘中，保证不丢失数据                 |<br>| async          | 优先将数据保存到内存，然后再写入硬盘；这样效率更高，但可能会丢失数据 |<br>| anonuid<em>       | 配置all_squash使用,指定NFS的用户UID,必须存在系统             |<br>| anongid</em>       | 配置all_squash使用,指定NFS的用户GID,必须存在系统             |</p>
+<h4 id="配置实例说明"><a href="#配置实例说明" class="headerlink" title="配置实例说明"></a>配置实例说明</h4><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@nfs-server ~]# cat /etc/exports</span><br><span class="line">#/web    <span class="number">192.168</span><span class="number">.1</span><span class="number">.0</span>/<span class="number">24</span>(rw,sync,no_root_squash)  #不压制root(当client端使用root挂载时，也有root权限)</span><br><span class="line">/web    <span class="number">192.168</span><span class="number">.1</span><span class="number">.32</span>(rw,sync,no_root_squash) <span class="number">192.168</span><span class="number">.1</span><span class="number">.33</span>(rw,sync,all_squash,anonuid=<span class="number">2000</span>,anongid=<span class="number">2000</span>)</span><br></pre></td></tr></table></figure>
 <blockquote>
-<p>ad hoc —— 临时的，在<code>ansible</code>中是指需要快速执行，并且不需要保存的命令。说白了就是执行简单的命令——一条命令。对于复杂的命令则为<code>playbook</code>，类似于<code>saltstack</code>的<code>state sls</code>状态文件。</p>
+<p>#[共享目录]&emsp;  [客户端地址1(权限)]&emsp;  [客户端地址2(权限)]<br>1、共享目录：每一行最前面是共享出来的目录，比如上面我要共享<code>/web</code>目录，那么此选项就可以直接写<code>/web</code>目录，这个目录可以依照不同的权限共享给不同的目录。<br>2、客户端地址：客户端地址能够设置一个网络，也可以是单个主机。参数：如上面的读写权限<code>rw</code>，同步更新<code>sync</code>等待。</p>
+<blockquote>
+<p>1、客户端地址可以使用完整的IP或者网络号，例如<code>192.168.1.33</code>或<code>192.168.1.0/24</code><br>2、同样可以使用主机名，但是这个主机名必须要在<code>/etc/hosts</code>中存在，或者可以通过<code>DNS</code>找到才行。</p>
 </blockquote>
-<h3 id="ansible命令格式"><a href="#ansible命令格式" class="headerlink" title="ansible命令格式"></a>ansible命令格式</h3><p>1）常用命令参数<br><figure class="highlight haml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[root@ansible ~]# ansible -h</span><br><span class="line">Usage: ansible &lt;host-pattern&gt; [options]</span><br><span class="line">-<span class="ruby">a MODULE_ARGS   <span class="comment">#模块参数</span></span></span><br><span class="line"><span class="ruby">-C, --check  <span class="comment">#检查语法</span></span></span><br><span class="line"><span class="ruby">-f FORKS <span class="comment">#并发</span></span></span><br><span class="line"><span class="ruby">--list-hosts <span class="comment">#列出主机列表</span></span></span><br><span class="line"><span class="ruby">-m MODULE_NAME <span class="comment">#模块名字</span></span></span><br><span class="line"><span class="ruby">-o 使用精简的输出</span></span><br></pre></td></tr></table></figure></p>
-<p>2）示例<br><figure class="highlight gherkin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root<span class="meta">@ansible</span> ~]<span class="comment"># ansible webserver -m shell -a 'uptime' -o</span></span><br><span class="line">192.168.1.36 |<span class="string"> CHANGED </span>|<span class="string"> rc=0 </span>|<span class="string"> (stdout)  13:46:14 up 1 day,  9:20,  4 users,  load average: 0.00, 0.00, 0.00</span></span><br><span class="line"><span class="string">192.168.1.33 </span>|<span class="string"> CHANGED </span>|<span class="string"> rc=0 </span>|<span class="string"> (stdout)  21:26:33 up 1 day,  8:51,  3 users,  load average: 0.00, 0.01, 0.05</span></span><br><span class="line"><span class="string">192.168.1.31 </span>|<span class="string"> CHANGED </span>|<span class="string"> rc=0 </span>|<span class="string"> (stdout)  21:26:33 up 1 day,  8:50,  3 users,  load average: 0.00, 0.01, 0.05</span></span><br><span class="line"><span class="string">192.168.1.32 </span>|<span class="string"> CHANGED </span>|<span class="string"> rc=0 </span>|<span class="string"> (stdout)  21:26:33 up 1 day,  8:59,  3 users,  load average: 0.00, 0.01, 0.05</span></span><br></pre></td></tr></table></figure></p>
-<p>3）命令说明<br><img src="/2019/05/26/Ansible快速入门/ansible02.png" alt="ansible command"></p>
-<h3 id="host-pattern格式"><a href="#host-pattern格式" class="headerlink" title="host-pattern格式"></a>host-pattern格式</h3><p>目标<code>target</code>主机，主机组匹配方式</p>
-<h4 id="主机的匹配"><a href="#主机的匹配" class="headerlink" title="主机的匹配"></a>主机的匹配</h4><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#  一台目标主机</span></span><br><span class="line">[root@ansible ~]# ansible 192.168.1.31 -m ping</span><br><span class="line"></span><br><span class="line"><span class="comment"># 多台目标主机</span></span><br><span class="line">[root@ansible ~]# ansible 192.168.1.31,192.168.1.32 -m ping</span><br><span class="line"></span><br><span class="line"><span class="comment"># 所有目标主机</span></span><br><span class="line">[root@ansible ~]# ansible all -m ping</span><br></pre></td></tr></table></figure>
-<h4 id="组的匹配"><a href="#组的匹配" class="headerlink" title="组的匹配"></a>组的匹配</h4><figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 组的配置信息如下：这里定义了一个nginx组和一个apache组</span></span><br><span class="line">[root@ansible ~]<span class="comment"># ansible nginx --list</span></span><br><span class="line">  hosts (<span class="number">2</span>)<span class="symbol">:</span></span><br><span class="line">    <span class="number">192.168</span>.<span class="number">1.31</span></span><br><span class="line">    <span class="number">192.168</span>.<span class="number">1.32</span></span><br><span class="line">[root@ansible ~]<span class="comment"># ansible apache --list</span></span><br><span class="line">  hosts (<span class="number">3</span>)<span class="symbol">:</span></span><br><span class="line">    <span class="number">192.168</span>.<span class="number">1.36</span></span><br><span class="line">    <span class="number">192.168</span>.<span class="number">1.33</span></span><br><span class="line">    <span class="number">192.168</span>.<span class="number">1.32</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 一个组的所有主机匹配</span></span><br><span class="line">[root@ansible ~]<span class="comment"># ansible apache -m ping</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 匹配apache组中有，但是nginx组中没有的所有主机</span></span><br><span class="line">[root@ansible ~]<span class="comment"># ansible 'apache:!nginx' -m ping -o</span></span><br><span class="line"><span class="meta">192.168.1.36 | SUCCESS =&gt;</span> &#123;<span class="string">"ansible_facts"</span>: &#123;<span class="string">"discovered_interpreter_python"</span>: <span class="string">"/usr/bin/python"</span>&#125;, <span class="string">"changed"</span>: false, <span class="string">"ping"</span>: <span class="string">"pong"</span>&#125;</span><br><span class="line"><span class="meta">192.168.1.33 | SUCCESS =&gt;</span> &#123;<span class="string">"ansible_facts"</span>: &#123;<span class="string">"discovered_interpreter_python"</span>: <span class="string">"/usr/bin/python"</span>&#125;, <span class="string">"changed"</span>: false, <span class="string">"ping"</span>: <span class="string">"pong"</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 匹配apache组和nginx组中都有的机器（并集）</span></span><br><span class="line">[root@ansible ~]<span class="comment"># ansible 'apache:&amp;nginx' -m ping -o</span></span><br><span class="line"><span class="meta">192.168.1.32 | SUCCESS =&gt;</span> &#123;<span class="string">"ansible_facts"</span>: &#123;<span class="string">"discovered_interpreter_python"</span>: <span class="string">"/usr/bin/python"</span>&#125;, <span class="string">"changed"</span>: false, <span class="string">"ping"</span>: <span class="string">"pong"</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 匹配apache组nginx组两个组所有的机器（并集）；等于ansible apache,nginx -m ping</span></span><br><span class="line">[root@ansible ~]<span class="comment"># ansible 'apache:nginx' -m ping -o</span></span><br><span class="line"><span class="meta">192.168.1.32 | SUCCESS =&gt;</span> &#123;<span class="string">"ansible_facts"</span>: &#123;<span class="string">"discovered_interpreter_python"</span>: <span class="string">"/usr/bin/python"</span>&#125;, <span class="string">"changed"</span>: false, <span class="string">"ping"</span>: <span class="string">"pong"</span>&#125;</span><br><span class="line"><span class="meta">192.168.1.31 | SUCCESS =&gt;</span> &#123;<span class="string">"ansible_facts"</span>: &#123;<span class="string">"discovered_interpreter_python"</span>: <span class="string">"/usr/bin/python"</span>&#125;, <span class="string">"changed"</span>: false, <span class="string">"ping"</span>: <span class="string">"pong"</span>&#125;</span><br><span class="line"><span class="meta">192.168.1.33 | SUCCESS =&gt;</span> &#123;<span class="string">"ansible_facts"</span>: &#123;<span class="string">"discovered_interpreter_python"</span>: <span class="string">"/usr/bin/python"</span>&#125;, <span class="string">"changed"</span>: false, <span class="string">"ping"</span>: <span class="string">"pong"</span>&#125;</span><br><span class="line"><span class="meta">192.168.1.36 | SUCCESS =&gt;</span> &#123;<span class="string">"ansible_facts"</span>: &#123;<span class="string">"discovered_interpreter_python"</span>: <span class="string">"/usr/bin/python"</span>&#125;, <span class="string">"changed"</span>: false, <span class="string">"ping"</span>: <span class="string">"pong"</span>&#125;</span><br></pre></td></tr></table></figure>
+</blockquote>
 
       
     </div>
@@ -578,12 +574,12 @@
   <!-- JS库 sweetalert 可修改路径 -->
   <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-  <p><span>本文标题:</span><a href="/2019/05/26/Ansible快速入门/">Ansible快速入门</a></p>
+  <p><span>本文标题:</span><a href="/2019/08/08/存储服务之NFS/">存储服务之NFS</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 Leeyj 的个人博客">Leeyj</a></p>
-  <p><span>发布时间:</span>2019年05月26日 - 22:35</p>
-  <p><span>最后更新:</span>2019年07月10日 - 09:46</p>
-  <p><span>原始链接:</span><a href="/2019/05/26/Ansible快速入门/" title="Ansible快速入门">https://leeyj.coding.me/2019/05/26/Ansible快速入门/</a>
-    <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://leeyj.coding.me/2019/05/26/Ansible快速入门/" aria-label="复制成功！"></i></span>
+  <p><span>发布时间:</span>2019年08月08日 - 15:00</p>
+  <p><span>最后更新:</span>2019年08月09日 - 17:48</p>
+  <p><span>原始链接:</span><a href="/2019/08/08/存储服务之NFS/" title="存储服务之NFS">https://leeyj.coding.me/2019/08/08/存储服务之NFS/</a>
+    <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://leeyj.coding.me/2019/08/08/存储服务之NFS/" aria-label="复制成功！"></i></span>
   </p>
   <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
 </div>
@@ -614,7 +610,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Ansible/" rel="tag"><i class="fa fa-tag"></i> Ansible</a>
+            <a href="/tags/Storage/" rel="tag"><i class="fa fa-tag"></i> Storage</a>
           
         </div>
       
@@ -642,8 +638,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/05/22/linux保存history到日志文件/" rel="next" title="linux保存history到日志文件">
-                <i class="fa fa-chevron-left"></i> linux保存history到日志文件
+              <a href="/2019/08/06/PHP配合inotify实现光闸ftp功能/" rel="next" title="PHP配合inotify实现光闸ftp功能">
+                <i class="fa fa-chevron-left"></i> PHP配合inotify实现光闸ftp功能
               </a>
             
           </div>
@@ -651,10 +647,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/05/27/Ansible Ad-hoc常用Module/" rel="prev" title="Ansible  Module">
-                Ansible  Module <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -819,7 +811,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#介绍"><span class="nav-number">1.</span> <span class="nav-text">介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#环境准备"><span class="nav-number">2.</span> <span class="nav-text">环境准备</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Ansible安装"><span class="nav-number">3.</span> <span class="nav-text">Ansible安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Ansible-Inventory文件"><span class="nav-number">4.</span> <span class="nav-text">Ansible Inventory文件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#基于密码连接"><span class="nav-number">4.1.</span> <span class="nav-text">基于密码连接</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基于秘钥连接"><span class="nav-number">4.2.</span> <span class="nav-text">基于秘钥连接</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#主机组的使用"><span class="nav-number">4.3.</span> <span class="nav-text">主机组的使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#临时指定inventory"><span class="nav-number">4.4.</span> <span class="nav-text">临时指定inventory</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Inventory内置参数"><span class="nav-number">4.5.</span> <span class="nav-text">Inventory内置参数</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Ansible-Ad-Hoc"><span class="nav-number">5.</span> <span class="nav-text">Ansible Ad-Hoc</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ansible命令格式"><span class="nav-number">5.1.</span> <span class="nav-text">ansible命令格式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#host-pattern格式"><span class="nav-number">5.2.</span> <span class="nav-text">host-pattern格式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#主机的匹配"><span class="nav-number">5.2.1.</span> <span class="nav-text">主机的匹配</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#组的匹配"><span class="nav-number">5.2.2.</span> <span class="nav-text">组的匹配</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#NFS介绍"><span class="nav-number">1.</span> <span class="nav-text">NFS介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#NFS网络文件系统存在的意义"><span class="nav-number">1.1.</span> <span class="nav-text">NFS网络文件系统存在的意义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#NFS网络文件系统工作方式"><span class="nav-number">1.2.</span> <span class="nav-text">NFS网络文件系统工作方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#NFS工作流程"><span class="nav-number">1.3.</span> <span class="nav-text">NFS工作流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RPC服务工作原理"><span class="nav-number">1.4.</span> <span class="nav-text">RPC服务工作原理</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#NFS部署示例"><span class="nav-number">2.</span> <span class="nav-text">NFS部署示例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#环境规划"><span class="nav-number">2.1.</span> <span class="nav-text">环境规划</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#具体操作步骤"><span class="nav-number">2.2.</span> <span class="nav-text">具体操作步骤</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#NFS配置参数说明"><span class="nav-number">2.3.</span> <span class="nav-text">NFS配置参数说明</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#nfs共享参数及作用"><span class="nav-number">2.3.1.</span> <span class="nav-text">nfs共享参数及作用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#配置实例说明"><span class="nav-number">2.3.2.</span> <span class="nav-text">配置实例说明</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
