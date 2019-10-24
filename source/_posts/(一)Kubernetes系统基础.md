@@ -52,7 +52,8 @@ copyright: true
 
 > Kubernetes使用共享网络将多个物理机或虚拟机汇集到一个集群中，在各服务器之间进行通信，该集群是配置Kubernetes的所有组件、功能和工作负载的物理平台。集群中一台服务器（或高可用部署中的一组服务器）用作Master，负责管理整个集群，余下的其他机器用作Worker Node,它们是使用本地和外部资源接收和运行工作负载的服务器。集群中的这些主机可以是物理服务器，也可以是虚拟机（包括IaaS云端的VPS）
 
-![cluster]((一)Kubernetes系统基础/kubernetescluster.png)
+
+![1]((一)Kubernetes系统基础/kubernetescluster.png)
 
 **Master**
 
