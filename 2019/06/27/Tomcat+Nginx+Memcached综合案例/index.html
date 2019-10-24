@@ -1,0 +1,1472 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+      
+    
+    
+      
+    
+  <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+  <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-center-atom.min.css" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+  <link href="//cdn.jsdelivr.net/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Tomcat,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="不羁" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="说明 通过Nginx解析静态页面并将动态负载均衡调度给后面的多个Tomcat，Tomcat解析java动态程序。   由于http是无状态的协议，你访问了页面A，然后在访问B，http无法确定这2个访问来自一个人，因此要用cookie或session来跟踪用户，根据授权和用户身份来显示不同的页面。比如用户A登陆了，那么能看到自己的个人信息，而B没登陆，无法看到个人信息。还有A可能在购物，把商品放入">
+<meta name="keywords" content="Tomcat">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Tomcat+Nginx+Memcached综合案例">
+<meta property="og:url" content="https://leeyj.coding.me/2019/06/27/Tomcat+Nginx+Memcached综合案例/index.html">
+<meta property="og:site_name" content="不羁">
+<meta property="og:description" content="说明 通过Nginx解析静态页面并将动态负载均衡调度给后面的多个Tomcat，Tomcat解析java动态程序。   由于http是无状态的协议，你访问了页面A，然后在访问B，http无法确定这2个访问来自一个人，因此要用cookie或session来跟踪用户，根据授权和用户身份来显示不同的页面。比如用户A登陆了，那么能看到自己的个人信息，而B没登陆，无法看到个人信息。还有A可能在购物，把商品放入">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://leeyj.coding.me/2019/06/27/Tomcat+Nginx+Memcached综合案例/tomcat1.png">
+<meta property="og:image" content="https://leeyj.coding.me/2019/06/27/Tomcat+Nginx+Memcached综合案例/tomcat2.png">
+<meta property="og:image" content="https://leeyj.coding.me/2019/06/27/Tomcat+Nginx+Memcached综合案例/tomcat4.png">
+<meta property="og:image" content="https://leeyj.coding.me/2019/06/27/Tomcat+Nginx+Memcached综合案例/tomcat3.png">
+<meta property="og:updated_time" content="2019-07-10T01:46:29.979Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Tomcat+Nginx+Memcached综合案例">
+<meta name="twitter:description" content="说明 通过Nginx解析静态页面并将动态负载均衡调度给后面的多个Tomcat，Tomcat解析java动态程序。   由于http是无状态的协议，你访问了页面A，然后在访问B，http无法确定这2个访问来自一个人，因此要用cookie或session来跟踪用户，根据授权和用户身份来显示不同的页面。比如用户A登陆了，那么能看到自己的个人信息，而B没登陆，无法看到个人信息。还有A可能在购物，把商品放入">
+<meta name="twitter:image" content="https://leeyj.coding.me/2019/06/27/Tomcat+Nginx+Memcached综合案例/tomcat1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":true},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://leeyj.coding.me/2019/06/27/Tomcat+Nginx+Memcached综合案例/">
+
+
+
+
+
+  <title>Tomcat+Nginx+Memcached综合案例 | 不羁</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">不羁</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">别来无恙</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://leeyj.coding.me/2019/06/27/Tomcat+Nginx+Memcached综合案例/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Leeyj">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="不羁">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Tomcat+Nginx+Memcached综合案例</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-27T17:36:22+08:00">
+                2019-06-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Tomcat/" itemprop="url" rel="index">
+                    <span itemprop="name">Tomcat</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/06/27/Tomcat+Nginx+Memcached综合案例/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/06/27/Tomcat+Nginx+Memcached综合案例/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  2.1k
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  10
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h2><blockquote>
+<p>通过<code>Nginx</code>解析静态页面并将动态负载均衡调度给后面的多个<code>Tomcat</code>，<code>Tomcat</code>解析<code>java</code>动态程序。</p>
+</blockquote>
+<blockquote>
+<p>由于http是无状态的协议，你访问了页面A，然后在访问B，http无法确定这2个访问来自一个人<br>，因此要用cookie或session来跟踪用户，根据授权和用户身份来显示不同的页面。<br>比如用户A登陆了，那么能看到自己的个人信息，而B没登陆，无法看到个人信息。<br>还有A可能在购物，把商品放入购物车，此时B也有这个过程，你无法确定A，B的身份和购物信息，所以需要一个session ID来维持这个过程。所以就用到了session管理。</p>
+</blockquote>
+<p><a href="https://github.com/magro/memcached-session-manager/wiki/SetupAndConfiguration" target="_blank" rel="noopener">官网文档</a></p>
+<h2 id="环境规划"><a href="#环境规划" class="headerlink" title="环境规划"></a>环境规划</h2><table>
+<thead>
+<tr>
+<th>主机</th>
+<th>hostname</th>
+<th>环境</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>192.168.1.31</td>
+<td>nginx.cluster.com</td>
+<td>nginx（yum安装）</td>
+<td></td>
+</tr>
+<tr>
+<td>192.168.1.32</td>
+<td>tomcat1.cluster.com</td>
+<td>tomcat-9.0</td>
+<td></td>
+</tr>
+<tr>
+<td>192.168.1.33</td>
+<td>tomcat2.cluster.com</td>
+<td>tomcat-9.0</td>
+<td></td>
+</tr>
+<tr>
+<td>192.168.1.34</td>
+<td>memcached.cluster.com</td>
+<td>memcached（yum安装）</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>关闭防火墙，selinux；时间同步；host绑定等基本配置 (步骤略)</p>
+</blockquote>
+<h2 id="具体步骤"><a href="#具体步骤" class="headerlink" title="具体步骤"></a>具体步骤</h2><p>本案例所使用的<code>tomcat</code>、<code>jdk</code>、和<code>tomcat-session</code>相关的jar包下载地址<br>链接：<a href="https://pan.baidu.com/s/1ESm_RSrFx77kWObmCt1DQw" target="_blank" rel="noopener">https://pan.baidu.com/s/1ESm_RSrFx77kWObmCt1DQw</a><br>提取码：f64n </p>
+<h3 id="memcached部署"><a href="#memcached部署" class="headerlink" title="memcached部署"></a>memcached部署</h3><blockquote>
+<p>说明：memcached这里不需要配置太多，安装即可，然后检查端口是否处于监听中。tomcat服务器能成功连接即可<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[root@memcached ~]# yum -y install memcached</span><br><span class="line">[root@memcached ~]# systemctl <span class="builtin-name">enable</span> memcached</span><br><span class="line">[root@memcached ~]# systemctl start memcached</span><br><span class="line"></span><br><span class="line">[root@memcached ~]# lsof -i:11211</span><br><span class="line">COMMAND    PID     <span class="built_in"> USER </span>  FD  <span class="built_in"> TYPE </span>DEVICE SIZE/OFF NODE NAME</span><br><span class="line">memcached 4419 memcached   26u  IPv4  51021      0t0  TCP *:memcache (LISTEN)</span><br><span class="line">memcached 4419 memcached   27u <span class="built_in"> IPv6 </span> 51022      0t0  TCP *:memcache (LISTEN)</span><br><span class="line">memcached 4419 memcached   28u  IPv4  51025      0t0  UDP *:memcache </span><br><span class="line">memcached 4419 memcached   29u <span class="built_in"> IPv6 </span> 51026      0t0  UDP *:memcache</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<h3 id="nginx部署"><a href="#nginx部署" class="headerlink" title="nginx部署"></a>nginx部署</h3><p>1）安装nginx<br><figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root<span class="symbol">@nginx</span> ~]<span class="meta"># yum -y install nginx</span></span><br><span class="line">[root<span class="symbol">@nginx</span> ~]<span class="meta"># nginx -v</span></span><br><span class="line">nginx version: nginx/<span class="number">1.12</span><span class="number">.2</span></span><br></pre></td></tr></table></figure></p>
+<p>2）配置文件配置<br><figure class="highlight puppet"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 创建一个虚拟主机</span></span><br><span class="line">[root@nginx ~]<span class="comment"># vim /etc/nginx/conf.d/www.conf</span></span><br><span class="line">upstream <span class="keyword">tomcat</span> &#123;</span><br><span class="line">    server <span class="number">192.168</span>.<span class="number">1.32</span>:<span class="number">8080</span> weight=<span class="number">1</span>;</span><br><span class="line">    server <span class="number">192.168</span>.<span class="number">1.33</span>:<span class="number">8080</span> weight=<span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">server</span> &#123;</span><br><span class="line">    listen       <span class="number">88</span> default_server;</span><br><span class="line">    server_name  localhost;</span><br><span class="line">    <span class="literal">root</span>         /opt/<span class="literal">project</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">#已jsp结尾的动态程序调度给tomcat去处理</span></span><br><span class="line">    location ~.*\.jsp$ &#123;</span><br><span class="line">        proxy_pass http://tomcat;</span><br><span class="line">        proxy_set_header Host <span class="variable">$host</span>;</span><br><span class="line">        proxy_set_header X-Forwarded-For <span class="variable">$remote_addr</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">error_page</span> 404 /404.html;</span><br><span class="line">        location = /40x.<span class="keyword">html</span> &#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">error_page</span> 500 502 503 504 /50x.html;</span><br><span class="line">        location = /50x.<span class="keyword">html</span> &#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建测试文件</span></span><br><span class="line">[root@nginx ~]<span class="comment"># mkdir /opt/project</span></span><br><span class="line">[root@nginx ~]<span class="comment"># echo "&lt;h1&gt;Nginx IP:192.168.1.31&lt;/h1&gt;" &gt;&gt; /opt/project/index.html</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="tomcat部署"><a href="#tomcat部署" class="headerlink" title="tomcat部署"></a>tomcat部署</h3><p>详细安装参考：<a href="https://www.cnblogs.com/yanjieli/p/11092350.html" target="_blank" rel="noopener">https://www.cnblogs.com/yanjieli/p/11092350.html</a><br><strong>两台tomcat服务器都要执行下面的所有操作，也可以在一台上面执行，然后copy过去。</strong><br>1）上传软件包到服务器，编写一个临时使用的安装脚本<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">[root@tomcat1 ~]<span class="comment"># cat install_tomcat.sh </span></span><br><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#----安装java环境</span></span><br><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">InstallJava</span></span> ()&#123;</span><br><span class="line">    tar xf jdk-8u211-linux-x64.tar.gz -C /usr/<span class="built_in">local</span>/</span><br><span class="line">    ln -s /usr/<span class="built_in">local</span>/jdk1.8.0_211 /usr/<span class="built_in">local</span>/java</span><br><span class="line">    sed -i.ori <span class="string">'$a export JAVA_HOME=/usr/local/java \nexport PATH=$JAVA_HOME/bin:$JAVA_HOME/jre/bin:$PATH \nexport CLASSPATH=.$CLASSPATH:$JAVA_HOME/lib:$JAVA_HOME/jre/lib:$JAVA_HOME/lib/tools.jar'</span> /etc/profile</span><br><span class="line">    <span class="built_in">source</span> /etc/profile</span><br><span class="line">    java -version</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">#----安装tomcat环境</span></span><br><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">InstallTomcat</span></span> ()&#123;</span><br><span class="line">    tar xf apache-tomcat-9.0.21.tar.gz -C /usr/<span class="built_in">local</span>/</span><br><span class="line">    ln -s /usr/<span class="built_in">local</span>/apache-tomcat-9.0.21 /usr/<span class="built_in">local</span>/tomcat</span><br><span class="line">    <span class="built_in">echo</span> <span class="string">"export TOMCAT_HOME=/usr/local/tomcat"</span> &gt;&gt; /etc/profile</span><br><span class="line">    <span class="built_in">source</span> /etc/profile</span><br><span class="line">&#125;</span><br><span class="line">InstallJava</span><br><span class="line">InstallTomcat</span><br><span class="line"></span><br><span class="line">/usr/<span class="built_in">local</span>/tomcat/bin/startup.sh</span><br></pre></td></tr></table></figure></p>
+<p>2）执行脚本<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">[root@tomcat1 ~]# bash install_tomcat.sh </span><br><span class="line">java version <span class="string">"1.8.0_211"</span></span><br><span class="line">Java(TM) SE Runtime Environment (build 1.8.0_211-b12)</span><br><span class="line">Java HotSpot(TM) 64-Bit<span class="built_in"> Server </span>VM (build 25.211-b12, mixed mode)</span><br><span class="line">Using CATALINA_BASE:   /usr/local/tomcat</span><br><span class="line">Using CATALINA_HOME:   /usr/local/tomcat</span><br><span class="line">Using CATALINA_TMPDIR: /usr/local/tomcat/temp</span><br><span class="line">Using JRE_HOME:        /usr/local/java</span><br><span class="line">Using CLASSPATH:       /usr/local/tomcat/bin/bootstrap.jar:/usr/local/tomcat/bin/tomcat-juli.jar</span><br><span class="line">Tomcat started.</span><br><span class="line"></span><br><span class="line">[root@tomcat1 ~]# ss -nltp |grep :80</span><br><span class="line">LISTEN     0      100         :::8080                    :::*                   users:((<span class="string">"java"</span>,<span class="attribute">pid</span>=2993,fd=54))</span><br><span class="line">LISTEN     0      1         ::ffff:127.0.0.1:8005                    :::*                   users:((<span class="string">"java"</span>,<span class="attribute">pid</span>=2993,fd=74))</span><br><span class="line">LISTEN     0      100         :::8009                    :::*                   users:((<span class="string">"java"</span>,<span class="attribute">pid</span>=2993,fd=59))</span><br></pre></td></tr></table></figure></p>
+<p>3）下载<code>memcached-session-manager</code>等相关软件包并<code>copy</code>到<code>tomcat</code>安装目录的<code>lib</code>目录中<br><figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">[root<span class="symbol">@tomcat1</span> ~]<span class="meta"># mkdir tools &amp;&amp; cd tools</span></span><br><span class="line"></span><br><span class="line">[root<span class="symbol">@tomcat1</span> ~]<span class="meta"># wget http://repo1.maven.org/maven2/de/javakaffee/msm/memcached-session-manager/2.3.0/memcached-session-manager-2.3.0.jar</span></span><br><span class="line">[root<span class="symbol">@tomcat1</span> ~]<span class="meta"># wget http://repo1.maven.org/maven2/de/javakaffee/msm/memcached-session-manager-tc9/2.3.0/memcached-session-manager-tc9-2.3.0.jar</span></span><br><span class="line">[root<span class="symbol">@tomcat1</span> ~]<span class="meta"># wget http://repo1.maven.org/maven2/de/javakaffee/msm/msm-kryo-serializer/2.3.0/msm-kryo-serializer-2.3.0.jar</span></span><br><span class="line">[root<span class="symbol">@tomcat1</span> ~]<span class="meta"># wget http://repo1.maven.org/maven2/net/spy/spymemcached/2.12.2/spymemcached-2.12.2.jar</span></span><br><span class="line">[root<span class="symbol">@tomcat1</span> ~]<span class="meta"># wget https://repo1.maven.org/maven2/de/javakaffee/kryo-serializers/0.42/kryo-serializers-0.42.jar</span></span><br><span class="line">[root<span class="symbol">@tomcat1</span> ~]<span class="meta"># wget https://repo1.maven.org/maven2/com/esotericsoftware/reflectasm/1.11.0/reflectasm-1.11.0.jar</span></span><br><span class="line">[root<span class="symbol">@tomcat1</span> ~]<span class="meta"># wget https://repo1.maven.org/maven2/com/esotericsoftware/minlog/1.3.0/minlog-1.3.0.jar</span></span><br><span class="line">[root<span class="symbol">@tomcat1</span> ~]<span class="meta"># wget https://repo1.maven.org/maven2/com/esotericsoftware/kryo/4.0.0/kryo-4.0.0.jar</span></span><br><span class="line">[root<span class="symbol">@tomcat1</span> ~]<span class="meta"># wget https://repo1.maven.org/maven2/org/ow2/asm/asm/7.0/asm-7.0.jar</span></span><br><span class="line">[root<span class="symbol">@tomcat1</span> ~]<span class="meta"># wget http://repo1.maven.org/maven2/org/objenesis/objenesis/3.0.1/objenesis-3.0.1.jar</span></span><br><span class="line"></span><br><span class="line">[root<span class="symbol">@tomcat1</span> tools]<span class="meta"># cp ./* /usr/local/tomcat/lib/</span></span><br></pre></td></tr></table></figure></p>
+<p>4）编辑配置文件，添加连接<code>memcached</code><br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"># No-Stick模式</span><br><span class="line">[root@tomcat1 ~]# vim /usr/local/tomcat/conf/context.xml</span><br><span class="line"># 在<span class="tag">&lt;<span class="name">Context</span>&gt;</span>和<span class="tag">&lt;/<span class="name">Context</span>&gt;</span>里面加上下面一段</span><br><span class="line"><span class="comment">&lt;!-- 这里的ip为memcached服务器的IP,如果有多个memcached服务器，用逗号隔开 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">Manager</span> <span class="attr">className</span>=<span class="string">"de.javakaffee.web.msm.MemcachedBackupSessionManager"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">memcachedNodes</span>=<span class="string">"n1:192.168.1.34:11211"</span> </span></span><br><span class="line"><span class="tag">        <span class="attr">lockingMode</span>=<span class="string">"auto"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">sticky</span>=<span class="string">"false"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">requestUriIgnorePattern</span>= <span class="string">".*\.(png|gif|jpg|css|js)$"</span>  </span></span><br><span class="line"><span class="tag">        <span class="attr">sessionBackupAsync</span>= <span class="string">"false"</span>  </span></span><br><span class="line"><span class="tag">        <span class="attr">sessionBackupTimeout</span>= <span class="string">"100"</span>  </span></span><br><span class="line"><span class="tag">        <span class="attr">copyCollectionsForSerialization</span>=<span class="string">"true"</span>  </span></span><br><span class="line"><span class="tag">        <span class="attr">transcoderFactoryClass</span>=<span class="string">"de.javakaffee.web.msm.serializer.kryo.KryoTranscoderFactory"</span> /&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>5）准备测试文件<br><figure class="highlight gherkin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root<span class="meta">@tomcat1</span> ~]<span class="comment"># rm -rf /usr/local/tomcat/webapps/*</span></span><br><span class="line">[root<span class="meta">@tomcat1</span> ~]<span class="comment"># mkdir /usr/local/tomcat/webapps/ROOT</span></span><br><span class="line">[root<span class="meta">@tomcat1</span> ~]<span class="comment"># vim /usr/local/tomcat/webapps/ROOT/index.jsp</span></span><br><span class="line">SessionID:<span class="variable">&lt;%=session.getId()%&gt;</span> <span class="variable">&lt;BR&gt;</span></span><br><span class="line">SessionIP:<span class="variable">&lt;%=request.getServerName()%&gt;</span> <span class="variable">&lt;BR&gt;</span></span><br><span class="line">SessionPort:<span class="variable">&lt;%=request.getServerPort()%&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>6）重启<code>tomcat</code><br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@tomcat1 ~]# /usr/local/tomcat/bin/shutdown.sh</span><br><span class="line">[root@tomcat1 ~]# /usr/local/tomcat/bin/startup.sh</span><br><span class="line">[root@tomcat1 ~]# lsof -i:8080</span><br><span class="line">COMMAND  PID<span class="built_in"> USER </span>  FD  <span class="built_in"> TYPE </span>DEVICE SIZE/OFF NODE NAME</span><br><span class="line">java    4672 root   63u <span class="built_in"> IPv6 </span> 52084      0t0  TCP *:webcache (LISTEN)</span><br></pre></td></tr></table></figure></p>
+<p>7）测试<br>访问tomcat1：<br><img src="/2019/06/27/Tomcat+Nginx+Memcached综合案例/tomcat1.png" alt><br>访问tomcat2：<br><img src="/2019/06/27/Tomcat+Nginx+Memcached综合案例/tomcat2.png" alt><br>访问nginx默认页面：<br><img src="/2019/06/27/Tomcat+Nginx+Memcached综合案例/tomcat4.png" alt><br>访问jsp动态程序：<br><img src="/2019/06/27/Tomcat+Nginx+Memcached综合案例/tomcat3.png" alt><br>通过上面的访问可以看出，访问静态页面时nginx自身处理，当访问jsp动态的时候会调度给tomcat去处理。并且当一个浏览器访问后，便会一直访问这一个，so，这样就达到了session会话保持。</p>
+<hr>
+<p><strong>补充</strong><br>memcached-session-manager 参数说明：<br><figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">memcachedNodes 必选项，memcached的节点信息，多个memcached节点,中间需要使用空格</span><br><span class="line"></span><br><span class="line">failoverNodes=<span class="string">"n2"</span>  表示当前session保持到n1的memcached节点上</span><br><span class="line">failoverNodes  可选项，不能使用在non-sticky sessions模式。故障转移配置节点，多个使用空格或逗号分开，配置某个节点为备份节点，</span><br><span class="line">当其他节点都不可用时才会存储到备份节点，官方建议配置为和tomcat同服务器的节点。</span><br><span class="line"><span class="section">理由如下:</span></span><br><span class="line">假如有两台服务器m1,m2，其中m1部署tomcat和memcached节点n1，m2部署memcached节点n2。</span><br><span class="line">如果配置tomcat的failoverNodes值为n2或者不配置，则当服务器m1挂掉后n1和tomcat中保存的session会丢失，而n2中未保存或者只保存了部分session，</span><br><span class="line">这就造成 部分用户状态丢失。</span><br><span class="line">如果配置tomcat的failoverNodes值为n1，则当m1挂掉后因为n2中保存了所有的session，所以重启tomcat的时候用户状态不会丢失。</span><br><span class="line">为什么n2中保存了所有的session? 因为failoverNodes配置的值是n1，只有当n2节点不可用时才会把session存储到n1，所以这个时候n1中是没有保存任何session的。</span><br><span class="line">lockingMode  可选值，默认none，只对non-sticky有效。</span><br><span class="line">requestUriIgnorePattern  可选值，制定忽略那些请求的session操作，一般制定静态资源如css,js一类的。</span><br><span class="line">sessionBackupAsync    可选值，默认true，是否异步的方式存储到memcached。</span><br><span class="line">sessionBackupTimeout  可选项，默认100毫秒，异步存储session的超时时间。</span><br></pre></td></tr></table></figure></p>
+<p>相关软件包jar包下载：<br><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">memcached-session-manager 下载地址：<span class="string">http:</span><span class="comment">//repo1.maven.org/maven2/de/javakaffee/msm/</span></span><br><span class="line"><span class="string">http:</span><span class="comment">//repo1.maven.org/maven2/de/javakaffee/msm/memcached-session-manager/2.3.0/memcached-session-manager-2.3.0.jar</span></span><br><span class="line"><span class="string">http:</span><span class="comment">//repo1.maven.org/maven2/de/javakaffee/msm/memcached-session-manager-tc9/2.3.0/memcached-session-manager-tc9-2.3.0.jar</span></span><br><span class="line"></span><br><span class="line">msm-kryo-serializer    下载地址：<span class="string">http:</span><span class="comment">//repo1.maven.org/maven2/de/javakaffee/msm/msm-kryo-serializer/</span></span><br><span class="line"><span class="string">http:</span><span class="comment">//repo1.maven.org/maven2/de/javakaffee/msm/msm-kryo-serializer/2.3.0/msm-kryo-serializer-2.3.0.jar</span></span><br><span class="line"></span><br><span class="line">spymemcached    下载地址：<span class="string">http:</span><span class="comment">//repo1.maven.org/maven2/net/spy/spymemcached/</span></span><br><span class="line"><span class="string">http:</span><span class="comment">//repo1.maven.org/maven2/net/spy/spymemcached/2.12.2/spymemcached-2.12.2.jar</span></span><br><span class="line"></span><br><span class="line">serializers    下载地址：<span class="string">https:</span><span class="comment">//repo1.maven.org/maven2/de/javakaffee/kryo-serializers/</span></span><br><span class="line"><span class="string">https:</span><span class="comment">//repo1.maven.org/maven2/de/javakaffee/kryo-serializers/0.42/kryo-serializers-0.42.jar</span></span><br><span class="line"></span><br><span class="line">reflectasm    下载地址：<span class="string">https:</span><span class="comment">//repo1.maven.org/maven2/com/esotericsoftware/reflectasm</span></span><br><span class="line"><span class="string">https:</span><span class="comment">//repo1.maven.org/maven2/com/esotericsoftware/reflectasm/1.11.0/reflectasm-1.11.0.jar</span></span><br><span class="line"></span><br><span class="line">minlog    下载地址：<span class="string">https:</span><span class="comment">//repo1.maven.org/maven2/com/esotericsoftware/minlog</span></span><br><span class="line"><span class="string">https:</span><span class="comment">//repo1.maven.org/maven2/com/esotericsoftware/minlog/1.3.0/minlog-1.3.0.jar</span></span><br><span class="line"></span><br><span class="line">kryo    下载地址：<span class="string">https:</span><span class="comment">//repo1.maven.org/maven2/com/esotericsoftware/kryo</span></span><br><span class="line"><span class="string">https:</span><span class="comment">//repo1.maven.org/maven2/com/esotericsoftware/kryo/4.0.0/kryo-4.0.0.jar</span></span><br><span class="line"></span><br><span class="line">asm    下载地址：<span class="string">https:</span><span class="comment">//repo1.maven.org/maven2/org/ow2/asm/asm/</span></span><br><span class="line"><span class="string">https:</span><span class="comment">//repo1.maven.org/maven2/org/ow2/asm/asm/7.0/asm-7.0.jar     </span></span><br><span class="line"></span><br><span class="line">objenesis    下载地址：<span class="string">http:</span><span class="comment">//repo1.maven.org/maven2/org/objenesis/objenesis/</span></span><br><span class="line"><span class="string">http:</span><span class="comment">//repo1.maven.org/maven2/org/objenesis/objenesis/3.0.1/objenesis-3.0.1.jar</span></span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    
+    
+    
+    <div>
+    
+      <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+
+    
+    </div>
+      <div>
+        
+        
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+  
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <p><span>本文标题:</span><a href="/2019/06/27/Tomcat+Nginx+Memcached综合案例/">Tomcat+Nginx+Memcached综合案例</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 Leeyj 的个人博客">Leeyj</a></p>
+  <p><span>发布时间:</span>2019年06月27日 - 17:36</p>
+  <p><span>最后更新:</span>2019年07月10日 - 09:46</p>
+  <p><span>原始链接:</span><a href="/2019/06/27/Tomcat+Nginx+Memcached综合案例/" title="Tomcat+Nginx+Memcached综合案例">https://leeyj.coding.me/2019/06/27/Tomcat+Nginx+Memcached综合案例/</a>
+    <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://leeyj.coding.me/2019/06/27/Tomcat+Nginx+Memcached综合案例/" aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
+</div>
+<script> 
+    var clipboard = new Clipboard('.fa-clipboard');
+    $(".fa-clipboard").click(function(){
+      clipboard.on('success', function(){
+        swal({   
+          title: "",   
+          text: '复制成功',
+          icon: "success", 
+          showConfirmButton: true
+          });
+	});
+    });  
+</script>
+
+
+        
+      </div>
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Tomcat/" rel="tag"><i class="fa fa-tag"></i> Tomcat</a>
+          
+        </div>
+      
+
+      
+      
+        <div class="post-widgets">
+        
+
+        
+
+        
+          
+          <div id="needsharebutton-postbottom">
+            <span class="btn">
+              <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </span>
+          </div>
+        
+        </div>
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/06/26/Tomcat安装与部署/" rel="next" title="Tomcat安装与部署">
+                <i class="fa fa-chevron-left"></i> Tomcat安装与部署
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/07/05/ELK快速入门一-基本部署/" rel="prev" title="ELK快速入门一-基本部署">
+                ELK快速入门一-基本部署 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+      <div id="sidebar-dimmer"></div>
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.png" alt="Leeyj">
+            
+              <p class="site-author-name" itemprop="name">Leeyj</p>
+              <p class="site-description motion-element" itemprop="description">Linux，Python爱好者</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">30</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="http://www.cnblogs.com/yanjieli" target="_blank" title="博客园">
+                      博客园</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.jianshu.com/u/9be413f3daee" target="_blank" title="简书">
+                      简书</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/buji595" target="_blank" title="GitHub">
+                      GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#说明"><span class="nav-number">1.</span> <span class="nav-text">说明</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#环境规划"><span class="nav-number">2.</span> <span class="nav-text">环境规划</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#具体步骤"><span class="nav-number">3.</span> <span class="nav-text">具体步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#memcached部署"><span class="nav-number">3.1.</span> <span class="nav-text">memcached部署</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#nginx部署"><span class="nav-number">3.2.</span> <span class="nav-text">nginx部署</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#tomcat部署"><span class="nav-number">3.3.</span> <span class="nav-text">tomcat部署</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Leeyj</span>
+
+  
+</div>
+
+
+<!--  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+-->
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+<!--
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+-->
+
+
+
+
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_pv">
+    本站总访问量<span id="busuanzi_value_site_pv"></span>次
+</span>
+</div>
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共63.2k字</span>
+</div>
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="//cdn.jsdelivr.net/jquery/2.1.3/jquery.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="//cdn.jsdelivr.net/fancybox/2.1.5/jquery.fancybox.pack.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+ 
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+
+  <script src="/js/src/Valine.min.js"></script>
+
+  
+  
+
+
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: true,
+        appId: '9WKoAiqkgrhK7oWJVeqJupkH-gzGzoHsz',
+        appKey: 'QjYE9zY00BnBP6JH9NgliNxN',
+        placeholder: 'Just go go',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+        var infoEle = document.querySelector('#comments .info');
+    if (infoEle && infoEle.childNodes && infoEle.childNodes.length > 0){
+      infoEle.childNodes.forEach(function(item) {
+        item.parentNode.removeChild(item);
+      });
+    }
+
+  </script>
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/needsharebutton/needsharebutton.css">
+
+  
+  
+  <script src="/lib/needsharebutton/needsharebutton.js"></script>
+
+  <script>
+    
+      pbOptions = {};
+      
+          pbOptions.iconStyle = "box";
+      
+          pbOptions.boxForm = "horizontal";
+      
+          pbOptions.position = "bottomCenter";
+      
+          pbOptions.networks = "Weibo,Wechat,Douban,QQZone,Twitter,Facebook";
+      
+      new needShareButton('#needsharebutton-postbottom', pbOptions);
+    
+    
+  </script>
+
+  
+
+  
+
+  
+
+  
+
+  
+  <style>
+    .copy-btn {
+      display: inline-block;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 20px;
+      color: #333;
+      white-space: nowrap;
+      vertical-align: middle;
+      cursor: pointer;
+      background-color: #eee;
+      background-image: linear-gradient(#fcfcfc, #eee);
+      border: 1px solid #d5d5d5;
+      border-radius: 3px;
+      user-select: none;
+      outline: 0;
+    }
+
+    .highlight-wrap .copy-btn {
+      transition: opacity .3s ease-in-out;
+      opacity: 0;
+      padding: 2px 6px;
+      position: absolute;
+      right: 4px;
+      top: 8px;
+    }
+
+    .highlight-wrap:hover .copy-btn,
+    .highlight-wrap .copy-btn:focus {
+      opacity: 1
+    }
+
+    .highlight-wrap {
+      position: relative;
+    }
+  </style>
+
+  <script>
+    $('.highlight').each(function (i, e) {
+      var $wrap = $('<div>').addClass('highlight-wrap')
+      $(e).after($wrap)
+      $wrap.append($('<button>').addClass('copy-btn').append('复制').on('click', function (e) {
+        var code = $(this).parent().find('.code').find('.line').map(function (i, e) {
+          return $(e).text()
+        }).toArray().join('\n')
+        var ta = document.createElement('textarea')
+        document.body.appendChild(ta)
+        ta.style.position = 'absolute'
+        ta.style.top = '0px'
+        ta.style.left = '0px'
+        ta.value = code
+        ta.select()
+        ta.focus()
+        var result = document.execCommand('copy')
+        document.body.removeChild(ta)
+        
+          if(result)$(this).text('复制成功')
+          else $(this).text('复制失败')
+        
+        $(this).blur()
+      })).on('mouseleave', function (e) {
+        var $b = $(this).find('.copy-btn')
+        setTimeout(function () {
+          $b.text('复制')
+        }, 300)
+      }).append(e)
+    })
+  </script>
+
+
+</body>
+</html>

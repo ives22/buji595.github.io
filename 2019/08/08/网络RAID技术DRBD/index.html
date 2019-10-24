@@ -1,0 +1,1485 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+      
+    
+    
+      
+    
+  <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+  <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-center-atom.min.css" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+  <link href="//cdn.jsdelivr.net/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Storage,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="不羁" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="DRBD简介官方文档  DRBD的全称为：Distributed Replicated Block Device(DRBD)分布式块设备复制，DRBD是由内核模块和相关脚本构成，用以构建高可用的集群。其实现方式是通过网络来镜像整个设备。可以把它看作是一种网络RAID。它允许用户在远程机器上建立一个本地块设备的实时镜像。  DRBD是如何工作的 （DRBD Primary）负责接收数据，把数据写到本">
+<meta name="keywords" content="Storage">
+<meta property="og:type" content="article">
+<meta property="og:title" content="网络RAID技术DRBD">
+<meta property="og:url" content="https://leeyj.coding.me/2019/08/08/网络RAID技术DRBD/index.html">
+<meta property="og:site_name" content="不羁">
+<meta property="og:description" content="DRBD简介官方文档  DRBD的全称为：Distributed Replicated Block Device(DRBD)分布式块设备复制，DRBD是由内核模块和相关脚本构成，用以构建高可用的集群。其实现方式是通过网络来镜像整个设备。可以把它看作是一种网络RAID。它允许用户在远程机器上建立一个本地块设备的实时镜像。  DRBD是如何工作的 （DRBD Primary）负责接收数据，把数据写到本">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://leeyj.coding.me/2019/08/08/网络RAID技术DRBD/01.jpg">
+<meta property="og:updated_time" content="2019-10-24T09:12:16.899Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="网络RAID技术DRBD">
+<meta name="twitter:description" content="DRBD简介官方文档  DRBD的全称为：Distributed Replicated Block Device(DRBD)分布式块设备复制，DRBD是由内核模块和相关脚本构成，用以构建高可用的集群。其实现方式是通过网络来镜像整个设备。可以把它看作是一种网络RAID。它允许用户在远程机器上建立一个本地块设备的实时镜像。  DRBD是如何工作的 （DRBD Primary）负责接收数据，把数据写到本">
+<meta name="twitter:image" content="https://leeyj.coding.me/2019/08/08/网络RAID技术DRBD/01.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":true},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://leeyj.coding.me/2019/08/08/网络RAID技术DRBD/">
+
+
+
+
+
+  <title>网络RAID技术DRBD | 不羁</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">不羁</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">别来无恙</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://leeyj.coding.me/2019/08/08/网络RAID技术DRBD/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Leeyj">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="不羁">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">网络RAID技术DRBD</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-08T15:00:35+08:00">
+                2019-08-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Storage/" itemprop="url" rel="index">
+                    <span itemprop="name">Storage</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/08/08/网络RAID技术DRBD/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/08/08/网络RAID技术DRBD/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  7.9k
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  31
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="DRBD简介"><a href="#DRBD简介" class="headerlink" title="DRBD简介"></a>DRBD简介</h1><p><a href="https://docs.linbit.com/docs/users-guide-8.4/" target="_blank" rel="noopener">官方文档</a></p>
+<blockquote>
+<p>DRBD的全称为：<code>Distributed Replicated Block Device(DRBD)</code>分布式块设备复制，<code>DRBD</code>是由内核模块和相关脚本构成，用以构建高可用的集群。其实现方式是通过网络来镜像整个设备。可以把它看作是一种网络<code>RAID</code>。它允许用户在远程机器上建立一个本地块设备的实时镜像。</p>
+</blockquote>
+<h2 id="DRBD是如何工作的"><a href="#DRBD是如何工作的" class="headerlink" title="DRBD是如何工作的"></a>DRBD是如何工作的</h2><blockquote>
+<p><code>（DRBD Primary）</code>负责接收数据，把数据写到本地磁盘并发送给另一台主机<code>（DRBD Secondary）</code>。另一个主机再将数据存到自己的磁盘中。目前，<code>DRBD</code>每次只允许对一个节点进行读写访问，但这对于通常的故障切换高可用集群来说已经足够用了，有可能以后的版本支持两个节点进行读写存取。<br><code>DRBD</code>协议说明<br>1）数据一旦写入磁盘并发送到网络中就认为完成了写入操作。<br>2）收到接收确认就认为完成了写入操作。<br>3）收到写入确认就认为完成了写入操作。</p>
+</blockquote>
+<h2 id="DRBD与HA的关系"><a href="#DRBD与HA的关系" class="headerlink" title="DRBD与HA的关系"></a>DRBD与HA的关系</h2><blockquote>
+<p>一个<code>DRBD</code>系统由两个节点构成，与<code>HA</code>集群类似，也有主节点和备用节点之分，在带有主要设备的节点上，应用程序和操作系统可以运行和访问<code>DRBD</code>设备<code>（/dev/drbd*）</code>。在主节点写入的数据通过<code>DRBD</code>设备存储到主节点的设备写入到备用节点的磁盘中。现在大部分的高可用性集群都会使用共享存储，而<code>DRBD</code>也可以作为一个共享存储设备，使用<code>DRBD</code>不需要太多的硬件的设备。因为它在<code>TCP/IP</code>网络中运行，所以，利用<code>DRBD</code>作为共享存储设备，节约很多成本，因为价格要比专用的存储网络便宜很多；其性能与稳定性方面也不错。</p>
+</blockquote>
+<h1 id="DRBD工作原理"><a href="#DRBD工作原理" class="headerlink" title="DRBD工作原理"></a>DRBD工作原理</h1><blockquote>
+<p><code>DRBD</code>是<code>linux</code>的内核的存储层中的一个分布式存储系统，可用使用<code>DRBD</code>在两台<code>Linux</code>服务器之间共享块设备，共享文件系统和数据。类似网络<code>RAID-1</code>，其工作的原理架构图如下：</p>
+</blockquote>
+<p><img src="/2019/08/08/网络RAID技术DRBD/01.jpg" alt="image.png"></p>
+<h1 id="DRBD的特性"><a href="#DRBD的特性" class="headerlink" title="DRBD的特性"></a>DRBD的特性</h1><blockquote>
+<p>分布式复制块设备（<code>DRBD</code>技术）是一种基于软件的，无共享，复制的存储解决方案，在服务器之间的对块设备（硬盘、分区、逻辑卷等）进行镜像。<br><code>DRBD</code>镜像数据的特性：<br>1）实时性：当某个应用程序完成对数据的修改时，复制功能立即发生<br>2）透明性：应用程序的数据存储在镜像块设备上是独立透明的，他们的数据在两个节点上都保存一份，因此，无论哪一台服务器宕机，都不会影响应用程序读取数据的操作，所以说是透明的。<br>3）同步镜像和异步镜像：同步镜像表示当应用程序提交本地的写操作后，数据会同步写到两个节点上去；异步镜像表示当应用程序提交写操作后，只有当本地的节点上完成写操作后，另一个节点才可以完成写操作。</p>
+</blockquote>
+<h1 id="DRBD的模式"><a href="#DRBD的模式" class="headerlink" title="DRBD的模式"></a>DRBD的模式</h1><blockquote>
+<p><code>DRBD</code>共有2种模式，一种是<code>DRBD的主从模式</code>，另一种是<code>DRBD的双主模式</code><br><strong>1）DRBD的主从模式：</strong><br>  这种模式下，其中一个节点作为主节点，另一个节点作为从节点。其中主节点可以执行读、写操作；从节点不可以挂载文件系统，因此也不可以执行读写操作。在这种模式下，资源在任何时间只能存储在主节点上。这种模式可用在任何的文件系统（<code>ext3、ext4、xfs</code>）等。默认这种模式下，一旦主节点发生故障，从节点需要手工将资源进行转移，且主节点变成从节点和从节点变成主节点需要手动进行切换。不能自动进行转移，因此比较麻烦。<br>为了解决手动将资源和节点进行转移，可以将<code>DRBD</code>做成高可用集群的资源代理<code>（RA）</code>，这样一旦其中的一个节点宕机，资源就会自动转移到另一个节点，从而保证服务的连续性。<br><strong>2）DRBD的双主模式:</strong><br>这是<code>DRBD8.0</code>之后的新特性，在双主模式下，任何资源在任何特定的时间都存在两个主节点。这种模式需要一个共享的集群文件系统，利用分布式的锁机制进行管理，如<code>GFS</code>和<code>OCFS2</code>。部署双主模式时，<code>DRBD</code>可以是负载均衡的集群，这就需要从两个并发的主节点中选取一个首选的访问数据。这种模式默认是禁用的，如果要是用的话必须在配置文件中进行申明。</p>
+</blockquote>
+<h1 id="DRBD的复制模式"><a href="#DRBD的复制模式" class="headerlink" title="DRBD的复制模式"></a>DRBD的复制模式</h1><blockquote>
+<p><code>DRBD</code>的复制功能就是将应用程序提交的数据一份保存在本地节点，一份复制传输保存在另一份节点上。但是<code>DRBD</code>需要对传输的数据进行确认以便保证另一个节点的写操作完成，就需要用到<code>DRBD</code>的复制模式，<code>DRBD</code>有三种复制模式：</p>
+</blockquote>
+<p><strong>1）协议A：异步复制协议</strong></p>
+<blockquote>
+<p>一旦本地磁盘写入已经完成，数据包已在发送队列中，则写被认为是完成的。在一个节点上发生故障时，可能发生数据丢失，因为被写入到远程节点上的数据可能仍在发送队列。尽管，在故障转移节点上的数据是一致的，但没有及时更新。这通常是用于地理上分开的节点。</p>
+</blockquote>
+<p><strong>2）协议B：内存同步（半同步）复制协议</strong></p>
+<blockquote>
+<p>一旦本地磁盘写入已完成且复制数据包达到了对等节点则认为写在主节点上被认为是完成的。数据丢失可能发生在参加的两个节点同时故障的情况下，因为在传输中的数据可能不会被提交到磁盘。</p>
+</blockquote>
+<p><strong>3）协议C：同步复制协议</strong></p>
+<blockquote>
+<p>只有在本地和远程节点的磁盘已经确认了写操作完成，写才被认为完成。没有任何数据丢失，所以这是一个集群节点的流行模式，但<code>I/O</code>吞吐量依赖于网络带宽。一般使用<code>协议C</code>，但选择<code>C协议</code>将影响流量，从而影响网络延迟。为了数据可靠性，我们在生产环境使用时须慎重选择使用哪一种协议。</p>
+</blockquote>
+<h1 id="DRBD配置文件说明"><a href="#DRBD配置文件说明" class="headerlink" title="DRBD配置文件说明"></a>DRBD配置文件说明</h1><figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br></pre></td><td class="code"><pre><span class="line">DRBD的主配置文件为/etc/drbd.<span class="keyword">conf</span>；为了管理的便捷性，</span><br><span class="line">目前通常会将配置文件分成多个部分，且都保存至/etc/drbd.<span class="keyword">d</span>目录中，主配置文件中仅使用<span class="string">"include"</span>指令将这些配置文件片断整合起来。通常，/etc/drbd.<span class="keyword">d</span>目录中的配置文件</span><br><span class="line">为global_common.<span class="keyword">conf</span>和所有以.res结尾的文件。其中global_common.<span class="keyword">conf</span>中主要定义<span class="keyword">global</span>段和common段，而每一个.res的文件用于定义一个资源。</span><br><span class="line">  </span><br><span class="line">在配置文件中，<span class="keyword">global</span>段仅能出现一次，且如果所有的配置信息都保存至同一个配置文件中而不分开为多个文件的话，<span class="keyword">global</span>段必须位于配置文件的最开始处。目前<span class="keyword">global</span>段中</span><br><span class="line">可以定义的参数仅有minor-<span class="keyword">count</span>, dialog-refresh, disable-ip-verification和usage-<span class="keyword">count</span>。</span><br><span class="line">  </span><br><span class="line">common段则用于定义被每一个资源默认继承的参数，可以在资源定义中使用的参数都可以在common段中定义。实际应用中，common段并非必须，但建议将多个资源共享的参数定</span><br><span class="line">义为common段中的参数以降低配置文件的复杂度。</span><br><span class="line">  </span><br><span class="line">resource段则用于定义DRBD资源，每个资源通常定义在一个单独的位于/etc/drbd.<span class="keyword">d</span>目录中的以.res结尾的文件中。资源在定义时必须为其命名，名字可以由非空白的ASCII字符</span><br><span class="line">组成。每一个资源段的定义中至少要包含两个host子段，以定义此资源关联至的节点，其它参数均可以从common段或DRBD的默认中进行继承而无须定义。</span><br><span class="line">  </span><br><span class="line">DRBD配置文件</span><br><span class="line">[root@drbd1 ~]# <span class="keyword">cat</span> /etc/drbd.<span class="keyword">d</span>/global_common.<span class="keyword">conf</span></span><br><span class="line"><span class="keyword">global</span> &#123;</span><br><span class="line"> usage-<span class="keyword">count</span> yes;         <span class="comment">//是否参加DRBD使用者统计，默认是参加</span></span><br><span class="line"> # minor-<span class="keyword">count</span> dialog-refresh disable-ip-verification  <span class="comment">//这里是global可以使用的参数</span></span><br><span class="line"> #minor-<span class="keyword">count</span>：32         <span class="comment">//从（设备）个数，取值范围1~255，默认值为32。该选项设定了允许定义的resource个数，当要定义的resource超过了此选项的设定时，需要重新载入DRBD内核模块。</span></span><br><span class="line"> #disable-ip-verification：<span class="keyword">no</span>   <span class="comment">//是否禁用ip检查</span></span><br><span class="line">   </span><br><span class="line">&#125;</span><br><span class="line">common &#123;</span><br><span class="line"> protocol C;      <span class="comment">//指定复制协议,复制协议共有三种，为协议A，B，C，默认协议为协议C</span></span><br><span class="line"> handlers &#123;       <span class="comment">//该配置段用来定义一系列处理器，用来回应特定事件。</span></span><br><span class="line">  # These are EXAMPLE handlers only.</span><br><span class="line">  # They may have severe implications,</span><br><span class="line">  # like hard resetting the node under certain circumstances.</span><br><span class="line">  # Be careful when chosing your poison.</span><br><span class="line">  # pri-<span class="keyword">on</span>-incon-degr <span class="string">"/usr/lib/DRBD/notify-pri-on-incon-degr.sh; /usr/lib/DRBD/notify-emergency-reboot.sh; echo b &gt; /proc/sysrq-trigger ; reboot -f"</span>;</span><br><span class="line">  # pri-lost-after-sb <span class="string">"/usr/lib/DRBD/notify-pri-lost-after-sb.sh; /usr/lib/DRBD/notify-emergency-reboot.sh; echo b &gt; /proc/sysrq-trigger ; reboot -f"</span>;</span><br><span class="line">  # <span class="keyword">local</span>-io-<span class="keyword">error</span> <span class="string">"/usr/lib/DRBD/notify-io-error.sh; /usr/lib/DRBD/notify-emergency-shutdown.sh; echo o &gt; /proc/sysrq-trigger ; halt -f"</span>;</span><br><span class="line">  # fence-peer <span class="string">"/usr/lib/DRBD/crm-fence-peer.sh"</span>;</span><br><span class="line">  # <span class="keyword">split</span>-brain <span class="string">"/usr/lib/DRBD/notify-split-brain.sh root"</span>;</span><br><span class="line">  # <span class="keyword">out</span>-of-sync <span class="string">"/usr/lib/DRBD/notify-out-of-sync.sh root"</span>;</span><br><span class="line">  # before-resync-target <span class="string">"/usr/lib/DRBD/snapshot-resync-target-lvm.sh -p 15 -- -c 16k"</span>;</span><br><span class="line">  # after-resync-target /usr/lib/DRBD/unsnapshot-resync-target-lvm.<span class="keyword">sh</span>;</span><br><span class="line"> &#125;</span><br><span class="line"> startup &#123;    <span class="comment">//#DRBD同步时使用的验证方式和密码。该配置段用来更加精细地调节DRBD属性，它作用于配置节点在启动或重启时。常用选项有：</span></span><br><span class="line">  # wfc-timeout degr-wfc-timeout outdated-wfc-timeout wait-after-sb</span><br><span class="line">  wfc-timeout：  <span class="comment">//该选项设定一个时间值，单位是秒。在启用DRBD块时，初始化脚本DRBD会阻塞启动进程的运行，直到对等节点的出现。该选项就是用来限制这个等待时间的，默认为0，即不限制，永远等待。</span></span><br><span class="line">  degr-wfc-timeout：  <span class="comment">//该选项也设定一个时间值，单位为秒。也是用于限制等待时间，只是作用的情形不同：它作用于一个降级集群（即那些只剩下一个节点的集群）在重启时的等待时间。</span></span><br><span class="line">  outdated-wfc-timeout：  <span class="comment">//同上，也是用来设定等待时间，单位为秒。它用于设定等待过期节点的时间</span></span><br><span class="line"> &#125;</span><br><span class="line"> disk &#123;</span><br><span class="line">  # <span class="keyword">on</span>-io-<span class="keyword">error</span> fencing <span class="keyword">use</span>-bmbv <span class="keyword">no</span>-disk-barrier <span class="keyword">no</span>-disk-flushes   <span class="comment">//这里是disk段内可以定义的参数</span></span><br><span class="line">  # <span class="keyword">no</span>-disk-drain <span class="keyword">no</span>-md-flushes max-bio-bvecs                      <span class="comment">//这里是disk段内可以定义的参数</span></span><br><span class="line">  <span class="keyword">on</span>-io-<span class="keyword">error</span>： detach      <span class="comment">//选项：此选项设定了一个策略，如果底层设备向上层设备报告发生I/O错误，将按照该策略进行处理。有效的策略包括：</span></span><br><span class="line">    detach      <span class="comment">//发生I/O错误的节点将放弃底层设备，以diskless mode继续工作。在diskless mode下，只要还有网络连接，DRBD将从secondary node读写数据，而不需要failover（故障转移）。该策略会导致一定的损失，但好处也很明显，DRBD服务不会中断。官方推荐和默认策略。</span></span><br><span class="line">    pass_on       <span class="comment">//把I/O错误报告给上层设备。如果错误发生在primary节点，把它报告给文件系统，由上层设备处理这些错误（例如，它会导致文件系统以只读方式重新挂载），它可能会导致DRBD停止提供服务；如果发生在secondary节点，则忽略该错误（因为secondary节点没有上层设备可以报告）。该策略曾经是默认策略，但现在已被detach所取代。</span></span><br><span class="line">    call-<span class="keyword">local</span>-io-<span class="keyword">error</span>   <span class="comment">//调用预定义的本地local-io-error脚本进行处理。该策略需要在resource（或common）配置段的handlers部分，预定义一个相应的local-io-error命令调用。该策略完全由管理员通过local-io-error命令（或脚本）调用来控制如何处理I/O错误。</span></span><br><span class="line">  fencing：               <span class="comment">//该选项设定一个策略来避免split brain的状况。有效的策略包括：</span></span><br><span class="line">    dont-care：  <span class="comment">//默认策略。不采取任何隔离措施。</span></span><br><span class="line">    resource-only：   <span class="comment">//在此策略下，如果一个节点处于split brain状态，它将尝试隔离对端节点的磁盘。这个操作通过调用fence-peer处理器来实现。fence-peer处理器将通过其它通信路径到达对等节点，并在这个对等节点上调用DRBDadm outdate res命令</span></span><br><span class="line">    resource-and-stonith：   <span class="comment">//在此策略下，如果一个节点处于split brain状态，它将停止I/O操作，并调用fence-peer处理器。处理器通过其它通信路径到达对等节点，并在这个对等节点上调用DRBDadm outdate res命令。如果无法到达对等节点，它将向对等端发送关机命令。一旦问题解决，I/O操作将重新进行。如果处理器失败，你可以使用resume-io命令来重新开始I/O操作。</span></span><br><span class="line">    </span><br><span class="line"> &#125;</span><br><span class="line"> <span class="keyword">net</span> &#123;        <span class="comment">//该配置段用来精细地调节DRBD的属性，网络相关的属性。常用的选项有：</span></span><br><span class="line">  # sndbuf-size rcvbuf-size timeout connect-int ping-int ping-timeout max-buffers     <span class="comment">//这里是net段内可以定义的参数</span></span><br><span class="line">  # max-epoch-size ko-<span class="keyword">count</span> allow-<span class="keyword">two</span>-primaries cram-hmac-alg shared-secret      <span class="comment">//这里是net段内可以定义的参数</span></span><br><span class="line">  # after-sb-0pri after-sb-1pri after-sb-2pri data-integrity-alg <span class="keyword">no</span>-tcp-cork      <span class="comment">//这里是net段内可以定义的参数</span></span><br><span class="line">  sndbuf-size：     <span class="comment">//该选项用来调节TCP send buffer的大小，DRBD 8.2.7以前的版本，默认值为0，意味着自动调节大小；新版本的DRBD的默认值为128KiB。高吞吐量的网络（例如专用的千兆网卡，或负载均衡中绑定的连接）中，增加到512K比较合适，或者可以更高，但是最好不要超过2M。</span></span><br><span class="line">  timeout：        <span class="comment">//该选项设定一个时间值，单位为0.1秒。如果搭档节点没有在此时间内发来应答包，那么就认为搭档节点已经死亡，因此将断开这次TCP/IP连接。默认值为60，即6秒。该选项的值必须小于connect-int和ping-int的值。</span></span><br><span class="line">  connect-int：     <span class="comment">//如果无法立即连接上远程DRBD设备，系统将断续尝试连接。该选项设定的就是两次尝试间隔时间。单位为秒，默认值为10秒。</span></span><br><span class="line">  ping-timeout：    <span class="comment">//该选项设定一个时间值，单位是0.1秒。如果对端节点没有在此时间内应答keep-alive包，它将被认为已经死亡。默认值是500ms。</span></span><br><span class="line">  max-buffers：     <span class="comment">//该选项设定一个由DRBD分配的最大请求数，单位是页面大小（PAGE_SIZE），大多数系统中，页面大小为4KB。这些buffer用来存储那些即将写入磁盘的数据。最小值为32（即128KB）。这个值大一点好。</span></span><br><span class="line">  max-epoch-size：    <span class="comment">//该选项设定了两次write barriers之间最大的数据块数。如果选项的值小于10，将影响系统性能。大一点好</span></span><br><span class="line">  ko-<span class="keyword">count</span>：     <span class="comment">//该选项设定一个值，把该选项设定的值 乘以 timeout设定的值，得到一个数字N，如果secondary节点没有在此时间内完成单次写请求，它将从集群中被移除（即，primary node进入StandAlong模式）。取值范围0~200，默认值为0，即禁用该功能。</span></span><br><span class="line">  allow-<span class="keyword">two</span>-primaries：   <span class="comment">//这个是DRBD8.0及以后版本才支持的新特性，允许一个集群中有两个primary node。该模式需要特定文件系统的支撑，目前只有OCFS2和GFS可以，传统的ext3、ext4、xfs等都不行！</span></span><br><span class="line">  cram-hmac-alg：    <span class="comment">//该选项可以用来指定HMAC算法来启用对端节点授权。DRBD强烈建议启用对端点授权机制。可以指定/proc/crypto文件中识别的任一算法。必须在此指定算法，以明确启用对端节点授权机制，实现数据加密传输。</span></span><br><span class="line">  shared-secret：    <span class="comment">//该选项用来设定在对端节点授权中使用的密码，最长64个字符。</span></span><br><span class="line">  data-integrity-alg：   <span class="comment">//该选项设定内核支持的一个算法，用于网络上的用户数据的一致性校验。通常的数据一致性校验，由TCP/IP头中所包含的16位校验和来进行，而该选项可以使用内核所支持的任一算法。该功能默认关闭。</span></span><br><span class="line"> &#125;</span><br><span class="line"> syncer &#123;       <span class="comment">//该配置段用来更加精细地调节服务的同步进程。常用选项有</span></span><br><span class="line">  # rate after al-extents <span class="keyword">use</span>-rle cpu-mask verify-alg csums-alg</span><br><span class="line">  rate：    <span class="comment">//设置同步时的速率，默认为250KB。默认的单位是KB/sec，也允许使用K、M和G，如40M。注意：syncer中的速率是以bytes，而不是bits来设定的。配置文件中的这个选项设置的速率是永久性的，但可使用下列命令临时地改变rate的值：DRBDsetup /dev/DRBDN syncer -r 100M。如果想重新恢复成drbd.conf配置文件中设定的速率，执行如下命令： DRBDadm adjust resource</span></span><br><span class="line">  verify-alg：    <span class="comment">//该选项指定一个用于在线校验的算法，内核一般都会支持md5、sha1和crc32c校验算法。在线校验默认关闭，必须在此选项设定参数，以明确启用在线设备校验。DRBD支持在线设备校验，它以一种高效的方式对不同节点的数据进行一致性校验。在线校验会影响CPU负载和使用，但影响比较轻微。DRBD 8.2.5及以后版本支持此功能。一旦启用了该功能，你就可以使用下列命令进行一个在线校验： DRBDadm verify resource。该命令对指定的resource进行检验，如果检测到有数据块没有同步，它会标记这些块，并往内核日志中写入一条信息。这个过程不会影响正在使用该设备的程序。</span></span><br><span class="line">                    如果检测到未同步的块，当检验结束后，你就可以如下命令重新同步它们：DRBDadm disconnect resource   or   DRBDadm connetc resource</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br><span class="line">  </span><br><span class="line">common段是用来定义共享的资源参数，以减少资源定义的重复性。common段是非必须的。resource段一般为DRBD上每一个节点来定义其资源参数的。</span><br><span class="line">资源配置文件详解 </span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">[root@drbd1 ~]# <span class="keyword">cat</span> /etc/drbd.<span class="keyword">d</span>/web.res</span><br><span class="line">resource web &#123;       <span class="comment">//web为资源名称</span></span><br><span class="line"> <span class="keyword">on</span> ha1.xsl.com &#123;                       <span class="comment">//on后面为节点的名称,有几个节点就有几个on段，这里是定义节点ha1.xsl.com上的资源</span></span><br><span class="line">  device   /dev/DRBD0;       <span class="comment">//定义DRBD虚拟块设备，这个设备事先不要格式化。</span></span><br><span class="line">  disk /dev/sda6;        <span class="comment">//定义存储磁盘为/dev/sda6,该分区创建完成之后就行了，不要进行格式化操作</span></span><br><span class="line">  address 192.168.108.199:7789;      <span class="comment">//定义DRBD监听的地址和端口，以便和对端进行通信</span></span><br><span class="line">  meta-disk  internal;       <span class="comment">//该参数有2个选项：internal和externally，其中internal表示将元数据和数据存储在同一个磁盘上；而externally表示将元数据和数据分开存储，元数据被放在另一个磁盘上。</span></span><br><span class="line"> &#125;</span><br><span class="line"> <span class="keyword">on</span> ha2.xsl.com &#123;        <span class="comment">//这里是定义节点ha2.xsl.com上的资源</span></span><br><span class="line">  device /dev/DRBD0;</span><br><span class="line">  disk /dev/sda6;</span><br><span class="line">  address 192.168.108.201:7789;</span><br><span class="line">  meta-disk internal;</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="DRBD安装配置（主从模式）"><a href="#DRBD安装配置（主从模式）" class="headerlink" title="DRBD安装配置（主从模式）"></a>DRBD安装配置（主从模式）</h1><p><strong>环境说明</strong></p>
+<blockquote>
+<p>这里使用所用环境为<code>centos7.4</code>操作系统<br>在下面的操作步骤中<code># command</code>的命令表示主从节点服务器都需要执行。</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>IP</th>
+<th>主机名</th>
+<th>角色说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>192.168.1.31</td>
+<td>drbd1.cluster.com</td>
+<td>主服务器</td>
+</tr>
+<tr>
+<td>192.168.1.32</td>
+<td>drbd2.cluster.com</td>
+<td>从服务器</td>
+</tr>
+</tbody>
+</table>
+<h2 id="具体步骤"><a href="#具体步骤" class="headerlink" title="具体步骤"></a>具体步骤</h2><p>1）两台机器上添加<code>DRBD</code>磁盘，进行分区，不做格式化，并在本地系统创建<code>/data</code>目录，不做挂载操作<br><figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">在drbd1服务器上操作</span><br><span class="line">[root@drbd1 ~]# lsblk </span><br><span class="line">......</span><br><span class="line">sdb               8:16   0   10G  0 disk</span><br><span class="line">[root@drbd1 ~]# fdisk /dev/sdb</span><br><span class="line">依次输入"n-&gt;p-&gt;1-&gt;回车-&gt;回车-w"</span><br><span class="line"></span><br><span class="line">在drbd2服务器上操作</span><br><span class="line">[root@drbd2 ~]# lsblk </span><br><span class="line">......</span><br><span class="line">sdb               8:16   0   10G  0 disk</span><br><span class="line">[root@drbd2 ~]# fdisk /dev/sdb</span><br><span class="line">依次输入"n-&gt;p-&gt;1-&gt;回车-&gt;回车-w"</span><br></pre></td></tr></table></figure></p>
+<p>2）两台服务器之间的防火墙要允许互相访问，这里测试关闭<code>selinux</code>和防火墙(两台服务器同样操作)<br><figure class="highlight vala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta"># systemctl stop firewalld</span></span><br><span class="line"><span class="meta"># setenforce 0     //临时性关闭；永久关闭需修改/etc/sysconfig/selinux的SELINUX为disable</span></span><br></pre></td></tr></table></figure></p>
+<p>3）<code>hosts</code>绑定（两台服务器同样操作）<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># vim /etc/hosts</span><br><span class="line"><span class="number">192.168</span><span class="number">.1</span><span class="number">.31</span>    drbd1.cluster.com</span><br><span class="line"><span class="number">192.168</span><span class="number">.1</span><span class="number">.32</span>    drbd2.cluster.com</span><br></pre></td></tr></table></figure></p>
+<p>4）两台服务器进行时间同步（两台服务器同样操作）<br><figure class="highlight vala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta"># yum -y install ntpdate</span></span><br><span class="line"><span class="meta"># ntpdate -u asia.pool.ntp.org</span></span><br></pre></td></tr></table></figure></p>
+<p>5）<code>DRBD</code>安装配置（两台服务器同样操作）<br><figure class="highlight vala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">这里使用yum方式安装</span><br><span class="line"><span class="meta"># rpm --import https://www.elrepo.org/RPM-GPG-KEY-elrepo.org</span></span><br><span class="line"><span class="meta"># yum -y install https://www.elrepo.org/elrepo-release-7.0-4.el7.elrepo.noarch.rpm</span></span><br><span class="line"><span class="meta"># yum -y install kmod-drbd84 drbd86-utils </span></span><br><span class="line"></span><br><span class="line">因为在执行yum -y install kmod-drbd84 drbd86-utils时，对内核kernel进行了update，要重新启动服务器，更新后的内核才会生效。</span><br><span class="line">加载模块：</span><br><span class="line"><span class="meta"># reboot</span></span><br><span class="line"><span class="meta"># modprobe drbd</span></span><br><span class="line">查看模块是否已添加上</span><br><span class="line"><span class="meta"># lsmod |grep drbd</span></span><br><span class="line">drbd                  <span class="number">397041</span>  <span class="number">0</span> </span><br><span class="line">libcrc32c              <span class="number">12644</span>  <span class="number">4</span> xfs,drbd,nf_nat,nf_conntrack</span><br></pre></td></tr></table></figure></p>
+<p>6）<code>DRBD</code>配置（两台服务器上同样操作）<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># cat /etc/drbd.conf     //主配置文件</span></span><br><span class="line"><span class="comment"># You can find an example in  /usr/share/doc/drbd.../drbd.conf.example</span></span><br><span class="line"></span><br><span class="line">include <span class="string">"drbd.d/global_common.conf"</span>;</span><br><span class="line">include <span class="string">"drbd.d/*.res"</span>;</span><br><span class="line"></span><br><span class="line">备份配置文件</span><br><span class="line"><span class="comment"># cp /etc/drbd.d/global_common.conf&#123;,.bak&#125; </span></span><br><span class="line"><span class="comment"># vim /etc/drbd.d/global_common.conf    //全局配置文件</span></span><br><span class="line">global &#123;</span><br><span class="line">	usage-count <span class="literal">no</span>;     #是否参加DRBD使用统计，默认为<span class="literal">yes</span>。官方统计drbd的装机量</span><br><span class="line">&#125;</span><br><span class="line">common &#123;</span><br><span class="line">    protocol C;    #使用DRBD的同步协议</span><br><span class="line">	handlers &#123;</span><br><span class="line">	&#125;</span><br><span class="line">	startup &#123;</span><br><span class="line">	&#125;</span><br><span class="line">	options &#123;</span><br><span class="line">	&#125;</span><br><span class="line">	disk &#123;</span><br><span class="line">                on-io-<span class="builtin-name">error</span> detach;    #配置I/O错误处理策略为分离</span><br><span class="line">	&#125;</span><br><span class="line">	net &#123;</span><br><span class="line">	&#125;</span><br><span class="line">    syncer &#123;</span><br><span class="line">                rate 30M;     #设置主备节点同步时的网络速率</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># vim /etc/drbd.d/r0.res    #创建资源</span></span><br><span class="line">resource r0 &#123;</span><br><span class="line">    on drbd1.cluster.com &#123;</span><br><span class="line">        device    /dev/drbd0;    #drbd1服务器上的DRBD虚拟块设备，事先不要格式化</span><br><span class="line">        disk      /dev/sdb1;</span><br><span class="line">       <span class="built_in"> address </span>  192.168.1.31:7789;    #DRBD监听的地址和端口，端口可以自定义。</span><br><span class="line">        meta-disk internal;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    on drbd2.cluster.com &#123;</span><br><span class="line">        device    /dev/drbd0;    #drbd2服务器上的DRBD虚拟块设备，事先不要格式化</span><br><span class="line">        disk      /dev/sdb1;</span><br><span class="line">       <span class="built_in"> address </span>  192.168.1.32:7789;</span><br><span class="line">        meta-disk internal;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>7）在两台服务器上分别启用<code>r0</code>资源（两台服务器上同样操作）<br><figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"># <span class="selector-tag">drbdadm</span> <span class="selector-tag">create-md</span> <span class="selector-tag">r0</span></span><br><span class="line"><span class="selector-tag">initializing</span> <span class="selector-tag">activity</span> <span class="selector-tag">log</span></span><br><span class="line"><span class="selector-tag">initializing</span> <span class="selector-tag">bitmap</span> (<span class="number">320</span> KB) <span class="selector-tag">to</span> <span class="keyword">all</span> <span class="selector-tag">zero</span></span><br><span class="line"><span class="selector-tag">Writing</span> <span class="selector-tag">meta</span> <span class="selector-tag">data</span>...</span><br><span class="line"><span class="selector-tag">New</span> <span class="selector-tag">drbd</span> <span class="selector-tag">meta</span> <span class="selector-tag">data</span> <span class="selector-tag">block</span> <span class="selector-tag">successfully</span> <span class="selector-tag">created</span>.</span><br><span class="line"></span><br><span class="line"># 启动<span class="selector-tag">drbd</span>(注意：需要两边服务器同时启动方能生效)</span><br><span class="line"><span class="selector-attr">[root@drbd1 ~]</span># <span class="selector-tag">systemctl</span> <span class="selector-tag">start</span> <span class="selector-tag">drbd</span></span><br><span class="line"><span class="selector-attr">[root@drbd2 ~]</span># <span class="selector-tag">systemctl</span> <span class="selector-tag">start</span> <span class="selector-tag">drbd</span></span><br><span class="line"></span><br><span class="line"># 查看状态（两台机器上都执行查看）</span><br><span class="line"># <span class="selector-tag">cat</span> /<span class="selector-tag">proc</span>/<span class="selector-tag">drbd</span></span><br><span class="line"><span class="selector-tag">version</span>: <span class="selector-tag">8</span><span class="selector-class">.4</span><span class="selector-class">.11-1</span> (<span class="attribute">api</span>:<span class="number">1</span>/<span class="attribute">proto</span>:<span class="number">86</span>-<span class="number">101</span>)</span><br><span class="line"><span class="selector-tag">GIT-hash</span>: <span class="selector-tag">66145a308421e9c124ec391a7848ac20203bb03c</span> <span class="selector-tag">build</span> <span class="selector-tag">by</span> <span class="selector-tag">mockbuild</span>@, <span class="selector-tag">2018-11-03</span> <span class="selector-tag">01</span><span class="selector-pseudo">:26</span><span class="selector-pseudo">:55</span></span><br><span class="line"> <span class="selector-tag">0</span>: <span class="selector-tag">cs</span><span class="selector-pseudo">:Connected</span> <span class="selector-tag">ro</span><span class="selector-pseudo">:Secondary</span>/<span class="selector-tag">Secondary</span> <span class="selector-tag">ds</span><span class="selector-pseudo">:Inconsistent</span>/<span class="selector-tag">Inconsistent</span> <span class="selector-tag">C</span> <span class="selector-tag">r-----</span></span><br><span class="line">    <span class="selector-tag">ns</span><span class="selector-pseudo">:0</span> <span class="selector-tag">nr</span><span class="selector-pseudo">:0</span> <span class="selector-tag">dw</span><span class="selector-pseudo">:0</span> <span class="selector-tag">dr</span><span class="selector-pseudo">:0</span> <span class="selector-tag">al</span><span class="selector-pseudo">:8</span> <span class="selector-tag">bm</span><span class="selector-pseudo">:0</span> <span class="selector-tag">lo</span><span class="selector-pseudo">:0</span> <span class="selector-tag">pe</span><span class="selector-pseudo">:0</span> <span class="selector-tag">ua</span><span class="selector-pseudo">:0</span> <span class="selector-tag">ap</span><span class="selector-pseudo">:0</span> <span class="selector-tag">ep</span><span class="selector-pseudo">:1</span> <span class="selector-tag">wo</span><span class="selector-pseudo">:f</span> <span class="selector-tag">oos</span><span class="selector-pseudo">:10484380</span></span><br><span class="line"></span><br><span class="line">#由上面两台主机的<span class="selector-tag">DRBD</span>状态查看结果里的<span class="selector-tag">ro</span><span class="selector-pseudo">:Secondary</span>/<span class="selector-tag">Secondary</span>表示两台主机的状态都是备机状态，<span class="selector-tag">ds</span>是磁盘状态，</span><br></pre></td></tr></table></figure></p>
+<p>8）将<code>drbd1</code>服务器配置为<code>DRBD</code>的主节点，进行初始化设备同步<br><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">[root@drbd1</span> <span class="string">~]#</span> <span class="string">drbdsetup</span> <span class="string">/dev/drbd0</span> <span class="string">primary</span> <span class="bullet">--force</span></span><br><span class="line"><span class="string">[root@drbd1</span> <span class="string">~]#</span> <span class="string">cat</span> <span class="string">/proc/drbd</span> </span><br><span class="line"><span class="attr">version:</span> <span class="number">8.4</span><span class="number">.11</span><span class="bullet">-1</span> <span class="string">(api:1/proto:86-101)</span></span><br><span class="line"><span class="attr">GIT-hash:</span> <span class="number">66145</span><span class="string">a308421e9c124ec391a7848ac20203bb03c</span> <span class="string">build</span> <span class="string">by</span> <span class="string">mockbuild@,</span> <span class="number">2018</span><span class="bullet">-11</span><span class="bullet">-03</span> <span class="number">01</span><span class="string">:26:55</span></span><br><span class="line"> <span class="number">0</span><span class="string">:</span> <span class="attr">cs:SyncSource</span> <span class="attr">ro:Primary/Secondary</span> <span class="attr">ds:UpToDate/Inconsistent</span> <span class="string">C</span> <span class="string">r-----</span></span><br><span class="line"><span class="attr">    ns:</span><span class="number">2418688</span> <span class="attr">nr:0</span> <span class="attr">dw:0</span> <span class="attr">dr:2420808</span> <span class="attr">al:8</span> <span class="attr">bm:0</span> <span class="attr">lo:0</span> <span class="attr">pe:1</span> <span class="attr">ua:0</span> <span class="attr">ap:0</span> <span class="attr">ep:1</span> <span class="attr">wo:f</span> <span class="attr">oos:8066716</span></span><br><span class="line">	<span class="string">[===&gt;................]</span> <span class="string">sync'ed:</span> <span class="number">23.1</span><span class="string">%</span> <span class="string">(7876/10236)M</span></span><br><span class="line">	<span class="attr">finish:</span> <span class="number">0</span><span class="string">:03:08</span> <span class="attr">speed:</span> <span class="number">42</span><span class="string">,792</span> <span class="string">(37,776)</span> <span class="string">K/sec</span></span><br><span class="line"><span class="comment">###同步完成时状态如下</span></span><br><span class="line"><span class="string">[root@drbd1</span> <span class="string">~]#</span> <span class="string">cat</span> <span class="string">/proc/drbd</span>     <span class="comment">#drbd1上查看</span></span><br><span class="line"><span class="attr">version:</span> <span class="number">8.4</span><span class="number">.11</span><span class="bullet">-1</span> <span class="string">(api:1/proto:86-101)</span></span><br><span class="line"><span class="attr">GIT-hash:</span> <span class="number">66145</span><span class="string">a308421e9c124ec391a7848ac20203bb03c</span> <span class="string">build</span> <span class="string">by</span> <span class="string">mockbuild@,</span> <span class="number">2018</span><span class="bullet">-11</span><span class="bullet">-03</span> <span class="number">01</span><span class="string">:26:55</span></span><br><span class="line"> <span class="number">0</span><span class="string">:</span> <span class="attr">cs:Connected</span> <span class="attr">ro:Primary/Secondary</span> <span class="attr">ds:UpToDate/UpToDate</span> <span class="string">C</span> <span class="string">r-----</span></span><br><span class="line"><span class="attr">    ns:</span><span class="number">10484380</span> <span class="attr">nr:0</span> <span class="attr">dw:0</span> <span class="attr">dr:10486500</span> <span class="attr">al:8</span> <span class="attr">bm:0</span> <span class="attr">lo:0</span> <span class="attr">pe:0</span> <span class="attr">ua:0</span> <span class="attr">ap:0</span> <span class="attr">ep:1</span> <span class="attr">wo:f</span> <span class="attr">oos:0</span></span><br><span class="line"><span class="string">[root@drbd2</span> <span class="string">~]#</span> <span class="string">cat</span> <span class="string">/proc/drbd</span>     <span class="comment">#drbd2上查看</span></span><br><span class="line"><span class="attr">version:</span> <span class="number">8.4</span><span class="number">.11</span><span class="bullet">-1</span> <span class="string">(api:1/proto:86-101)</span></span><br><span class="line"><span class="attr">GIT-hash:</span> <span class="number">66145</span><span class="string">a308421e9c124ec391a7848ac20203bb03c</span> <span class="string">build</span> <span class="string">by</span> <span class="string">mockbuild@,</span> <span class="number">2018</span><span class="bullet">-11</span><span class="bullet">-03</span> <span class="number">01</span><span class="string">:26:55</span></span><br><span class="line"> <span class="number">0</span><span class="string">:</span> <span class="attr">cs:Connected</span> <span class="attr">ro:Secondary/Primary</span> <span class="attr">ds:UpToDate/UpToDate</span> <span class="string">C</span> <span class="string">r-----</span></span><br><span class="line"><span class="attr">    ns:</span><span class="number">0</span> <span class="attr">nr:10484380</span> <span class="attr">dw:10484380</span> <span class="attr">dr:0</span> <span class="attr">al:8</span> <span class="attr">bm:0</span> <span class="attr">lo:0</span> <span class="attr">pe:0</span> <span class="attr">ua:0</span> <span class="attr">ap:0</span> <span class="attr">ep:1</span> <span class="attr">wo:f</span> <span class="attr">oos:0</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#说明：</span></span><br><span class="line"><span class="string">ro在主从服务器上分别显示</span> <span class="string">Primary/Secondary和Secondary/Primary</span></span><br><span class="line"><span class="string">ds显示UpToDate/UpToDate</span> <span class="string">表示主从配置成功</span></span><br></pre></td></tr></table></figure></p>
+<p>9）挂载<code>DRBD</code>（<code>drbd1</code>主节点服务器上操作）<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">#先格式化/dev/drbd0</span><br><span class="line">[root@drbd1 ~]# mkfs.ext4 /dev/drbd0</span><br><span class="line"></span><br><span class="line">#创建挂载目录，然后进行挂载</span><br><span class="line">[root@drbd1 ~]# mkdir /data</span><br><span class="line">[root@drbd1 ~]# mount /dev/drbd0 /data</span><br><span class="line">[root@drbd1 ~]# df -h</span><br><span class="line">文件系统                 容量  已用  可用 已用% 挂载点</span><br><span class="line">/dev/mapper/centos-root   <span class="number">20</span>G  <span class="number">3.7</span>G   <span class="number">16</span>G   <span class="number">20</span>% /</span><br><span class="line">devtmpfs                 <span class="number">471</span>M     <span class="number">0</span>  <span class="number">471</span>M    <span class="number">0</span>% /dev</span><br><span class="line">tmpfs                    <span class="number">487</span>M     <span class="number">0</span>  <span class="number">487</span>M    <span class="number">0</span>% /dev/shm</span><br><span class="line">tmpfs                    <span class="number">487</span>M  <span class="number">7.1</span>M  <span class="number">480</span>M    <span class="number">2</span>% /run</span><br><span class="line">tmpfs                    <span class="number">487</span>M     <span class="number">0</span>  <span class="number">487</span>M    <span class="number">0</span>% /sys/fs/cgroup</span><br><span class="line">/dev/sda1                <span class="number">497</span>M  <span class="number">193</span>M  <span class="number">305</span>M   <span class="number">39</span>% /boot</span><br><span class="line">tmpfs                     <span class="number">98</span>M     <span class="number">0</span>   <span class="number">98</span>M    <span class="number">0</span>% /run/user/<span class="number">0</span></span><br><span class="line">/dev/drbd0               <span class="number">9.8</span>G   <span class="number">37</span>M  <span class="number">9.2</span>G    <span class="number">1</span>% /data</span><br><span class="line"></span><br><span class="line">特别注意：</span><br><span class="line">从节点(Secondary)上不允许对DRBD设备进行任何操作，包括只读，所有的读写操作只能在主节点(Primary)上进行。</span><br><span class="line">只有当主节点(Primary)挂掉时，从节点(Secondary)才能提示为主节点(Primary)。</span><br></pre></td></tr></table></figure></p>
+<h2 id="DRBD主备故障切换测试"><a href="#DRBD主备故障切换测试" class="headerlink" title="DRBD主备故障切换测试"></a>DRBD主备故障切换测试</h2><blockquote>
+<p>模拟主节点(<code>drbd1.cluster.com</code>）发生故障，从节点（<code>drbd2.cluster.com</code>）接管并提升为主节点。</p>
+</blockquote>
+<p>1）主节点上操作<br><figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"># 创建测试文件并取消挂载</span><br><span class="line"><span class="selector-attr">[root@drbd1 ~]</span># <span class="selector-tag">cd</span> /<span class="selector-tag">data</span>/</span><br><span class="line"><span class="selector-attr">[root@drbd1 data]</span># <span class="selector-tag">touch</span> <span class="selector-tag">test01</span> <span class="selector-tag">test02</span> <span class="selector-tag">test03</span></span><br><span class="line"><span class="selector-attr">[root@drbd1 data]</span># <span class="selector-tag">cd</span> </span><br><span class="line"><span class="selector-attr">[root@drbd1 ~]</span># <span class="selector-tag">umount</span> /<span class="selector-tag">data</span></span><br><span class="line"></span><br><span class="line"><span class="selector-attr">[root@drbd1 ~]</span># <span class="selector-tag">drbdsetup</span> /<span class="selector-tag">dev</span>/<span class="selector-tag">drbd0</span> <span class="selector-tag">secondary</span>        <span class="comment">//将主节点设置为DRBD的备节点。在实际生产环境中，直接在(Secondary）节点上提权（即设置为主节点）即可。</span></span><br><span class="line"><span class="selector-attr">[root@drbd1 ~]</span># <span class="selector-tag">cat</span> /<span class="selector-tag">proc</span>/<span class="selector-tag">drbd</span> </span><br><span class="line"><span class="selector-tag">version</span>: <span class="selector-tag">8</span><span class="selector-class">.4</span><span class="selector-class">.11-1</span> (<span class="attribute">api</span>:<span class="number">1</span>/<span class="attribute">proto</span>:<span class="number">86</span>-<span class="number">101</span>)</span><br><span class="line"><span class="selector-tag">GIT-hash</span>: <span class="selector-tag">66145a308421e9c124ec391a7848ac20203bb03c</span> <span class="selector-tag">build</span> <span class="selector-tag">by</span> <span class="selector-tag">mockbuild</span>@, <span class="selector-tag">2018-11-03</span> <span class="selector-tag">01</span><span class="selector-pseudo">:26</span><span class="selector-pseudo">:55</span></span><br><span class="line"> <span class="selector-tag">0</span>: <span class="selector-tag">cs</span><span class="selector-pseudo">:Connected</span> <span class="selector-tag">ro</span><span class="selector-pseudo">:Secondary</span>/<span class="selector-tag">Secondary</span> <span class="selector-tag">ds</span><span class="selector-pseudo">:UpToDate</span>/<span class="selector-tag">UpToDate</span> <span class="selector-tag">C</span> <span class="selector-tag">r-----</span></span><br><span class="line">    <span class="selector-tag">ns</span><span class="selector-pseudo">:10783808</span> <span class="selector-tag">nr</span><span class="selector-pseudo">:0</span> <span class="selector-tag">dw</span><span class="selector-pseudo">:299428</span> <span class="selector-tag">dr</span><span class="selector-pseudo">:10488701</span> <span class="selector-tag">al</span><span class="selector-pseudo">:82</span> <span class="selector-tag">bm</span><span class="selector-pseudo">:0</span> <span class="selector-tag">lo</span><span class="selector-pseudo">:0</span> <span class="selector-tag">pe</span><span class="selector-pseudo">:0</span> <span class="selector-tag">ua</span><span class="selector-pseudo">:0</span> <span class="selector-tag">ap</span><span class="selector-pseudo">:0</span> <span class="selector-tag">ep</span><span class="selector-pseudo">:1</span> <span class="selector-tag">wo</span><span class="selector-pseudo">:f</span> <span class="selector-tag">oos</span><span class="selector-pseudo">:0</span></span><br><span class="line"></span><br><span class="line">注意：这里实际生产环境若<span class="selector-tag">Primary</span>主节点宕机，在<span class="selector-tag">Secondary</span>状态信息中<span class="selector-tag">ro</span>的值会显示为<span class="selector-tag">Secondary</span>/<span class="selector-tag">Unknown</span>,只需要进行<span class="selector-tag">DRBD</span>提权操作即可。</span><br></pre></td></tr></table></figure></p>
+<p>2）备节点上操作<br><figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-attr">[root@drbd2 ~]</span># <span class="selector-tag">drbdsetup</span> /<span class="selector-tag">dev</span>/<span class="selector-tag">drbd0</span> <span class="selector-tag">primary</span></span><br><span class="line"><span class="selector-attr">[root@drbd2 ~]</span># <span class="selector-tag">cat</span> /<span class="selector-tag">proc</span>/<span class="selector-tag">drbd</span> </span><br><span class="line"><span class="selector-tag">version</span>: <span class="selector-tag">8</span><span class="selector-class">.4</span><span class="selector-class">.11-1</span> (<span class="attribute">api</span>:<span class="number">1</span>/<span class="attribute">proto</span>:<span class="number">86</span>-<span class="number">101</span>)</span><br><span class="line"><span class="selector-tag">GIT-hash</span>: <span class="selector-tag">66145a308421e9c124ec391a7848ac20203bb03c</span> <span class="selector-tag">build</span> <span class="selector-tag">by</span> <span class="selector-tag">mockbuild</span>@, <span class="selector-tag">2018-11-03</span> <span class="selector-tag">01</span><span class="selector-pseudo">:26</span><span class="selector-pseudo">:55</span></span><br><span class="line"> <span class="selector-tag">0</span>: <span class="selector-tag">cs</span><span class="selector-pseudo">:Connected</span> <span class="selector-tag">ro</span><span class="selector-pseudo">:Primary</span>/<span class="selector-tag">Secondary</span> <span class="selector-tag">ds</span><span class="selector-pseudo">:UpToDate</span>/<span class="selector-tag">UpToDate</span> <span class="selector-tag">C</span> <span class="selector-tag">r-----</span></span><br><span class="line">    <span class="selector-tag">ns</span><span class="selector-pseudo">:0</span> <span class="selector-tag">nr</span><span class="selector-pseudo">:10783808</span> <span class="selector-tag">dw</span><span class="selector-pseudo">:10783808</span> <span class="selector-tag">dr</span><span class="selector-pseudo">:2120</span> <span class="selector-tag">al</span><span class="selector-pseudo">:8</span> <span class="selector-tag">bm</span><span class="selector-pseudo">:0</span> <span class="selector-tag">lo</span><span class="selector-pseudo">:0</span> <span class="selector-tag">pe</span><span class="selector-pseudo">:0</span> <span class="selector-tag">ua</span><span class="selector-pseudo">:0</span> <span class="selector-tag">ap</span><span class="selector-pseudo">:0</span> <span class="selector-tag">ep</span><span class="selector-pseudo">:1</span> <span class="selector-tag">wo</span><span class="selector-pseudo">:f</span> <span class="selector-tag">oos</span><span class="selector-pseudo">:0</span></span><br><span class="line"></span><br><span class="line">#挂载验证数据</span><br><span class="line"><span class="selector-attr">[root@drbd2 ~]</span># <span class="selector-tag">mkdir</span> /<span class="selector-tag">data</span></span><br><span class="line"><span class="selector-attr">[root@drbd2 ~]</span># <span class="selector-tag">mount</span> /<span class="selector-tag">dev</span>/<span class="selector-tag">drbd0</span> /<span class="selector-tag">data</span></span><br><span class="line"><span class="selector-attr">[root@drbd2 ~]</span># <span class="selector-tag">df</span> <span class="selector-tag">-h</span></span><br><span class="line">文件系统                 容量  已用  可用 已用% 挂载点</span><br><span class="line">/<span class="selector-tag">dev</span>/<span class="selector-tag">mapper</span>/<span class="selector-tag">centos-root</span>   <span class="selector-tag">20G</span>  <span class="selector-tag">3</span><span class="selector-class">.7G</span>   <span class="selector-tag">16G</span>   <span class="selector-tag">20%</span> /</span><br><span class="line"><span class="selector-tag">devtmpfs</span>                 <span class="selector-tag">471M</span>     <span class="selector-tag">0</span>  <span class="selector-tag">471M</span>    <span class="selector-tag">0%</span> /<span class="selector-tag">dev</span></span><br><span class="line"><span class="selector-tag">tmpfs</span>                    <span class="selector-tag">487M</span>     <span class="selector-tag">0</span>  <span class="selector-tag">487M</span>    <span class="selector-tag">0%</span> /<span class="selector-tag">dev</span>/<span class="selector-tag">shm</span></span><br><span class="line"><span class="selector-tag">tmpfs</span>                    <span class="selector-tag">487M</span>  <span class="selector-tag">7</span><span class="selector-class">.1M</span>  <span class="selector-tag">480M</span>    <span class="selector-tag">2%</span> /<span class="selector-tag">run</span></span><br><span class="line"><span class="selector-tag">tmpfs</span>                    <span class="selector-tag">487M</span>     <span class="selector-tag">0</span>  <span class="selector-tag">487M</span>    <span class="selector-tag">0%</span> /<span class="selector-tag">sys</span>/<span class="selector-tag">fs</span>/<span class="selector-tag">cgroup</span></span><br><span class="line">/<span class="selector-tag">dev</span>/<span class="selector-tag">sda1</span>                <span class="selector-tag">497M</span>  <span class="selector-tag">193M</span>  <span class="selector-tag">305M</span>   <span class="selector-tag">39%</span> /<span class="selector-tag">boot</span></span><br><span class="line"><span class="selector-tag">tmpfs</span>                     <span class="selector-tag">98M</span>     <span class="selector-tag">0</span>   <span class="selector-tag">98M</span>    <span class="selector-tag">0%</span> /<span class="selector-tag">run</span>/<span class="selector-tag">user</span>/<span class="selector-tag">0</span></span><br><span class="line">/<span class="selector-tag">dev</span>/<span class="selector-tag">drbd0</span>               <span class="selector-tag">9</span><span class="selector-class">.8G</span>   <span class="selector-tag">37M</span>  <span class="selector-tag">9</span><span class="selector-class">.2G</span>    <span class="selector-tag">1%</span> /<span class="selector-tag">data</span></span><br><span class="line"></span><br><span class="line"><span class="selector-attr">[root@drbd2 ~]</span># <span class="selector-tag">cd</span> /<span class="selector-tag">data</span>/</span><br><span class="line"><span class="selector-attr">[root@drbd2 data]</span># <span class="selector-tag">ls</span></span><br><span class="line"><span class="selector-tag">test01</span>  <span class="selector-tag">test02</span>  <span class="selector-tag">test03</span></span><br></pre></td></tr></table></figure></p>
+<p>到此，<code>DRBD</code>的主从环境的部署工作已经完成。不过上面是记录的是主备手动切换，至于保证<code>DRBD</code>主从结构的智能切换，实现高可用，还需里用到<code>Keepalived</code>或<code>Heartbeat</code>来实现了（会在<code>DRBD</code>主端挂掉的情况下，自动切换从端为主端并自动挂载<code>/data</code>分区）</p>
+<h1 id="相关配置操作"><a href="#相关配置操作" class="headerlink" title="相关配置操作"></a>相关配置操作</h1><h2 id="资源的连接状态详细介绍"><a href="#资源的连接状态详细介绍" class="headerlink" title="资源的连接状态详细介绍"></a>资源的连接状态详细介绍</h2><p>如何查看资源连接状态？<br><figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root<span class="symbol">@drbd1</span> ~]<span class="meta"># drbdadm cstate r0    #r0为资源名称</span></span><br><span class="line">Connected</span><br></pre></td></tr></table></figure></p>
+<p>资源的连接状态；一个资源可能有一下连接状态的一种<br><figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">StandAlone 独立的：网络配置不可用；资源还没有被连接或是被管理断开（使用 drbdadm <span class="keyword">disconnect </span>命令），或是由于出现认证失败或是脑裂的情况 </span><br><span class="line"><span class="keyword">Disconnecting </span>断开：断开只是临时状态，下一个状态是StandAlone独立的 modprobe drbd</span><br><span class="line">Unconnected 悬空：是尝试连接前的临时状态，可能下一个状态为WFconnection和WFReportParams </span><br><span class="line">Timeout 超时：与对等节点连接超时，也是临时状态，下一个状态为Unconected悬空 </span><br><span class="line"><span class="keyword">BrokerPipe：与对等节点连接丢失，也是临时状态，下一个状态为Unconected悬空 </span></span><br><span class="line">NetworkFailure：与对等节点推动连接后的临时状态，下一个状态为Unconected悬空 </span><br><span class="line">ProtocolError：与对等节点推动连接后的临时状态，下一个状态为Unconected悬空 </span><br><span class="line">TearDown 拆解：临时状态，对等节点关闭，下一个状态为Unconected悬空 </span><br><span class="line">WFConnection：等待和对等节点建立网络连接 </span><br><span class="line">WFReportParams：已经建立TCP连接，本节点等待从对等节点传来的第一个网络包 </span><br><span class="line">Connected 连接：DRBD已经建立连接，数据镜像现在可用，节点处于正常状态 </span><br><span class="line">StartingSyncS：完全同步，有管理员发起的刚刚开始同步，未来可能的状态为<span class="keyword">SyncSource或PausedSyncS </span></span><br><span class="line">StartingSyncT：完全同步，有管理员发起的刚刚开始同步，下一状态为WFSyncUUID </span><br><span class="line">WFBitMapS：部分同步刚刚开始，下一步可能的状态为<span class="keyword">SyncSource或PausedSyncS </span></span><br><span class="line">WFBitMapT：部分同步刚刚开始，下一步可能的状态为WFSyncUUID </span><br><span class="line">WFSyncUUID：同步即将开始，下一步可能的状态为<span class="keyword">SyncTarget或PausedSyncT </span></span><br><span class="line"><span class="keyword">SyncSource：以本节点为同步源的同步正在进行 </span></span><br><span class="line"><span class="keyword">SyncTarget：以本节点为同步目标的同步正在进行 </span></span><br><span class="line"><span class="keyword">PausedSyncS：以本地节点是一个持续同步的源，但是目前同步已经暂停，可能是因为另外一个同步正在进行或是使用命令(drbdadm </span><span class="keyword">pause-sync)暂停了同步 </span></span><br><span class="line"><span class="keyword">PausedSyncT：以本地节点为持续同步的目标，但是目前同步已经暂停，这可以是因为另外一个同步正在进行或是使用命令(drbdadm </span><span class="keyword">pause-sync)暂停了同步 </span></span><br><span class="line">VerifyS：以本地节点为验证源的线上设备验证正在执行 </span><br><span class="line">VerifyT：以本地节点为验证目标的线上设备验证正在执行</span><br></pre></td></tr></table></figure></p>
+<h2 id="资源角色"><a href="#资源角色" class="headerlink" title="资源角色"></a>资源角色</h2><p>查看资源角色命令<br><figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-attr">[root@drbd1 ~]</span># <span class="selector-tag">drbdadm</span> <span class="selector-tag">role</span> <span class="selector-tag">r0</span></span><br><span class="line"><span class="selector-tag">Secondary</span>/<span class="selector-tag">Primary</span></span><br><span class="line"><span class="selector-attr">[root@drbd1 ~]</span># <span class="selector-tag">cat</span> /<span class="selector-tag">proc</span>/<span class="selector-tag">drbd</span> </span><br><span class="line"><span class="selector-tag">version</span>: <span class="selector-tag">8</span><span class="selector-class">.4</span><span class="selector-class">.11-1</span> (<span class="attribute">api</span>:<span class="number">1</span>/<span class="attribute">proto</span>:<span class="number">86</span>-<span class="number">101</span>)</span><br><span class="line"><span class="selector-tag">GIT-hash</span>: <span class="selector-tag">66145a308421e9c124ec391a7848ac20203bb03c</span> <span class="selector-tag">build</span> <span class="selector-tag">by</span> <span class="selector-tag">mockbuild</span>@, <span class="selector-tag">2018-11-03</span> <span class="selector-tag">01</span><span class="selector-pseudo">:26</span><span class="selector-pseudo">:55</span></span><br><span class="line"> <span class="selector-tag">0</span>: <span class="selector-tag">cs</span><span class="selector-pseudo">:Connected</span> <span class="selector-tag">ro</span><span class="selector-pseudo">:Secondary</span>/<span class="selector-tag">Primary</span> <span class="selector-tag">ds</span><span class="selector-pseudo">:UpToDate</span>/<span class="selector-tag">UpToDate</span> <span class="selector-tag">C</span> <span class="selector-tag">r-----</span></span><br><span class="line">    <span class="selector-tag">ns</span><span class="selector-pseudo">:10783808</span> <span class="selector-tag">nr</span><span class="selector-pseudo">:24</span> <span class="selector-tag">dw</span><span class="selector-pseudo">:299452</span> <span class="selector-tag">dr</span><span class="selector-pseudo">:10488701</span> <span class="selector-tag">al</span><span class="selector-pseudo">:82</span> <span class="selector-tag">bm</span><span class="selector-pseudo">:0</span> <span class="selector-tag">lo</span><span class="selector-pseudo">:0</span> <span class="selector-tag">pe</span><span class="selector-pseudo">:0</span> <span class="selector-tag">ua</span><span class="selector-pseudo">:0</span> <span class="selector-tag">ap</span><span class="selector-pseudo">:0</span> <span class="selector-tag">ep</span><span class="selector-pseudo">:1</span> <span class="selector-tag">wo</span><span class="selector-pseudo">:f</span> <span class="selector-tag">oos</span><span class="selector-pseudo">:0</span></span><br><span class="line"></span><br><span class="line">注释：</span><br><span class="line"><span class="selector-tag">Parimary</span> 主：资源目前为主，并且可能正在被读取或写入，如果不是双主只会出现在两个节点中的其中一个节点上 </span><br><span class="line"><span class="selector-tag">Secondary</span> 次：资源目前为次，正常接收对等节点的更新 </span><br><span class="line"><span class="selector-tag">Unknown</span> 未知：资源角色目前未知，本地的资源不会出现这种状态</span><br></pre></td></tr></table></figure></p>
+<h2 id="硬盘数据状态"><a href="#硬盘数据状态" class="headerlink" title="硬盘数据状态"></a>硬盘数据状态</h2><p>查看硬盘状态命令<br><figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root<span class="symbol">@drbd1</span> ~]<span class="meta"># drbdadm dstate r0</span></span><br><span class="line">UpToDate/UpToDate</span><br></pre></td></tr></table></figure></p>
+<p>本地和对等节点的硬盘有可能为下列状态之一：<br><figure class="highlight mathematica"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Diskless 无盘：本地没有块设备分配给DRBD使用，这表示没有可用的设备，或者使用drbdadm命令手工分离或是底层的<span class="keyword">I</span>/<span class="keyword">O</span>错误导致自动分离 </span><br><span class="line">Attaching：读取无数据时候的瞬间状态 </span><br><span class="line">Failed 失败：本地块设备报告<span class="keyword">I</span>/<span class="keyword">O</span>错误的下一个状态，其下一个状态为Diskless无盘 </span><br><span class="line">Negotiating：在已经连接的DRBD设置进行Attach读取无数据前的瞬间状态 </span><br><span class="line">Inconsistent：数据是不一致的，在两个节点上（初始的完全同步前）这种状态出现后立即创建一个新的资源。此外，在同步期间（同步目标）在一个节点上出现这种状态 </span><br><span class="line">Outdated：数据资源是一致的，但是已经过时 </span><br><span class="line">DUnknown：当对等节点网络连接不可用时出现这种状态 </span><br><span class="line">Consistent：一个没有连接的节点数据一致，当建立连接时，它决定数据是UpToDate或是Outdated </span><br><span class="line">UpToDate：一致的最新的数据状态，这个状态为正常状态</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    
+    
+    
+    <div>
+    
+      <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+
+    
+    </div>
+      <div>
+        
+        
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+  
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <p><span>本文标题:</span><a href="/2019/08/08/网络RAID技术DRBD/">网络RAID技术DRBD</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 Leeyj 的个人博客">Leeyj</a></p>
+  <p><span>发布时间:</span>2019年08月08日 - 15:00</p>
+  <p><span>最后更新:</span>2019年10月24日 - 17:12</p>
+  <p><span>原始链接:</span><a href="/2019/08/08/网络RAID技术DRBD/" title="网络RAID技术DRBD">https://leeyj.coding.me/2019/08/08/网络RAID技术DRBD/</a>
+    <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://leeyj.coding.me/2019/08/08/网络RAID技术DRBD/" aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
+</div>
+<script> 
+    var clipboard = new Clipboard('.fa-clipboard');
+    $(".fa-clipboard").click(function(){
+      clipboard.on('success', function(){
+        swal({   
+          title: "",   
+          text: '复制成功',
+          icon: "success", 
+          showConfirmButton: true
+          });
+	});
+    });  
+</script>
+
+
+        
+      </div>
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Storage/" rel="tag"><i class="fa fa-tag"></i> Storage</a>
+          
+        </div>
+      
+
+      
+      
+        <div class="post-widgets">
+        
+
+        
+
+        
+          
+          <div id="needsharebutton-postbottom">
+            <span class="btn">
+              <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </span>
+          </div>
+        
+        </div>
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/08/08/存储服务之NFS/" rel="next" title="存储服务之NFS">
+                <i class="fa fa-chevron-left"></i> 存储服务之NFS
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+      <div id="sidebar-dimmer"></div>
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.png" alt="Leeyj">
+            
+              <p class="site-author-name" itemprop="name">Leeyj</p>
+              <p class="site-description motion-element" itemprop="description">Linux，Python爱好者</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">30</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="http://www.cnblogs.com/yanjieli" target="_blank" title="博客园">
+                      博客园</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.jianshu.com/u/9be413f3daee" target="_blank" title="简书">
+                      简书</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/buji595" target="_blank" title="GitHub">
+                      GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#DRBD简介"><span class="nav-number">1.</span> <span class="nav-text">DRBD简介</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#DRBD是如何工作的"><span class="nav-number">1.1.</span> <span class="nav-text">DRBD是如何工作的</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DRBD与HA的关系"><span class="nav-number">1.2.</span> <span class="nav-text">DRBD与HA的关系</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#DRBD工作原理"><span class="nav-number">2.</span> <span class="nav-text">DRBD工作原理</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#DRBD的特性"><span class="nav-number">3.</span> <span class="nav-text">DRBD的特性</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#DRBD的模式"><span class="nav-number">4.</span> <span class="nav-text">DRBD的模式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#DRBD的复制模式"><span class="nav-number">5.</span> <span class="nav-text">DRBD的复制模式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#DRBD配置文件说明"><span class="nav-number">6.</span> <span class="nav-text">DRBD配置文件说明</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#DRBD安装配置（主从模式）"><span class="nav-number">7.</span> <span class="nav-text">DRBD安装配置（主从模式）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#具体步骤"><span class="nav-number">7.1.</span> <span class="nav-text">具体步骤</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DRBD主备故障切换测试"><span class="nav-number">7.2.</span> <span class="nav-text">DRBD主备故障切换测试</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#相关配置操作"><span class="nav-number">8.</span> <span class="nav-text">相关配置操作</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#资源的连接状态详细介绍"><span class="nav-number">8.1.</span> <span class="nav-text">资源的连接状态详细介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#资源角色"><span class="nav-number">8.2.</span> <span class="nav-text">资源角色</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#硬盘数据状态"><span class="nav-number">8.3.</span> <span class="nav-text">硬盘数据状态</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Leeyj</span>
+
+  
+</div>
+
+
+<!--  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+-->
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+<!--
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+-->
+
+
+
+
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_pv">
+    本站总访问量<span id="busuanzi_value_site_pv"></span>次
+</span>
+</div>
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共63.2k字</span>
+</div>
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="//cdn.jsdelivr.net/jquery/2.1.3/jquery.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="//cdn.jsdelivr.net/fancybox/2.1.5/jquery.fancybox.pack.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+ 
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+
+  <script src="/js/src/Valine.min.js"></script>
+
+  
+  
+
+
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: true,
+        appId: '9WKoAiqkgrhK7oWJVeqJupkH-gzGzoHsz',
+        appKey: 'QjYE9zY00BnBP6JH9NgliNxN',
+        placeholder: 'Just go go',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+        var infoEle = document.querySelector('#comments .info');
+    if (infoEle && infoEle.childNodes && infoEle.childNodes.length > 0){
+      infoEle.childNodes.forEach(function(item) {
+        item.parentNode.removeChild(item);
+      });
+    }
+
+  </script>
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/needsharebutton/needsharebutton.css">
+
+  
+  
+  <script src="/lib/needsharebutton/needsharebutton.js"></script>
+
+  <script>
+    
+      pbOptions = {};
+      
+          pbOptions.iconStyle = "box";
+      
+          pbOptions.boxForm = "horizontal";
+      
+          pbOptions.position = "bottomCenter";
+      
+          pbOptions.networks = "Weibo,Wechat,Douban,QQZone,Twitter,Facebook";
+      
+      new needShareButton('#needsharebutton-postbottom', pbOptions);
+    
+    
+  </script>
+
+  
+
+  
+
+  
+
+  
+
+  
+  <style>
+    .copy-btn {
+      display: inline-block;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 20px;
+      color: #333;
+      white-space: nowrap;
+      vertical-align: middle;
+      cursor: pointer;
+      background-color: #eee;
+      background-image: linear-gradient(#fcfcfc, #eee);
+      border: 1px solid #d5d5d5;
+      border-radius: 3px;
+      user-select: none;
+      outline: 0;
+    }
+
+    .highlight-wrap .copy-btn {
+      transition: opacity .3s ease-in-out;
+      opacity: 0;
+      padding: 2px 6px;
+      position: absolute;
+      right: 4px;
+      top: 8px;
+    }
+
+    .highlight-wrap:hover .copy-btn,
+    .highlight-wrap .copy-btn:focus {
+      opacity: 1
+    }
+
+    .highlight-wrap {
+      position: relative;
+    }
+  </style>
+
+  <script>
+    $('.highlight').each(function (i, e) {
+      var $wrap = $('<div>').addClass('highlight-wrap')
+      $(e).after($wrap)
+      $wrap.append($('<button>').addClass('copy-btn').append('复制').on('click', function (e) {
+        var code = $(this).parent().find('.code').find('.line').map(function (i, e) {
+          return $(e).text()
+        }).toArray().join('\n')
+        var ta = document.createElement('textarea')
+        document.body.appendChild(ta)
+        ta.style.position = 'absolute'
+        ta.style.top = '0px'
+        ta.style.left = '0px'
+        ta.value = code
+        ta.select()
+        ta.focus()
+        var result = document.execCommand('copy')
+        document.body.removeChild(ta)
+        
+          if(result)$(this).text('复制成功')
+          else $(this).text('复制失败')
+        
+        $(this).blur()
+      })).on('mouseleave', function (e) {
+        var $b = $(this).find('.copy-btn')
+        setTimeout(function () {
+          $b.text('复制')
+        }, 300)
+      }).append(e)
+    })
+  </script>
+
+
+</body>
+</html>

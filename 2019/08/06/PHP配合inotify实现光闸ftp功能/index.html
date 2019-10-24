@@ -1,0 +1,1467 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+      
+    
+    
+      
+    
+  <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+  <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-center-atom.min.css" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+  <link href="//cdn.jsdelivr.net/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Linux,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="不羁" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="PHP配合inotify实现光闸ftp功能前言 由于业务需要，内外网的数据需要进行实时交互同步，由于环境因素，只能通过ftp进行文件的交互传输。且没有硬件设备（光闸）；鉴于这种情况下，首先考虑到的是通过shell脚本进行自动上传下载文件。然而在实施部署过程中发现，通过shell脚本方式进行文件的上传下载每一个文件都会建立一次连接。（由于环境因素，ftp通过网闸再通过vpn建立一次连接巨慢，大概需要">
+<meta name="keywords" content="Linux">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PHP配合inotify实现光闸ftp功能">
+<meta property="og:url" content="https://leeyj.coding.me/2019/08/06/PHP配合inotify实现光闸ftp功能/index.html">
+<meta property="og:site_name" content="不羁">
+<meta property="og:description" content="PHP配合inotify实现光闸ftp功能前言 由于业务需要，内外网的数据需要进行实时交互同步，由于环境因素，只能通过ftp进行文件的交互传输。且没有硬件设备（光闸）；鉴于这种情况下，首先考虑到的是通过shell脚本进行自动上传下载文件。然而在实施部署过程中发现，通过shell脚本方式进行文件的上传下载每一个文件都会建立一次连接。（由于环境因素，ftp通过网闸再通过vpn建立一次连接巨慢，大概需要">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://leeyj.coding.me/2019/08/06/PHP配合inotify实现光闸ftp功能/01.png">
+<meta property="og:updated_time" content="2019-10-24T09:12:16.888Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="PHP配合inotify实现光闸ftp功能">
+<meta name="twitter:description" content="PHP配合inotify实现光闸ftp功能前言 由于业务需要，内外网的数据需要进行实时交互同步，由于环境因素，只能通过ftp进行文件的交互传输。且没有硬件设备（光闸）；鉴于这种情况下，首先考虑到的是通过shell脚本进行自动上传下载文件。然而在实施部署过程中发现，通过shell脚本方式进行文件的上传下载每一个文件都会建立一次连接。（由于环境因素，ftp通过网闸再通过vpn建立一次连接巨慢，大概需要">
+<meta name="twitter:image" content="https://leeyj.coding.me/2019/08/06/PHP配合inotify实现光闸ftp功能/01.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":true},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://leeyj.coding.me/2019/08/06/PHP配合inotify实现光闸ftp功能/">
+
+
+
+
+
+  <title>PHP配合inotify实现光闸ftp功能 | 不羁</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">不羁</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">别来无恙</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://leeyj.coding.me/2019/08/06/PHP配合inotify实现光闸ftp功能/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Leeyj">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="不羁">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">PHP配合inotify实现光闸ftp功能</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-06T12:13:22+08:00">
+                2019-08-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/08/06/PHP配合inotify实现光闸ftp功能/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/08/06/PHP配合inotify实现光闸ftp功能/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  4.4k
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  21
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="PHP配合inotify实现光闸ftp功能"><a href="#PHP配合inotify实现光闸ftp功能" class="headerlink" title="PHP配合inotify实现光闸ftp功能"></a>PHP配合inotify实现光闸ftp功能</h2><h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><blockquote>
+<p>由于业务需要，内外网的数据需要进行实时交互同步，由于环境因素，只能通过<code>ftp</code>进行文件的交互传输。且没有硬件设备（光闸）；鉴于这种情况下，首先考虑到的是通过<code>shell</code>脚本进行自动上传下载文件。然而在实施部署过程中发现，通过<code>shell</code>脚本方式进行文件的上传下载每一个文件都会建立一次连接。（由于环境因素，ftp通过网闸再通过<code>vpn</code>建立一次连接巨慢，大概需要几十秒。）可是项目站点必须是实时进行文件的传输，且每次可能是多个文件，多者甚至上百个。经过探讨考虑到使用<code>rsync+inotify</code>，通过rsync的守护进程模式进行文件的传输。可是这种项目迟早得换成光闸走<code>ftp</code>进行文件的传输。而后又考虑直接在代码里面实现建立<code>ftp</code>的长连接进行文件传输（建立一次连接，然后一直处于监听模式，发现有文件就及时进行传送）,这样一来又考虑到目录的监听情况，开始准备使用<code>inotify-tools</code>进行监听然后调用<code>php</code>代码里面的<code>ftp</code>长连接进程，随后又在<code>php</code>官方发现<code>php</code>也有一个<code>inotify</code>可以用来进行目录的监听，然后触发动作。<br>于是，最终方案就是在内外网两台服务器上面搭建<code>ftp</code>服务，然后通过<code>php</code>脚本进行目录的监听并上传到<code>ftp</code>服务器。</p>
+</blockquote>
+<blockquote>
+<p>具体实现流程说明<br>1、内外网的服务器均安装<code>ftp</code>。<br>2、内外网的服务器均安装<code>php</code>及<code>php</code>的<code>inotify</code>插件。<br>3、内外网的服务器均安装<code>redis</code>。（<code>php</code>分为两个文件，一个为文件(<code>listen.php</code>)用于监听，一个文件(<code>upFile.php</code>)用于上传文件，由于开始没有存入<code>redis</code>，导致文件堆积，然后一直阻塞。故最终方案通过监听文件将监听到发生变化的文件路径存入到<code>redis</code>里，然后通过<code>upfile</code>脚本将文件上传到<code>ftp</code>）</p>
+</blockquote>
+<h3 id="环境说明"><a href="#环境说明" class="headerlink" title="环境说明"></a>环境说明</h3><table>
+<thead>
+<tr>
+<th style="text-align:center">IP</th>
+<th style="text-align:center">主机名</th>
+<th style="text-align:center">系统版本</th>
+<th style="text-align:center">网络说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">192.168.1.32</td>
+<td style="text-align:center">internet.example.com</td>
+<td style="text-align:center">CenTOS7.4</td>
+<td style="text-align:center">模拟外网</td>
+</tr>
+<tr>
+<td style="text-align:center">192.168.1.33</td>
+<td style="text-align:center">lan.example.com</td>
+<td style="text-align:center">CenTOS7.4</td>
+<td style="text-align:center">模拟内网</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>1、这里是通过两台虚拟机进行模拟内外网。且上面真实项目操作系统为<code>CenTOS6.5</code>；这里使用<code>CenTOS7.5</code>模拟。<br>2、两台服务器需要安装软件有：<code>vsftpd</code>、<code>php</code>、<code>php</code>插件<code>inotify</code><br>3、外网的<code>/opt/ftp/out</code>目录只要有新的文件产生就会自动触发监听然后传送至内网的<code>/opt/ftp/come</code>目录。<br>4、反之一样，内网的<code>/opt/ftp/out</code>目录只要有新的文件产生就会自动触发监听然后传送至外网的<code>/opt/ftp/come</code>目录。</p>
+</blockquote>
+<h3 id="项目结构图"><a href="#项目结构图" class="headerlink" title="项目结构图"></a>项目结构图</h3><p><img src="/2019/08/06/PHP配合inotify实现光闸ftp功能/01.png" alt="image.png"></p>
+<h2 id="具体实验步骤"><a href="#具体实验步骤" class="headerlink" title="具体实验步骤"></a>具体实验步骤</h2><h3 id="安装配置vsftpd"><a href="#安装配置vsftpd" class="headerlink" title="安装配置vsftpd"></a>安装配置vsftpd</h3><blockquote>
+<p>说明：内外网都需要配置<code>vsftpd</code>，配置<code>vsftpd</code>虚拟用户可参考 <a href="https://www.cnblogs.com/yanjieli/p/10723108.html" target="_blank" rel="noopener">https://www.cnblogs.com/yanjieli/p/10723108.html</a></p>
+</blockquote>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># mkdir -p /opt/ftp/&#123;come,out&#125;    #创建对应的数据目录</span></span><br><span class="line"><span class="comment"># yum -y install vsftpd    #安装vsftpd</span></span><br><span class="line"><span class="comment"># useradd -s /sbin/nologin apache    #由于项目站点所使用的apache用户，所以这里为了防止权限问题，这里也是用apache用户作为虚拟用户</span></span><br><span class="line"><span class="comment"># chown apache.apache /opt/ftp/ -R    #将数据目录权限改为apache用户</span></span><br><span class="line"><span class="comment"># cat &gt;/etc/vsftpd/logins.txt&lt;&lt;-EOF    #创建ftp虚拟账号和密码，一行账号一行密码</span></span><br><span class="line">ftp_come_user</span><br><span class="line">Ftp_come_password@Qaz123</span><br><span class="line">EOF</span><br><span class="line"></span><br><span class="line"><span class="comment"># db_load -T -t hash -f /etc/vsftpd/logins.txt /etc/vsftpd/login.db    #将密码文件转换成db格式</span></span><br><span class="line"><span class="comment"># chmod 600 /etc/vsftpd/login.db    #更改db文件的权限</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># cat &gt;/etc/pam.d/ftp&lt;&lt;-EOF    #定义pam认证文件</span></span><br><span class="line">auth  required  /lib64/security/pam_userdb.so  <span class="attribute">db</span>=/etc/vsftpd/login</span><br><span class="line">account  required  /lib64/security/pam_userdb.so  <span class="attribute">db</span>=/etc/vsftpd/login</span><br><span class="line">EOF</span><br><span class="line"></span><br><span class="line"><span class="comment"># cp /etc/vsftpd/vsftpd.conf&#123;,.back&#125;    #备份配置文件</span></span><br><span class="line"><span class="comment"># vim /etc/vsftpd/vsftpd.conf    #编辑vsftpd主配置文件</span></span><br><span class="line"><span class="attribute">anonymous_enable</span>=<span class="literal">NO</span></span><br><span class="line"><span class="attribute">local_enable</span>=<span class="literal">YES</span></span><br><span class="line"><span class="attribute">write_enable</span>=<span class="literal">NO</span></span><br><span class="line"><span class="attribute">anon_upload_enable</span>=<span class="literal">NO</span></span><br><span class="line"><span class="attribute">anon_mkdir_write_enable</span>=<span class="literal">NO</span></span><br><span class="line"><span class="attribute">anon_other_write_enable</span>=<span class="literal">NO</span></span><br><span class="line"><span class="attribute">chroot_local_user</span>=<span class="literal">YES</span></span><br><span class="line"><span class="attribute">allow_writeable_chroot</span>=<span class="literal">YES</span></span><br><span class="line"><span class="attribute">guest_enable</span>=<span class="literal">YES</span></span><br><span class="line"><span class="attribute">guest_username</span>=apache</span><br><span class="line"><span class="attribute">listen</span>=<span class="literal">YES</span></span><br><span class="line"><span class="attribute">listen_port</span>=21</span><br><span class="line"><span class="attribute">pasv_enable</span>=<span class="literal">YES</span></span><br><span class="line"><span class="attribute">pasv_address</span>=192.168.1.32    #内网的那台改成对应内网的IP地址</span><br><span class="line"><span class="attribute">pasv_min_port</span>=10000</span><br><span class="line"><span class="attribute">pasv_max_port</span>=10088</span><br><span class="line"><span class="attribute">anon_world_readable_only</span>=<span class="literal">NO</span></span><br><span class="line"><span class="attribute">user_config_dir</span>=/etc/vsftpd/user_conf</span><br><span class="line"><span class="attribute">tcp_wrappers</span>=<span class="literal">YES</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># vim /etc/vsftpd/user_conf/ftp_come_user    #编辑虚拟用户的子配置文件</span></span><br><span class="line"><span class="attribute">write_enable</span>=<span class="literal">YES</span></span><br><span class="line"><span class="attribute">anon_world_readable_only</span>=<span class="literal">no</span></span><br><span class="line"><span class="attribute">anon_upload_enable</span>=<span class="literal">YES</span></span><br><span class="line"><span class="attribute">anon_mkdir_write_enable</span>=<span class="literal">YES</span></span><br><span class="line"><span class="attribute">anon_other_write_enable</span>=<span class="literal">YES</span></span><br><span class="line"><span class="attribute">anon_umask</span>=022</span><br><span class="line"><span class="attribute">local_root</span>=/opt/ftp/come</span><br><span class="line"></span><br><span class="line"><span class="comment"># systemctl start vsftpd    #启动ftp</span></span><br></pre></td></tr></table></figure>
+<h3 id="测试ftp"><a href="#测试ftp" class="headerlink" title="测试ftp"></a>测试ftp</h3><p>1）在外网（<code>192.168.1.32</code>）上访问内网（<code>192.168.1.33</code>）的<code>ftp</code><br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[root@internet ~]# dd <span class="attribute">if</span>=/dev/zero <span class="attribute">of</span>=testfile <span class="attribute">bs</span>=1M <span class="attribute">count</span>=100    #创建一个测试文件用于测试上传</span><br><span class="line">[root@internet ~]# lftp ftp_come_user:Ftp_come_password@Qaz123@192.168.1.33    #通过lftp工具连接ftp</span><br><span class="line">lftp ftp_come_user@192.168.1.33:~&gt; lcd</span><br><span class="line">lcd 成功, 本地目录=/root</span><br><span class="line">lftp ftp_come_user@192.168.1.33:~&gt; put testfile</span><br><span class="line">104857600 bytes transferred <span class="keyword">in</span> 2 seconds (55.59M/s)</span><br><span class="line">lftp ftp_come_user@192.168.1.33:/&gt; ls</span><br><span class="line">-rw-r--r--    1 1001     1001     104857600 Aug 05 12:41 testfile</span><br></pre></td></tr></table></figure></p>
+<p>2）在内网（<code>192.168.1.33</code>）上访问外网（<code>192.168.1.32</code>）的<code>ftp</code><br><figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[root@lan ~]<span class="comment"># dd if=/dev/zero of=testfile1 bs=1M count=100    #同样创建一个测试文件</span></span><br><span class="line">[root@lan ~]<span class="comment"># lftp ftp_come_user:Ftp_come_password<span class="doctag">@Qaz</span>123@192.168.1.32</span></span><br><span class="line">lftp ftp_come_user@192.<span class="number">168.1</span>.<span class="number">32</span><span class="symbol">:~&gt;</span> put testfile1</span><br><span class="line"><span class="number">104857600</span> bytes transferred <span class="keyword">in</span> <span class="number">3</span> seconds (<span class="number">31.87</span>M/s)              </span><br><span class="line">lftp ftp_come_user@192.<span class="number">168.1</span>.<span class="number">32</span><span class="symbol">:/&gt;</span></span><br><span class="line">lftp ftp_come_user@192.<span class="number">168.1</span>.<span class="number">32</span><span class="symbol">:/&gt;</span> ls</span><br><span class="line">-rw-r--r--    <span class="number">1</span> <span class="number">1001</span>     <span class="number">1001</span>     <span class="number">104857600</span> Aug <span class="number">05</span> <span class="number">12</span><span class="symbol">:</span><span class="number">45</span> testfile1</span><br></pre></td></tr></table></figure></p>
+<p>3）在内网的<code>/opt/ftp/come</code>目录验证是否存在<code>testfile</code>文件<br><figure class="highlight tap"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@lan ~]<span class="comment"># ll /opt/ftp/come/</span></span><br><span class="line">总用量 102400</span><br><span class="line">-rw-r--r--<span class="number"> 1 </span>apache apache<span class="number"> 104857600 </span>8月  <span class="number"> 5 </span>20:41 testfile</span><br></pre></td></tr></table></figure></p>
+<p>4）在外网的<code>/opt/ftp/come</code>目录验证是否存在<code>testfile1</code>文件<br><figure class="highlight tap"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@internet ~]<span class="comment"># ll /opt/ftp/come/</span></span><br><span class="line">总用量 102400</span><br><span class="line">-rw-r--r--<span class="number"> 1 </span>apache apache<span class="number"> 104857600 </span>8月  <span class="number"> 5 </span>20:45 testfile1</span><br></pre></td></tr></table></figure></p>
+<p>通过测试<code>ftp</code>已经<code>ok</code></p>
+<h3 id="安装配置redis"><a href="#安装配置redis" class="headerlink" title="安装配置redis"></a>安装配置redis</h3><blockquote>
+<p>生产环境<code>redis</code>可能端口不一样，然后根据不同的进行配置即可。同时设置连接密码，（这里只是测试，所以两边的配置一样）</p>
+</blockquote>
+<figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># yum -y install redis    #安装redis</span><br><span class="line"># cp /etc/redis.conf&#123;,.back&#125;    #拷贝redis配置文件</span><br><span class="line"># vim /etc/redis.conf    #编辑redis配置文件</span><br><span class="line">daemonize yes    #开启后台常驻进程</span><br><span class="line">requirepass obohna7Fogai9ahnahth    #设置redis连接密码</span><br><span class="line"># systemctl start redis    #启动redis</span><br><span class="line"># netstat -nlutp |grep <span class="number">6379</span>    #检查端口是否打开</span><br><span class="line">tcp        <span class="number">0</span>      <span class="number">0</span> <span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>          <span class="number">0.0</span><span class="number">.0</span><span class="number">.0</span>:*               LISTEN      <span class="number">7139</span>/redis-server <span class="number">1</span></span><br></pre></td></tr></table></figure>
+<h3 id="安装php及inotify插件"><a href="#安装php及inotify插件" class="headerlink" title="安装php及inotify插件"></a>安装php及inotify插件</h3><p>1）<code>yum</code>安装<code>php</code><br><figure class="highlight vala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta"># wget -O /etc/yum.repos.d/epel.repo http://mirrors.aliyun.com/repo/epel-7.repo</span></span><br><span class="line"><span class="meta"># rpm -Uvh http://rpms.famillecollet.com/enterprise/remi-release-7.rpm</span></span><br><span class="line"><span class="meta"># yum install --enablerepo=remi,remi-php56 php php-opcache php-pecl-apcu php-devel php-mbstring php-mcrypt php-mysqlnd php-phpunit-PHPUnit php-pecl-xdebug php-pecl-xhprof php-pdo php-pear php-fpm php-cli php-xml php-bcmath php-process php-gd php-common php-memcache php-redis php-pspell  php-fpm  php-mysql php-common php-mssql</span></span><br></pre></td></tr></table></figure></p>
+<p>2）安装<code>php</code>插件<code>inotify</code><br><figure class="highlight vala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta"># wget http://pecl.php.net/get/inotify-0.1.6.tgz    #下载软件包</span></span><br><span class="line"><span class="meta"># tar xf inotify-0.1.6.tgz    #解压软件包</span></span><br><span class="line"><span class="meta"># yum install gcc gcc-c++ make    #安装编译工具</span></span><br><span class="line"><span class="meta"># tar xf inotify-0.1.6.tgz</span></span><br><span class="line"><span class="meta"># cd inotify-0.1.6/</span></span><br><span class="line"><span class="meta"># phpize</span></span><br><span class="line"><span class="meta"># ./configure --with-php-config=/usr/bin/php-config --enable-inotify</span></span><br><span class="line"><span class="meta"># make &amp;&amp; make install</span></span><br><span class="line"><span class="meta"># echo "extension = inotify.so" &gt;&gt; /etc/php.d/inotify.ini</span></span><br><span class="line"><span class="meta"># php -i|grep inotify</span></span><br><span class="line"><span class="meta"># systemctl start php-fpm</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="编写PHP脚本"><a href="#编写PHP脚本" class="headerlink" title="编写PHP脚本"></a>编写PHP脚本</h3><blockquote>
+<p>内外网其实一样，只是配置的连接信息不一样。</p>
+</blockquote>
+<p>1）监听脚本(<code>listen.php</code>)<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br></pre></td><td class="code"><pre><span class="line">[root@internet ~]<span class="comment"># mkdir /home/script</span></span><br><span class="line">[root@internet ~]<span class="comment"># vim /home/script/listen.php</span></span><br><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Created by PhpStorm.</span></span><br><span class="line"><span class="comment"> * User: ADMIN</span></span><br><span class="line"><span class="comment"> * Date: 2019/7/31</span></span><br><span class="line"><span class="comment"> * Time: 19:21</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line">define(<span class="string">'REDIS_HOST'</span>,<span class="string">'127.0.0.1'</span>); <span class="comment">//redis连接主机</span></span><br><span class="line">define(<span class="string">'REDIS_PASSWORD'</span>,<span class="string">'obohna7Fogai9ahnahth'</span>);  <span class="comment">//redis连接密码</span></span><br><span class="line">define(<span class="string">'REDIS_PORT'</span>,<span class="string">'6379'</span>);  <span class="comment">//redis端口</span></span><br><span class="line"></span><br><span class="line">define(<span class="string">'__LISTEN_DIR__'</span>,<span class="string">"/opt/ftp/out"</span>);  <span class="comment">//本地监听目录</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Monitor</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> $dir = <span class="string">''</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//文件新增事件回调</span></span><br><span class="line">    <span class="keyword">private</span> $onfileAdd;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> $timeout = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">($dir,$onfileAdd)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (!extension_loaded(<span class="string">'inotify'</span>)) &#123;</span><br><span class="line">            <span class="keyword">echo</span> <span class="string">'请安装inotify扩展'</span>, PHP_EOL;</span><br><span class="line">            <span class="keyword">exit</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">$this</span>-&gt;dir = $dir;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">$this</span>-&gt;onfileAdd = $onfileAdd;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">$this</span>-&gt;run();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//对目录进行监控</span></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">run</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        $dirs = <span class="keyword">$this</span>-&gt;getDirs(<span class="keyword">$this</span>-&gt;dir);</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">empty</span>($dirs)) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        $fd = inotify_init();</span><br><span class="line">        <span class="comment">//设置为非阻塞模式</span></span><br><span class="line">        stream_set_blocking($fd, <span class="number">0</span>);</span><br><span class="line">        $watcher = [];</span><br><span class="line">        <span class="keyword">foreach</span> ($dirs <span class="keyword">as</span> $dir) &#123;</span><br><span class="line">            $watch = inotify_add_watch($fd, $dir, IN_MODIFY | IN_CREATE | IN_DELETE | IN_DELETE_SELF | IN_CLOSE_WRITE);</span><br><span class="line">            <span class="keyword">if</span> (!$watch) &#123;</span><br><span class="line">                <span class="keyword">echo</span> <span class="string">"&#123;$dir&#125; 添加监控错误"</span>, PHP_EOL;</span><br><span class="line">                <span class="keyword">exit</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            $watcher[$watch] = $dir;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</span><br><span class="line">            $reads = [$fd];</span><br><span class="line">            $write = [];</span><br><span class="line">            $except = [];</span><br><span class="line">            <span class="keyword">if</span> (stream_select($reads, $write, $except, <span class="keyword">$this</span>-&gt;timeout) &gt; <span class="number">0</span>) &#123;</span><br><span class="line">                <span class="keyword">if</span> (!<span class="keyword">empty</span>($reads)) &#123;</span><br><span class="line">                    <span class="keyword">foreach</span> ($reads <span class="keyword">as</span> $read) &#123;</span><br><span class="line">                        <span class="comment">//从可读流中读取数据</span></span><br><span class="line">                        $events = inotify_read($read);</span><br><span class="line">                        $fileName = <span class="string">''</span>;</span><br><span class="line">                        <span class="keyword">foreach</span> ($events <span class="keyword">as</span> $event) &#123;</span><br><span class="line"></span><br><span class="line">                            <span class="comment">//文件改变</span></span><br><span class="line">                            $fileChg = <span class="keyword">false</span>;</span><br><span class="line">                            <span class="comment">//目录改变</span></span><br><span class="line">                            $dirChg = <span class="keyword">false</span>;</span><br><span class="line"></span><br><span class="line">                            $fileName = $event[<span class="string">'name'</span>];</span><br><span class="line">                            <span class="keyword">switch</span> ($event[<span class="string">'mask'</span>]) &#123;</span><br><span class="line">                                <span class="keyword">case</span> IN_CREATE:     <span class="comment">//创建   IN_CLOSE_WRITE  写入结束</span></span><br><span class="line">                                <span class="keyword">case</span> IN_DELETE:</span><br><span class="line">                                    $fileChg = <span class="keyword">true</span>;</span><br><span class="line">                                    <span class="keyword">break</span>;</span><br><span class="line">                                <span class="keyword">case</span> <span class="number">1073742080</span>:</span><br><span class="line">                                <span class="keyword">case</span> <span class="number">1073742336</span>:</span><br><span class="line">                                    $dirChg = <span class="keyword">true</span>;</span><br><span class="line">                                    <span class="keyword">break</span>;</span><br><span class="line">                            &#125;</span><br><span class="line"></span><br><span class="line">                            <span class="keyword">if</span> ($fileChg) &#123;</span><br><span class="line">                                $filepath = $watcher[$event[<span class="string">'wd'</span>]] . <span class="string">'/'</span> . $fileName;</span><br><span class="line">                                <span class="keyword">if</span>($watcher[$event[<span class="string">'wd'</span>]] == <span class="keyword">$this</span>-&gt;dir)&#123;</span><br><span class="line">                                    $newfile = $fileName;</span><br><span class="line">                                &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                                    $newfile = str_replace(<span class="keyword">$this</span>-&gt;dir,<span class="string">'.'</span>,$filepath);</span><br><span class="line">                                &#125;</span><br><span class="line"></span><br><span class="line">                                <span class="keyword">echo</span> date(<span class="string">'Y-m-d H:i:s'</span>) . <span class="string">" | 事件目录："</span> . $filepath .  <span class="string">"，事件出现：&#123;$event['mask']&#125; ，文件/目录 &#123;$fileName&#125; 发生改变"</span> . PHP_EOL;</span><br><span class="line">                                <span class="keyword">echo</span> date(<span class="string">'Y-m-d H:i:s'</span>) . <span class="string">" | "</span> . $newfile . PHP_EOL;</span><br><span class="line"><span class="comment">//                                echo "文件 &#123;$fileName&#125; 发生改变", PHP_EOL;</span></span><br><span class="line"><span class="comment">//                            echo shell_exec($this-&gt;cmd), PHP_EOL;</span></span><br><span class="line"><span class="comment">//                                SysutilLogger::instance()-&gt;fileAdd("事件目录：" . $watcher[$event['wd']] . "，事件出现：&#123;$event['mask']&#125; ，文件/目录 &#123;$fileName&#125; 发生改变");</span></span><br><span class="line">                                call_user_func_array(<span class="keyword">$this</span>-&gt;onfileAdd,[$filepath,$newfile]);</span><br><span class="line"></span><br><span class="line">                            &#125;</span><br><span class="line">                            <span class="keyword">if</span> ($dirChg) &#123;</span><br><span class="line"><span class="comment">//                                echo "目录 &#123;$fileName&#125; 发生改变", PHP_EOL;</span></span><br><span class="line"><span class="comment">//                            echo shell_exec($this-&gt;cmd), PHP_EOL;</span></span><br><span class="line">                                <span class="comment">//目录发生改变时  重新监听</span></span><br><span class="line">                                <span class="keyword">return</span> <span class="keyword">$this</span>-&gt;run();</span><br><span class="line">                            &#125;</span><br><span class="line">                        &#125;</span><br><span class="line"></span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//递归的获取当前目录下所有子目录路径</span></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">getDirs</span><span class="params">($dir)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        $dir = realpath($dir);</span><br><span class="line">        $dh = opendir($dir);</span><br><span class="line">        <span class="keyword">if</span> (!$dh) &#123;</span><br><span class="line">            <span class="keyword">return</span> [];</span><br><span class="line">        &#125;</span><br><span class="line">        $dirs = [];</span><br><span class="line">        $dirs[] = $dir;</span><br><span class="line">        <span class="keyword">while</span> (($file = readdir($dh)) !== <span class="keyword">false</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> ($file == <span class="string">'.'</span> || $file == <span class="string">'..'</span>) &#123;</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            $full = $dir . DIRECTORY_SEPARATOR . $file;</span><br><span class="line">            <span class="keyword">if</span> (is_dir($full)) &#123;</span><br><span class="line">                $dirs = array_merge($dirs, <span class="keyword">$this</span>-&gt;getDirs($full));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        closedir($dh);</span><br><span class="line">        <span class="keyword">return</span> $dirs;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SysutilRedis</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> $_instance;</span><br><span class="line">    <span class="keyword">private</span> $m_redis = <span class="keyword">null</span>;</span><br><span class="line">    <span class="keyword">private</span> $mid_redis = <span class="keyword">null</span>;      <span class="comment">//律师中心redis实例</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> SysutilRedis|Redis</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="function"><span class="keyword">function</span> <span class="title">instance</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> ( ! <span class="keyword">isset</span>(SysutilRedis::$_instance))</span><br><span class="line">        &#123;</span><br><span class="line">            SysutilRedis::$_instance = <span class="keyword">new</span> SysutilRedis();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> SysutilRedis::$_instance;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> null|Redis</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">getRedis</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>( !<span class="keyword">$this</span>-&gt;m_redis )&#123;</span><br><span class="line">            <span class="keyword">$this</span>-&gt;m_redis = <span class="keyword">new</span> Redis();</span><br><span class="line">            <span class="keyword">$this</span>-&gt;m_redis-&gt;connect(REDIS_HOST,REDIS_PORT,<span class="number">10</span>); <span class="comment">//php客户端设置的ip及端口</span></span><br><span class="line">            <span class="keyword">$this</span>-&gt;m_redis-&gt;auth(REDIS_PASSWORD);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">$this</span>-&gt;m_redis;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">close_redis</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(<span class="keyword">$this</span>-&gt;m_redis) &#123;</span><br><span class="line">            <span class="keyword">$this</span>-&gt;m_redis-&gt;close();</span><br><span class="line">            <span class="keyword">$this</span>-&gt;m_redis = <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(<span class="keyword">$this</span>-&gt;mid_redis) &#123;</span><br><span class="line">            <span class="keyword">$this</span>-&gt;mid_redis-&gt;close();</span><br><span class="line">            <span class="keyword">$this</span>-&gt;mid_redis = <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__destruct</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;close_redis();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Listenner</span> </span>&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">run</span><span class="params">()</span></span>&#123;</span><br><span class="line"></span><br><span class="line">        $callBack = [<span class="keyword">$this</span>,<span class="string">"toRedis"</span>];</span><br><span class="line"></span><br><span class="line">        $listen_dir = __LISTEN_DIR__;</span><br><span class="line"></span><br><span class="line">        $monitor = <span class="keyword">new</span> Monitor($listen_dir,$callBack);</span><br><span class="line"></span><br><span class="line">        $monitor-&gt;run();</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@describe</span> 文件回调</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@author</span> zhouyong</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">toRedis</span><span class="params">($filename,$newfile)</span></span>&#123;</span><br><span class="line"></span><br><span class="line">        $redis = SysutilRedis::instance()-&gt;getRedis();</span><br><span class="line">        $redis-&gt;select(<span class="number">9</span>);</span><br><span class="line">        $cache_id = <span class="string">'upload_file_list'</span>;</span><br><span class="line">        $data = [</span><br><span class="line">            <span class="string">'local'</span> =&gt; $filename,</span><br><span class="line">            <span class="string">'remote'</span> =&gt; $newfile</span><br><span class="line">        ];</span><br><span class="line">        $redis-&gt;rpush($cache_id, json_encode($data));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$listenner = <span class="keyword">new</span> Listenner();</span><br><span class="line"></span><br><span class="line">$listenner-&gt;run();</span><br></pre></td></tr></table></figure></p>
+<p>2）上传文件脚本(<code>upFile.php</code>)<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br></pre></td><td class="code"><pre><span class="line">[root@internet ~]<span class="comment"># vim /home/script/upFile.php</span></span><br><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Created by PhpStorm.</span></span><br><span class="line"><span class="comment"> * User: ADMIN</span></span><br><span class="line"><span class="comment"> * Date: 2019/7/31</span></span><br><span class="line"><span class="comment"> * Time: 19:21</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line">define(<span class="string">'REDIS_HOST'</span>,<span class="string">'127.0.0.1'</span>); <span class="comment">//redis连接主机</span></span><br><span class="line">define(<span class="string">'REDIS_PASSWORD'</span>,<span class="string">'obohna7Fogai9ahnahth'</span>);  <span class="comment">//redis连接密码</span></span><br><span class="line">define(<span class="string">'REDIS_PORT'</span>,<span class="string">'6379'</span>);  <span class="comment">//redis端口</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">define(<span class="string">'FTP_HOST'</span>,<span class="string">'192.168.1.33'</span>);  <span class="comment">//内网ftp服务器</span></span><br><span class="line">define(<span class="string">'FTP_PORT'</span>,<span class="number">21</span>); <span class="comment">//ftp端口</span></span><br><span class="line">define(<span class="string">'FTP_USER'</span>,<span class="string">'ftp_come_user'</span>);  <span class="comment">//ftp连接账号</span></span><br><span class="line">define(<span class="string">'FTP_PASS'</span>,<span class="string">'Ftp_come_password@Qaz123'</span>);  <span class="comment">//ftp连接密码</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SysutilFtp</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> $instance;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> $off; <span class="comment">// 返回操作状态(成功/失败)</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> $conn_id; <span class="comment">// FTP连接</span></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 方法：FTP连接</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@FTP</span>_HOST -- FTP主机</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@FTP</span>_PORT -- 端口</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@FTP</span>_USER -- 用户名</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@FTP</span>_PASS -- 密码</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">($FTP_HOST,$FTP_PORT,$FTP_USER,$FTP_PASS)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;conn_id = @ftp_connect($FTP_HOST,$FTP_PORT) <span class="keyword">or</span> <span class="keyword">die</span>(<span class="string">"FTP服务器连接失败"</span>);</span><br><span class="line">        @ftp_login(<span class="keyword">$this</span>-&gt;conn_id,$FTP_USER,$FTP_PASS) <span class="keyword">or</span> <span class="keyword">die</span>(<span class="string">"FTP服务器登陆失败"</span>);</span><br><span class="line">        @ftp_pasv(<span class="keyword">$this</span>-&gt;conn_id,<span class="number">1</span>); <span class="comment">// 打开被动模拟</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@describe</span> 获取ftp实例</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="function"><span class="keyword">function</span> <span class="title">getInstance</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(!<span class="keyword">self</span>::$instance)&#123;</span><br><span class="line">            <span class="keyword">self</span>::$instance = <span class="keyword">new</span> <span class="keyword">self</span>(FTP_HOST,FTP_PORT,FTP_USER,FTP_PASS);</span><br><span class="line">            <span class="keyword">if</span>(<span class="keyword">self</span>::$instance)&#123;</span><br><span class="line">                <span class="keyword">echo</span> date(<span class="string">'Y-m-d H:i:s'</span>) . <span class="string">" | connected !"</span> . PHP_EOL;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">self</span>::$instance;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@describe</span> 重连</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@author</span> zhouyong</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="function"><span class="keyword">function</span> <span class="title">reConnect</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">echo</span> date(<span class="string">'Y-m-d H:i:s'</span>) . <span class="string">" | closing connection ......"</span> . PHP_EOL;</span><br><span class="line">        <span class="comment">//关闭当前链接</span></span><br><span class="line">        <span class="keyword">$this</span>-&gt;close();</span><br><span class="line">        <span class="keyword">echo</span> date(<span class="string">'Y-m-d H:i:s'</span>) . <span class="string">" | reconnecting...."</span> . PHP_EOL;</span><br><span class="line">        <span class="comment">//开辟新连接</span></span><br><span class="line">        <span class="keyword">self</span>::$instance = <span class="keyword">new</span> <span class="keyword">self</span>(FTP_HOST,FTP_PORT,FTP_USER,FTP_PASS);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">echo</span> date(<span class="string">'Y-m-d H:i:s'</span>) . <span class="string">" | connected !"</span> . PHP_EOL;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 方法：上传文件</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@path</span> -- 本地路径</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@newpath</span> -- 上传路径</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@type</span> -- 若目标目录不存在则新建</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> true</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">up_file</span><span class="params">($path,$newpath,$type=true)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>($type) <span class="keyword">$this</span>-&gt;dir_mkdirs($newpath);</span><br><span class="line">        <span class="keyword">echo</span> date(<span class="string">'Y-m-d H:i:s'</span>) . <span class="string">" | 当前目录"</span> . ftp_pwd(<span class="keyword">$this</span>-&gt;conn_id) . PHP_EOL;</span><br><span class="line">        $newpath = ltrim($newpath,<span class="string">'.'</span>);</span><br><span class="line">        <span class="keyword">echo</span> $newpath . PHP_EOL;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;off = @ftp_put(<span class="keyword">$this</span>-&gt;conn_id,$newpath,$path,FTP_BINARY);</span><br><span class="line">        <span class="keyword">if</span>(!<span class="keyword">$this</span>-&gt;off)&#123;</span><br><span class="line"><span class="comment">//            echo "文件上传失败，请检查权限及路径是否正确！";</span></span><br><span class="line"><span class="comment">//            echo "文件上传失败，正在发起重连.....";</span></span><br><span class="line"><span class="comment">//            $this-&gt;reConnect();</span></span><br><span class="line"><span class="comment">//            echo date('Y-m-d H:i:s') . " | re-uploading file &#123;$path&#125; to &#123;$newpath&#125; ...." . PHP_EOL;</span></span><br><span class="line"><span class="comment">//            $this-&gt;up_file($path,$newpath,$type=true);</span></span><br><span class="line">            <span class="keyword">echo</span> date(<span class="string">'Y-m-d H:i:s'</span>) . <span class="string">" | 上传失败"</span> . PHP_EOL;</span><br><span class="line"><span class="comment">//            exit;</span></span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">echo</span> date(<span class="string">'Y-m-d H:i:s'</span>) . <span class="string">" | upload success !"</span> . PHP_EOL;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 方法：移动文件</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@path</span> -- 原路径</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@newpath</span> -- 新路径</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@type</span> -- 若目标目录不存在则新建</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">move_file</span><span class="params">($path,$newpath,$type=true)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>($type) <span class="keyword">$this</span>-&gt;dir_mkdirs($newpath);</span><br><span class="line">        <span class="keyword">$this</span>-&gt;off = @ftp_rename(<span class="keyword">$this</span>-&gt;conn_id,$path,$newpath);</span><br><span class="line">        <span class="keyword">if</span>(!<span class="keyword">$this</span>-&gt;off) <span class="keyword">echo</span> <span class="string">"文件移动失败，请检查权限及原路径是否正确！"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 方法：复制文件</span></span><br><span class="line"><span class="comment">     * 说明：由于FTP无复制命令,本方法变通操作为：下载后再上传到新的路径</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@path</span> -- 原路径</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@newpath</span> -- 新路径</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@type</span> -- 若目标目录不存在则新建</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">copy_file</span><span class="params">($path,$newpath,$type=true)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        $downpath = <span class="string">"c:/tmp.dat"</span>;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;off = @ftp_get(<span class="keyword">$this</span>-&gt;conn_id,$downpath,$path,FTP_BINARY);<span class="comment">// 下载</span></span><br><span class="line">        <span class="keyword">if</span>(!<span class="keyword">$this</span>-&gt;off) <span class="keyword">echo</span> <span class="string">"文件复制失败，请检查权限及原路径是否正确！"</span>;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;up_file($downpath,$newpath,$type);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 方法：删除文件</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@path</span> -- 路径</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">del_file</span><span class="params">($path)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;off = @ftp_delete(<span class="keyword">$this</span>-&gt;conn_id,$path);</span><br><span class="line">        <span class="keyword">if</span>(!<span class="keyword">$this</span>-&gt;off) <span class="keyword">echo</span> <span class="string">"文件删除失败，请检查权限及路径是否正确！"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 方法：生成目录</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@path</span> -- 路径</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">dir_mkdirs</span><span class="params">($path)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        $path_arr = explode(<span class="string">'/'</span>,$path); <span class="comment">// 取目录数组</span></span><br><span class="line">        $file_name = array_pop($path_arr); <span class="comment">// 弹出文件名</span></span><br><span class="line">        $path_div = count($path_arr); <span class="comment">// 取层数</span></span><br><span class="line">        print_r($path_arr);</span><br><span class="line">        <span class="keyword">foreach</span>($path_arr <span class="keyword">as</span> $val) <span class="comment">// 创建目录</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span>(@ftp_chdir(<span class="keyword">$this</span>-&gt;conn_id,$val) == <span class="keyword">FALSE</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                $tmp = @ftp_mkdir(<span class="keyword">$this</span>-&gt;conn_id,$val);</span><br><span class="line">                <span class="keyword">echo</span> date(<span class="string">'Y-m-d H:i:s'</span>) . <span class="string">" | 创建目录&#123;$val&#125;"</span> . PHP_EOL;</span><br><span class="line">                <span class="keyword">if</span>($tmp == <span class="keyword">FALSE</span>)</span><br><span class="line">                &#123;</span><br><span class="line">                    <span class="keyword">echo</span> date(<span class="string">'Y-m-d H:i:s'</span>) . <span class="string">" | 目录创建失败，请检查权限及路径是否正确！"</span> . PHP_EOL;</span><br><span class="line">                    <span class="keyword">exit</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                @ftp_chdir(<span class="keyword">$this</span>-&gt;conn_id,$val);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">echo</span> date(<span class="string">'Y-m-d H:i:s'</span>) . <span class="string">" | 创建目录成功"</span> . PHP_EOL;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">echo</span> date(<span class="string">'Y-m-d H:i:s'</span>) . <span class="string">" | 当前目录"</span> . ftp_pwd(<span class="keyword">$this</span>-&gt;conn_id) . PHP_EOL;</span><br><span class="line">        <span class="keyword">for</span>($i=<span class="number">1</span>;$i&lt;$path_div;$i++) <span class="comment">// 回退到根</span></span><br><span class="line">        &#123;</span><br><span class="line">            @ftp_cdup(<span class="keyword">$this</span>-&gt;conn_id);</span><br><span class="line">            <span class="keyword">echo</span> date(<span class="string">'Y-m-d H:i:s'</span>) . <span class="string">" | 当前目录"</span> . ftp_pwd(<span class="keyword">$this</span>-&gt;conn_id) . PHP_EOL;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">ping</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">echo</span> date(<span class="string">"Y-m-d H:i:s"</span>) . <span class="string">" |  发送心跳数据 "</span> . PHP_EOL;</span><br><span class="line">        @ftp_raw(<span class="keyword">$this</span>-&gt;conn_id,<span class="string">'pingpong'</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 方法：关闭FTP连接</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">close</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        @ftp_close(<span class="keyword">$this</span>-&gt;conn_id);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;<span class="comment">// class class_ftp end</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SysutilRedis</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> $_instance;</span><br><span class="line">    <span class="keyword">private</span> $m_redis = <span class="keyword">null</span>;</span><br><span class="line">    <span class="keyword">private</span> $mid_redis = <span class="keyword">null</span>;      <span class="comment">//律师中心redis实例</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> SysutilRedis</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="function"><span class="keyword">function</span> <span class="title">instance</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span> ( ! <span class="keyword">isset</span>(SysutilRedis::$_instance))</span><br><span class="line">        &#123;</span><br><span class="line">            SysutilRedis::$_instance = <span class="keyword">new</span> SysutilRedis();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> SysutilRedis::$_instance;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> null|Redis</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">getRedis</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>( !<span class="keyword">$this</span>-&gt;m_redis )&#123;</span><br><span class="line">            <span class="keyword">$this</span>-&gt;m_redis = <span class="keyword">new</span> Redis();</span><br><span class="line">            <span class="keyword">$this</span>-&gt;m_redis-&gt;connect(REDIS_HOST,REDIS_PORT,<span class="number">10</span>); <span class="comment">//php客户端设置的ip及端口</span></span><br><span class="line">            <span class="keyword">$this</span>-&gt;m_redis-&gt;auth(REDIS_PASSWORD);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">$this</span>-&gt;m_redis;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">close_redis</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(<span class="keyword">$this</span>-&gt;m_redis) &#123;</span><br><span class="line">            <span class="keyword">$this</span>-&gt;m_redis-&gt;close();</span><br><span class="line">            <span class="keyword">$this</span>-&gt;m_redis = <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(<span class="keyword">$this</span>-&gt;mid_redis) &#123;</span><br><span class="line">            <span class="keyword">$this</span>-&gt;mid_redis-&gt;close();</span><br><span class="line">            <span class="keyword">$this</span>-&gt;mid_redis = <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__destruct</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;close_redis();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$redis = SysutilRedis::instance()-&gt;getRedis();</span><br><span class="line">$redis-&gt;select(<span class="number">9</span>);</span><br><span class="line">$cache_id = <span class="string">'upload_file_list'</span>;</span><br><span class="line"></span><br><span class="line">$no_data_time = <span class="number">0</span>;</span><br><span class="line">$ping = <span class="number">3</span>;      <span class="comment">//心跳时间   每 x 秒发送一次心跳数据</span></span><br><span class="line"><span class="keyword">while</span> (<span class="keyword">true</span>)&#123;</span><br><span class="line"></span><br><span class="line">    $data = $redis-&gt;lRange($cache_id, <span class="number">0</span>, <span class="number">-1</span>);</span><br><span class="line">    <span class="keyword">if</span> (!<span class="keyword">empty</span>($data)) &#123;</span><br><span class="line">        $no_data_time = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">foreach</span> ($data <span class="keyword">as</span> $key =&gt; $value) &#123;</span><br><span class="line">            $v = json_decode($value, <span class="keyword">true</span>);</span><br><span class="line">            $result = up_file($v[<span class="string">'local'</span>],$v[<span class="string">'remote'</span>]);</span><br><span class="line">            <span class="keyword">if</span>($result)&#123;</span><br><span class="line">                $redis-&gt;select(<span class="number">9</span>);</span><br><span class="line">                $redis-&gt;lPop($cache_id);</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                <span class="keyword">echo</span> date(<span class="string">"Y-m-d H:i:s"</span>) . <span class="string">"| 退出脚本"</span>;</span><br><span class="line">                <span class="keyword">exit</span>();</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="keyword">if</span>($no_data_time &gt; <span class="number">0</span>)&#123;</span><br><span class="line">            <span class="comment">//查看没有事件的时间</span></span><br><span class="line">            $time = time();</span><br><span class="line">            <span class="keyword">if</span>(($time - $no_data_time) &gt; $ping)&#123;</span><br><span class="line">                <span class="comment">//发送心跳  并重置时间</span></span><br><span class="line">                ping_ftp();</span><br><span class="line">                $no_data_time = $time;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            $no_data_time = time();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">up_file</span><span class="params">($filename,$newfile)</span></span>&#123;</span><br><span class="line">    <span class="keyword">echo</span> date(<span class="string">'Y-m-d H:i:s'</span>) . <span class="string">" | $filename ,  $newfile"</span> . PHP_EOL;</span><br><span class="line">    $ftp = SysutilFtp::getInstance();</span><br><span class="line">    <span class="keyword">return</span> $ftp-&gt;up_file($filename,$newfile);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">ping_ftp</span><span class="params">()</span></span>&#123;</span><br><span class="line">    $ftp = SysutilFtp::getInstance();</span><br><span class="line">    $ftp-&gt;ping();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>3）启动脚本并测试<br><figure class="highlight subunit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">#在一个终端启动listen.php脚本</span><br><span class="line">[root@internet ~]# php -f /home/script/listen.php</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#在另外一个终端启动upFile.php脚本</span><br><span class="line">[root@internet ~]# php -f /home/script/upFile.php </span><br><span class="line">2019<span class="string">-08</span><span class="string">-06</span> 11:24:11 | connected !</span><br><span class="line">2019<span class="string">-08</span><span class="string">-06</span> 11:24:11 |  发送心跳数据</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#在第三个终端往监听目录/opt/ftp/out目录新建一个文件或目录进行测试</span><br><span class="line">[root@internet ~]# echo "test" &gt;&gt; /opt/ftp/out/file1</span><br><span class="line"></span><br><span class="line">#分别可以在上面第一个终端和第二个终端看到日志信息</span><br><span class="line">终端一的信息：</span><br><span class="line">2019<span class="string">-08</span><span class="string">-06</span> 11:36:26 | 事件目录：/opt/ftp/out/file1，事件出现：256 ，文件/目录 file1 发生改变</span><br><span class="line">2019<span class="string">-08</span><span class="string">-06</span> 11:36:26 | file1</span><br><span class="line"></span><br><span class="line">终端二的信息：</span><br><span class="line">2019<span class="string">-08</span><span class="string">-06</span> 11:36:26 | /opt/ftp/out/file1 ,  file1</span><br><span class="line">Array</span><br><span class="line">(</span><br><span class="line">)</span><br><span class="line">2019<span class="string">-08</span><span class="string">-06</span> 11:36:26 | 创建目录成功</span><br><span class="line">2019<span class="string">-08</span><span class="string">-06</span> 11:36:26 | 当前目录/</span><br><span class="line">2019<span class="string">-08</span><span class="string">-06</span> 11:36:26 | 当前目录/</span><br><span class="line">file1</span><br><span class="line">2019<span class="string">-08</span><span class="string">-06</span> 11:36:26 | upload success !</span><br></pre></td></tr></table></figure></p>
+<h3 id="管理两个脚本"><a href="#管理两个脚本" class="headerlink" title="管理两个脚本"></a>管理两个脚本</h3><p>1）编写监控脚本，当进程挂掉便重启<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># vim /home/script/process_alive.sh</span></span><br><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"><span class="comment">#用来监听listen脚本和upFile脚本</span></span><br><span class="line"></span><br><span class="line">DATE=[`date <span class="string">"+%Y-%m-%d %H:%M:%S"</span>`]</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> phpScriptAlive &#123;</span><br><span class="line">    script_dir=/home/script/</span><br><span class="line">    ps aux |grep -v grep |grep <span class="variable">$1</span> &gt;&gt; /dev/null</span><br><span class="line">    <span class="keyword">if</span> [[ $? != 0 ]]; <span class="keyword">then</span></span><br><span class="line">        nohup php -f <span class="variable">$&#123;script_dir&#125;</span>/<span class="variable">$1</span> &gt;&gt; /var/<span class="built_in">log</span>/<span class="variable">$2</span> &amp;</span><br><span class="line">        <span class="built_in">echo</span> <span class="string">"<span class="variable">$&#123;DATE&#125;</span> 重启php脚本 <span class="variable">$1</span>"</span> &gt;&gt; /var/<span class="built_in">log</span>/php_script_restart.log</span><br><span class="line">    <span class="keyword">fi</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">phpScriptAlive listen.php php_listen.log</span><br><span class="line">phpScriptAlive upFile.php php_upfile.log</span><br></pre></td></tr></table></figure></p>
+<p>2）添加到计划任务<br><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="section"># chmod +x /home/script/process_alive.sh </span></span><br><span class="line"><span class="section"># 监听php脚本进程</span></span><br><span class="line"><span class="bullet">* </span><span class="bullet">* *</span> <span class="bullet">* *</span> /bin/bash /home/script/process_alive.sh</span><br></pre></td></tr></table></figure></p>
+<p>3）查看日志；由于上面脚本里面写了将所有输出都记录到日志里面，所以后续直接查看日志即可<br><figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-attr">[root@internet ~]</span># <span class="selector-tag">tailf</span> /<span class="selector-tag">var</span>/<span class="selector-tag">log</span>/<span class="selector-tag">php</span></span><br><span class="line"><span class="selector-tag">php-fpm</span>/                <span class="selector-tag">php_listen</span><span class="selector-class">.log</span>          <span class="selector-tag">php_script_restart</span><span class="selector-class">.log</span>  <span class="selector-tag">php_upfile</span><span class="selector-class">.log</span></span><br><span class="line"><span class="selector-attr">[root@internet ~]</span># <span class="selector-tag">tailf</span> /<span class="selector-tag">var</span>/<span class="selector-tag">log</span>/<span class="selector-tag">php_listen</span><span class="selector-class">.log</span> </span><br><span class="line">^<span class="selector-tag">C</span></span><br><span class="line"><span class="selector-attr">[root@internet ~]</span># <span class="selector-tag">tailf</span> /<span class="selector-tag">var</span>/<span class="selector-tag">log</span>/<span class="selector-tag">php_upfile</span><span class="selector-class">.log</span> </span><br><span class="line"><span class="selector-tag">2019-08-06</span> <span class="selector-tag">12</span><span class="selector-pseudo">:01</span><span class="selector-pseudo">:18</span> |  发送心跳数据 </span><br><span class="line"><span class="selector-tag">2019-08-06</span> <span class="selector-tag">12</span><span class="selector-pseudo">:01</span><span class="selector-pseudo">:22</span> |  发送心跳数据 </span><br><span class="line"><span class="selector-tag">2019-08-06</span> <span class="selector-tag">12</span><span class="selector-pseudo">:01</span><span class="selector-pseudo">:26</span> |  发送心跳数据 </span><br><span class="line"><span class="selector-tag">2019-08-06</span> <span class="selector-tag">12</span><span class="selector-pseudo">:01</span><span class="selector-pseudo">:30</span> |  发送心跳数据</span><br></pre></td></tr></table></figure></p>
+<p>4）再次往<code>/opt/ftp/out/</code>目录丢文件，便会自动同步到内网或者外网的<code>/opt/ftp/come</code>目录。<br><figure class="highlight tap"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">[root@internet ~]<span class="comment"># echo "sjdklf" &gt;&gt; /opt/ftp/out/file111</span></span><br><span class="line">[root@internet ~]<span class="comment"># for i in `seq 10`; do echo "sjdlfjskldjf" &gt;&gt; /opt/ftp/out/txt$i ; don</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#内网查看</span></span><br><span class="line">[root@lan ~]<span class="comment"># ll /opt/ftp/come/</span></span><br><span class="line">总用量 48</span><br><span class="line">-rw-r--r--<span class="number"> 1 </span>apache apache <span class="number"> 5 </span>8月  <span class="number"> 6 </span>11:36 file1</span><br><span class="line">-rw-r--r--<span class="number"> 1 </span>apache apache <span class="number"> 7 </span>8月  <span class="number"> 6 </span>12:06 file111</span><br><span class="line">-rw-r--r--<span class="number"> 1 </span>apache apache<span class="number"> 13 </span>8月  <span class="number"> 6 </span>12:07 txt1</span><br><span class="line">-rw-r--r--<span class="number"> 1 </span>apache apache<span class="number"> 13 </span>8月  <span class="number"> 6 </span>12:07 txt10</span><br><span class="line">-rw-r--r--<span class="number"> 1 </span>apache apache<span class="number"> 13 </span>8月  <span class="number"> 6 </span>12:07 txt2</span><br><span class="line">-rw-r--r--<span class="number"> 1 </span>apache apache<span class="number"> 13 </span>8月  <span class="number"> 6 </span>12:07 txt3</span><br><span class="line">-rw-r--r--<span class="number"> 1 </span>apache apache<span class="number"> 13 </span>8月  <span class="number"> 6 </span>12:07 txt4</span><br><span class="line">-rw-r--r--<span class="number"> 1 </span>apache apache<span class="number"> 13 </span>8月  <span class="number"> 6 </span>12:07 txt5</span><br><span class="line">-rw-r--r--<span class="number"> 1 </span>apache apache<span class="number"> 13 </span>8月  <span class="number"> 6 </span>12:07 txt6</span><br><span class="line">-rw-r--r--<span class="number"> 1 </span>apache apache<span class="number"> 13 </span>8月  <span class="number"> 6 </span>12:07 txt7</span><br><span class="line">-rw-r--r--<span class="number"> 1 </span>apache apache<span class="number"> 13 </span>8月  <span class="number"> 6 </span>12:07 txt8</span><br><span class="line">-rw-r--r--<span class="number"> 1 </span>apache apache<span class="number"> 13 </span>8月  <span class="number"> 6 </span>12:07 txt9</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    
+    
+    
+    <div>
+    
+      <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+
+    
+    </div>
+      <div>
+        
+        
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+  
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <p><span>本文标题:</span><a href="/2019/08/06/PHP配合inotify实现光闸ftp功能/">PHP配合inotify实现光闸ftp功能</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 Leeyj 的个人博客">Leeyj</a></p>
+  <p><span>发布时间:</span>2019年08月06日 - 12:13</p>
+  <p><span>最后更新:</span>2019年10月24日 - 17:12</p>
+  <p><span>原始链接:</span><a href="/2019/08/06/PHP配合inotify实现光闸ftp功能/" title="PHP配合inotify实现光闸ftp功能">https://leeyj.coding.me/2019/08/06/PHP配合inotify实现光闸ftp功能/</a>
+    <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://leeyj.coding.me/2019/08/06/PHP配合inotify实现光闸ftp功能/" aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
+</div>
+<script> 
+    var clipboard = new Clipboard('.fa-clipboard');
+    $(".fa-clipboard").click(function(){
+      clipboard.on('success', function(){
+        swal({   
+          title: "",   
+          text: '复制成功',
+          icon: "success", 
+          showConfirmButton: true
+          });
+	});
+    });  
+</script>
+
+
+        
+      </div>
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Linux/" rel="tag"><i class="fa fa-tag"></i> Linux</a>
+          
+        </div>
+      
+
+      
+      
+        <div class="post-widgets">
+        
+
+        
+
+        
+          
+          <div id="needsharebutton-postbottom">
+            <span class="btn">
+              <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </span>
+          </div>
+        
+        </div>
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/07/05/ELK快速入门五-配置nginx代理kibana/" rel="next" title="ELK快速入门五-配置nginx代理kibana">
+                <i class="fa fa-chevron-left"></i> ELK快速入门五-配置nginx代理kibana
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/08/08/存储服务之NFS/" rel="prev" title="存储服务之NFS">
+                存储服务之NFS <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+      <div id="sidebar-dimmer"></div>
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.png" alt="Leeyj">
+            
+              <p class="site-author-name" itemprop="name">Leeyj</p>
+              <p class="site-description motion-element" itemprop="description">Linux，Python爱好者</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">30</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="http://www.cnblogs.com/yanjieli" target="_blank" title="博客园">
+                      博客园</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.jianshu.com/u/9be413f3daee" target="_blank" title="简书">
+                      简书</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/buji595" target="_blank" title="GitHub">
+                      GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#PHP配合inotify实现光闸ftp功能"><span class="nav-number">1.</span> <span class="nav-text">PHP配合inotify实现光闸ftp功能</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#前言"><span class="nav-number">1.1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#环境说明"><span class="nav-number">1.2.</span> <span class="nav-text">环境说明</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#项目结构图"><span class="nav-number">1.3.</span> <span class="nav-text">项目结构图</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#具体实验步骤"><span class="nav-number">2.</span> <span class="nav-text">具体实验步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装配置vsftpd"><span class="nav-number">2.1.</span> <span class="nav-text">安装配置vsftpd</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#测试ftp"><span class="nav-number">2.2.</span> <span class="nav-text">测试ftp</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装配置redis"><span class="nav-number">2.3.</span> <span class="nav-text">安装配置redis</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装php及inotify插件"><span class="nav-number">2.4.</span> <span class="nav-text">安装php及inotify插件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#编写PHP脚本"><span class="nav-number">2.5.</span> <span class="nav-text">编写PHP脚本</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#管理两个脚本"><span class="nav-number">2.6.</span> <span class="nav-text">管理两个脚本</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Leeyj</span>
+
+  
+</div>
+
+
+<!--  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+-->
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+<!--
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+-->
+
+
+
+
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_pv">
+    本站总访问量<span id="busuanzi_value_site_pv"></span>次
+</span>
+</div>
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共63.2k字</span>
+</div>
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="//cdn.jsdelivr.net/jquery/2.1.3/jquery.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="//cdn.jsdelivr.net/fancybox/2.1.5/jquery.fancybox.pack.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+ 
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+
+  <script src="/js/src/Valine.min.js"></script>
+
+  
+  
+
+
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: true,
+        appId: '9WKoAiqkgrhK7oWJVeqJupkH-gzGzoHsz',
+        appKey: 'QjYE9zY00BnBP6JH9NgliNxN',
+        placeholder: 'Just go go',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+        var infoEle = document.querySelector('#comments .info');
+    if (infoEle && infoEle.childNodes && infoEle.childNodes.length > 0){
+      infoEle.childNodes.forEach(function(item) {
+        item.parentNode.removeChild(item);
+      });
+    }
+
+  </script>
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/needsharebutton/needsharebutton.css">
+
+  
+  
+  <script src="/lib/needsharebutton/needsharebutton.js"></script>
+
+  <script>
+    
+      pbOptions = {};
+      
+          pbOptions.iconStyle = "box";
+      
+          pbOptions.boxForm = "horizontal";
+      
+          pbOptions.position = "bottomCenter";
+      
+          pbOptions.networks = "Weibo,Wechat,Douban,QQZone,Twitter,Facebook";
+      
+      new needShareButton('#needsharebutton-postbottom', pbOptions);
+    
+    
+  </script>
+
+  
+
+  
+
+  
+
+  
+
+  
+  <style>
+    .copy-btn {
+      display: inline-block;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 20px;
+      color: #333;
+      white-space: nowrap;
+      vertical-align: middle;
+      cursor: pointer;
+      background-color: #eee;
+      background-image: linear-gradient(#fcfcfc, #eee);
+      border: 1px solid #d5d5d5;
+      border-radius: 3px;
+      user-select: none;
+      outline: 0;
+    }
+
+    .highlight-wrap .copy-btn {
+      transition: opacity .3s ease-in-out;
+      opacity: 0;
+      padding: 2px 6px;
+      position: absolute;
+      right: 4px;
+      top: 8px;
+    }
+
+    .highlight-wrap:hover .copy-btn,
+    .highlight-wrap .copy-btn:focus {
+      opacity: 1
+    }
+
+    .highlight-wrap {
+      position: relative;
+    }
+  </style>
+
+  <script>
+    $('.highlight').each(function (i, e) {
+      var $wrap = $('<div>').addClass('highlight-wrap')
+      $(e).after($wrap)
+      $wrap.append($('<button>').addClass('copy-btn').append('复制').on('click', function (e) {
+        var code = $(this).parent().find('.code').find('.line').map(function (i, e) {
+          return $(e).text()
+        }).toArray().join('\n')
+        var ta = document.createElement('textarea')
+        document.body.appendChild(ta)
+        ta.style.position = 'absolute'
+        ta.style.top = '0px'
+        ta.style.left = '0px'
+        ta.value = code
+        ta.select()
+        ta.focus()
+        var result = document.execCommand('copy')
+        document.body.removeChild(ta)
+        
+          if(result)$(this).text('复制成功')
+          else $(this).text('复制失败')
+        
+        $(this).blur()
+      })).on('mouseleave', function (e) {
+        var $b = $(this).find('.copy-btn')
+        setTimeout(function () {
+          $b.text('复制')
+        }, 300)
+      }).append(e)
+    })
+  </script>
+
+
+</body>
+</html>
